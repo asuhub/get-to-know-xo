@@ -15,7 +15,7 @@ require('./db/models');
 
 server.on('request', app);
 //after server on, init socket
-const io = require('./socket')(server);
+// const io = require('./socket')(server);
 
 const PATHS = {
   indexHTML: path.join(__dirname, '../public/index.html'),
@@ -58,5 +58,5 @@ server.listen(PORT, () => {
       .then( () => {});
 });
 
-// export app and socket.io server
+// export app
 module.exports = app;

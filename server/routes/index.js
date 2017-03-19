@@ -28,8 +28,12 @@ router.post('/people', (req, res, next) => {
 
 
 // // GET the object created in most previous create
-// router.post('/', (req, res, next) => {
-//   People.create(req.body)
+// router.get('/people/latest', (req, res, next) => {
+//   People.findOne({
+//     where: {
+
+//     }
+//   })
 //   .then( createdPerson => res.status(201).send(createdPerson))
 //   .catch(next);
 // });
