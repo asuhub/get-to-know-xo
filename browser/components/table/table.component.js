@@ -1,11 +1,24 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import EditDeleteButtons from '../edit-delete-buttons/edit-delete-buttons.component.js';
+import {  deleteUserFromDb } from './table.reducer';
 
 class Table extends React.Component {
   constructor(props){
     super(props);
+    this.state = {
+      editing: []
+    };
+    this.setEditing = this.setEditing.bind(this);
   }
-  render() {
+
+  //function to set the state to the id that is being edited
+  setEditing(id) {
+    this.setState({editing: this.state.editing.concat([id])});
+  }
+
+
+  render(){
     const { people  } = this.props;
     const noPeople = people.length < 1;
     return (
@@ -25,7 +38,7 @@ class Table extends React.Component {
                 <td>{person.id}</td>
                 <td>{person.name}</td>
                 <td>{person.favoriteCity}</td>
-                <td><EditDeleteButtons /></td>
+                <td><EditDeleteButtons id={person.id} /></td>
               </tr>
             ))}
           </tbody>
@@ -35,4 +48,21 @@ class Table extends React.Component {
   }
 }
 
-export default Table;
+/* ---------  CONTAINER   ------- */
+const mapStateToProps = ( {people} ) => {
+  return {
+    people
+  };
+};
+
+const mapDispatchToProps = dispatch => {
+  return {
+  };
+
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Table);
+

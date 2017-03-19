@@ -1,5 +1,6 @@
 import React from 'react';
-import Table from '../table/table.container';
+import { connect } from 'react-redux';
+import Table from '../table/table.component';
 import AddNew from '../add-new/add-new.component';
 import ViewById from '../view-by-id/view-by-id.component';
 
@@ -19,7 +20,7 @@ class Tabs extends React.Component {
             </ul>
           </div>
           <div id="view-all" className="col s12">
-            <Table />
+            <Table people={this.props.people} />
           </div>
           <div id="by-id" className="col s12">
             <ViewById />
@@ -33,4 +34,19 @@ class Tabs extends React.Component {
   }
 }
 
-export default Tabs;
+const mapStateToProps = ( {people } ) => {
+  return {
+    people,
+  };
+};
+
+const mapDispatchToProps = dispatch => {
+  return {
+  };
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Tabs);
+

@@ -66,27 +66,23 @@
 	
 	var _Root2 = _interopRequireDefault(_Root);
 	
-	var _table = __webpack_require__(306);
-	
-	var _table2 = _interopRequireDefault(_table);
-	
 	var _tabs = __webpack_require__(309);
 	
 	var _tabs2 = _interopRequireDefault(_tabs);
 	
-	var _table3 = __webpack_require__(271);
+	var _table = __webpack_require__(271);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
 	//load all the users from the database
-	
-	
-	/*------ COMPONENTS/CONTAINERS ------ */
 	var onEnterGetPeople = function onEnterGetPeople(nextState) {
-		_store2.default.dispatch((0, _table3.fetchPeople)());
+		_store2.default.dispatch((0, _table.fetchPeople)());
 	};
 	
 	/*------ ACTIONS ------ */
+	
+	
+	/*------ COMPONENTS/CONTAINERS ------ */
 	
 	
 	_reactDom2.default.render(_react2.default.createElement(
@@ -28780,7 +28776,7 @@
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
 	});
-	exports.showNoPeopleError = exports.people = exports.fetchPeople = exports.addUser = exports.noPeopleError = exports.setPeople = exports.ADD_USER = exports.NO_PEOPLE_FOUND = exports.LOAD_PEOPLE = undefined;
+	exports.showNoPeopleError = exports.people = exports.deleteUserFromDb = exports.fetchPeople = exports.addUser = exports.noPeopleError = exports.setPeople = exports.ADD_USER = exports.NO_PEOPLE_FOUND = exports.LOAD_PEOPLE = undefined;
 	
 	var _axios = __webpack_require__(272);
 	
@@ -28824,6 +28820,16 @@
 	      } else {
 	        dispatch(setPeople(res.data));
 	      }
+	    }).catch(function (err) {
+	      return console.log(err);
+	    });
+	  };
+	};
+	
+	var deleteUserFromDb = exports.deleteUserFromDb = function deleteUserFromDb(id) {
+	  return function (dispatch) {
+	    _axios2.default.delete('/api/people/' + id).then(function (res) {
+	      return dispatch(fetchPeople());
 	    }).catch(function (err) {
 	      return console.log(err);
 	    });
@@ -31378,40 +31384,7 @@
 	exports.default = Root;
 
 /***/ },
-/* 306 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-	
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-	
-	var _reactRedux = __webpack_require__(178);
-	
-	var _table = __webpack_require__(307);
-	
-	var _table2 = _interopRequireDefault(_table);
-	
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-	
-	var mapStateToProps = function mapStateToProps(_ref) {
-	  var people = _ref.people,
-	      showNoPeopleError = _ref.showNoPeopleError;
-	
-	  return {
-	    people: people,
-	    showNoPeopleError: showNoPeopleError
-	  };
-	};
-	
-	var mapDispatchToProps = function mapDispatchToProps(dispatch) {
-	  return {};
-	};
-	
-	exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(_table2.default);
-
-/***/ },
+/* 306 */,
 /* 307 */
 /***/ function(module, exports, __webpack_require__) {
 
@@ -31427,9 +31400,13 @@
 	
 	var _react2 = _interopRequireDefault(_react);
 	
-	var _editDeleteButtonsComponent = __webpack_require__(313);
+	var _reactRedux = __webpack_require__(178);
+	
+	var _editDeleteButtonsComponent = __webpack_require__(308);
 	
 	var _editDeleteButtonsComponent2 = _interopRequireDefault(_editDeleteButtonsComponent);
+	
+	var _table = __webpack_require__(271);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
@@ -31445,10 +31422,24 @@
 	  function Table(props) {
 	    _classCallCheck(this, Table);
 	
-	    return _possibleConstructorReturn(this, (Table.__proto__ || Object.getPrototypeOf(Table)).call(this, props));
+	    var _this = _possibleConstructorReturn(this, (Table.__proto__ || Object.getPrototypeOf(Table)).call(this, props));
+	
+	    _this.state = {
+	      editing: []
+	    };
+	    _this.setEditing = _this.setEditing.bind(_this);
+	    return _this;
 	  }
 	
+	  //function to set the state to the id that is being edited
+	
+	
 	  _createClass(Table, [{
+	    key: 'setEditing',
+	    value: function setEditing(id) {
+	      this.setState({ editing: this.state.editing.concat([id]) });
+	    }
+	  }, {
 	    key: 'render',
 	    value: function render() {
 	      var people = this.props.people;
@@ -31521,7 +31512,7 @@
 	                _react2.default.createElement(
 	                  'td',
 	                  null,
-	                  _react2.default.createElement(_editDeleteButtonsComponent2.default, null)
+	                  _react2.default.createElement(_editDeleteButtonsComponent2.default, { id: person.id })
 	                )
 	              );
 	            })
@@ -31534,10 +31525,114 @@
 	  return Table;
 	}(_react2.default.Component);
 	
-	exports.default = Table;
+	/* ---------  CONTAINER   ------- */
+	
+	
+	var mapStateToProps = function mapStateToProps(_ref) {
+	  var people = _ref.people;
+	
+	  return {
+	    people: people
+	  };
+	};
+	
+	var mapDispatchToProps = function mapDispatchToProps(dispatch) {
+	  return {};
+	};
+	
+	exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(Table);
 
 /***/ },
-/* 308 */,
+/* 308 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+	
+	var _react = __webpack_require__(1);
+	
+	var _react2 = _interopRequireDefault(_react);
+	
+	var _reactRedux = __webpack_require__(178);
+	
+	var _table = __webpack_require__(271);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+	
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+	
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+	
+	var EditDeleteButtons = function (_React$Component) {
+	  _inherits(EditDeleteButtons, _React$Component);
+	
+	  function EditDeleteButtons(props) {
+	    _classCallCheck(this, EditDeleteButtons);
+	
+	    var _this = _possibleConstructorReturn(this, (EditDeleteButtons.__proto__ || Object.getPrototypeOf(EditDeleteButtons)).call(this, props));
+	
+	    _this.deletePerson = _this.deletePerson.bind(_this);
+	    return _this;
+	  }
+	
+	  _createClass(EditDeleteButtons, [{
+	    key: 'deletePerson',
+	    value: function deletePerson() {
+	      this.props.deletePerson(this.props.id);
+	    }
+	  }, {
+	    key: 'render',
+	    value: function render() {
+	
+	      return _react2.default.createElement(
+	        'div',
+	        null,
+	        _react2.default.createElement(
+	          'i',
+	          { className: 'material-icons small', onClick: this.deletePerson },
+	          'delete'
+	        ),
+	        _react2.default.createElement(
+	          'i',
+	          { className: 'material-icons small' },
+	          'mode_edit'
+	        )
+	      );
+	    }
+	  }]);
+	
+	  return EditDeleteButtons;
+	}(_react2.default.Component);
+	
+	/* ---------  CONTAINER   ------- */
+	
+	
+	var mapStateToProps = function mapStateToProps(_ref) {
+	  var people = _ref.people;
+	
+	  return {
+	    people: people
+	  };
+	};
+	
+	var mapDispatchToProps = function mapDispatchToProps(dispatch) {
+	  return {
+	    deletePerson: function deletePerson(id) {
+	      dispatch((0, _table.deleteUserFromDb)(id));
+	    }
+	  };
+	};
+	
+	exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(EditDeleteButtons);
+
+/***/ },
 /* 309 */
 /***/ function(module, exports, __webpack_require__) {
 
@@ -31553,7 +31648,9 @@
 	
 	var _react2 = _interopRequireDefault(_react);
 	
-	var _table = __webpack_require__(306);
+	var _reactRedux = __webpack_require__(178);
+	
+	var _table = __webpack_require__(307);
 	
 	var _table2 = _interopRequireDefault(_table);
 	
@@ -31629,7 +31726,7 @@
 	          _react2.default.createElement(
 	            'div',
 	            { id: 'view-all', className: 'col s12' },
-	            _react2.default.createElement(_table2.default, null)
+	            _react2.default.createElement(_table2.default, { people: this.props.people })
 	          ),
 	          _react2.default.createElement(
 	            'div',
@@ -31649,7 +31746,19 @@
 	  return Tabs;
 	}(_react2.default.Component);
 	
-	exports.default = Tabs;
+	var mapStateToProps = function mapStateToProps(_ref) {
+	  var people = _ref.people;
+	
+	  return {
+	    people: people
+	  };
+	};
+	
+	var mapDispatchToProps = function mapDispatchToProps(dispatch) {
+	  return {};
+	};
+	
+	exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(Tabs);
 
 /***/ },
 /* 310 */
@@ -31835,7 +31944,7 @@
 	
 	var _viewById = __webpack_require__(297);
 	
-	var _table = __webpack_require__(306);
+	var _table = __webpack_require__(307);
 	
 	var _table2 = _interopRequireDefault(_table);
 	
@@ -31932,7 +32041,7 @@
 	          null,
 	          'That Id was not found. Please try another id.'
 	        ) : '',
-	        foundUser.id ? _react2.default.createElement(_table2.default, null) : ''
+	        foundUser.id ? _react2.default.createElement(_table2.default, { people: [foundUser] }) : ''
 	      );
 	    }
 	  }]);
@@ -31965,83 +32074,6 @@
 	};
 	
 	exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(ViewById);
-
-/***/ },
-/* 313 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-	
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-	
-	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-	
-	var _react = __webpack_require__(1);
-	
-	var _react2 = _interopRequireDefault(_react);
-	
-	var _reactRedux = __webpack_require__(178);
-	
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-	
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-	
-	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-	
-	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-	
-	var EditDeleteButtons = function (_React$Component) {
-	  _inherits(EditDeleteButtons, _React$Component);
-	
-	  function EditDeleteButtons(props) {
-	    _classCallCheck(this, EditDeleteButtons);
-	
-	    var _this = _possibleConstructorReturn(this, (EditDeleteButtons.__proto__ || Object.getPrototypeOf(EditDeleteButtons)).call(this, props));
-	
-	    _this.state = {
-	      name: '',
-	      favoriteCity: ''
-	    };
-	    return _this;
-	  }
-	
-	  _createClass(EditDeleteButtons, [{
-	    key: 'render',
-	    value: function render() {
-	      return _react2.default.createElement(
-	        'div',
-	        null,
-	        _react2.default.createElement(
-	          'i',
-	          { className: 'material-icons small' },
-	          'delete'
-	        ),
-	        _react2.default.createElement(
-	          'i',
-	          { className: 'material-icons small' },
-	          'mode_edit'
-	        )
-	      );
-	    }
-	  }]);
-	
-	  return EditDeleteButtons;
-	}(_react2.default.Component);
-	
-	/* ---------  CONTAINER   ------- */
-	
-	
-	var mapStateToProps = function mapStateToProps() {
-	  return {};
-	};
-	
-	var mapDispatchToProps = function mapDispatchToProps(dispatch) {
-	  return {};
-	};
-	
-	exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(EditDeleteButtons);
 
 /***/ }
 /******/ ]);

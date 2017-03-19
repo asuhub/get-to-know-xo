@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { findUserById, toggleUserNotFoundError  } from '../view-by-id/view-by-id.reducer';
-import Table from '../table/table.container';
+import Table from '../table/table.component';
 
 class ViewById extends React.Component {
   constructor(props){
@@ -51,7 +51,7 @@ class ViewById extends React.Component {
           </div>
           <div className="waves-effect waves-light btn" onClick={this.findUser}>Find by Id</div>
           { userNotFound ? <div>That Id was not found. Please try another id.</div> : ''}
-          { foundUser.id ? <Table /> : ''}
+          { foundUser.id ? <Table people={[foundUser]} /> : ''}
         </div>
     );
   }

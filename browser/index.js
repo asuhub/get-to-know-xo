@@ -8,7 +8,6 @@ import store from './store';
 
 /*------ COMPONENTS/CONTAINERS ------ */
 import Root from './components/Root';
-import Table from './components/table/table.container';
 import Tabs from './components/tabs/tabs.component';
 
 /*------ ACTIONS ------ */
