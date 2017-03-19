@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { findUserById, toggleUserNotFoundError  } from '../view-by-id/view-by-id.reducer';
+import Table from '../table/table.container';
 
 class ViewById extends React.Component {
   constructor(props){
@@ -23,7 +24,6 @@ class ViewById extends React.Component {
 
   setId(evt) {
     evt.preventDefault();
-    console.log("HERHEHRHE", evt.target.value);
     this.setState({id: evt.target.value});
   }
 
@@ -33,7 +33,7 @@ class ViewById extends React.Component {
   }
 
   render() {
-    const { userNotFound } = this.props;
+    const { userNotFound, foundUser } = this.props;
     return (
       <div>
         <div className="row">
@@ -50,16 +50,18 @@ class ViewById extends React.Component {
           </form>
           </div>
           <div className="waves-effect waves-light btn" onClick={this.findUser}>Find by Id</div>
-          {userNotFound ? <div>That Id was not found. Please try another id.</div> : ''}
+          { userNotFound ? <div>That Id was not found. Please try another id.</div> : ''}
+          { foundUser.id ? <Table /> : ''}
         </div>
     );
   }
 }
 
 /* ---------  CONTAINER   ------- */
-const mapStateToProps = ({ userNotFound }) => {
+const mapStateToProps = ({ userNotFound, foundUser }) => {
   return {
-    userNotFound
+    userNotFound,
+    foundUser
   };
 };
 
@@ -79,3 +81,5 @@ export default connect(
   mapStateToProps,
   mapDispatchToProps
 )(ViewById);
+
+

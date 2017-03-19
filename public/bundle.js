@@ -62,15 +62,15 @@
 	
 	var _store2 = _interopRequireDefault(_store);
 	
-	var _Root = __webpack_require__(304);
+	var _Root = __webpack_require__(305);
 	
 	var _Root2 = _interopRequireDefault(_Root);
 	
-	var _table = __webpack_require__(305);
+	var _table = __webpack_require__(306);
 	
 	var _table2 = _interopRequireDefault(_table);
 	
-	var _tabs = __webpack_require__(308);
+	var _tabs = __webpack_require__(309);
 	
 	var _tabs2 = _interopRequireDefault(_tabs);
 	
@@ -28732,11 +28732,11 @@
 	
 	var _reducer2 = _interopRequireDefault(_reducer);
 	
-	var _reduxThunk = __webpack_require__(297);
+	var _reduxThunk = __webpack_require__(298);
 	
 	var _reduxThunk2 = _interopRequireDefault(_reduxThunk);
 	
-	var _reduxLogger = __webpack_require__(298);
+	var _reduxLogger = __webpack_require__(299);
 	
 	var _reduxLogger2 = _interopRequireDefault(_reduxLogger);
 	
@@ -28760,12 +28760,13 @@
 	
 	var _table = __webpack_require__(271);
 	
-	var _viewById = __webpack_require__(312);
+	var _viewById = __webpack_require__(297);
 	
 	var rootReducer = (0, _redux.combineReducers)({
 		people: _table.people,
 		showNoPeopleError: _table.showNoPeopleError,
-		userNotFound: _viewById.userNotFound
+		userNotFound: _viewById.userNotFound,
+		foundUser: _viewById.foundUser
 	});
 	
 	exports.default = rootReducer;
@@ -30348,6 +30349,82 @@
 
 /***/ },
 /* 297 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	exports.foundUser = exports.userNotFound = exports.findUserById = exports.addFoundUser = exports.toggleUserNotFoundError = exports.ADD_FOUND_USER = exports.TOGGLE_USER_NOT_FOUND = undefined;
+	
+	var _axios = __webpack_require__(272);
+	
+	var _axios2 = _interopRequireDefault(_axios);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	/* -----------------    ACTIONS     ------------------ */
+	var TOGGLE_USER_NOT_FOUND = exports.TOGGLE_USER_NOT_FOUND = 'TOGGLE_USER_NOT_FOUND';
+	var ADD_FOUND_USER = exports.ADD_FOUND_USER = 'ADD_FOUND_USER';
+	
+	/* -----------------    ACTION CREATORS     ------------------ */
+	var toggleUserNotFoundError = exports.toggleUserNotFoundError = function toggleUserNotFoundError(boolean) {
+	  return {
+	    type: TOGGLE_USER_NOT_FOUND,
+	    boolean: boolean
+	  };
+	};
+	
+	var addFoundUser = exports.addFoundUser = function addFoundUser(user) {
+	  return {
+	    type: ADD_FOUND_USER,
+	    user: user
+	  };
+	};
+	
+	/* ------------       ASYNC ACTIONS     ------------------ */
+	var findUserById = exports.findUserById = function findUserById(userId) {
+	  return function (dispatch) {
+	    _axios2.default.get('/api/people/' + userId).then(function (res) {
+	      if (res.status === 204) {
+	        dispatch(toggleUserNotFoundError(true));
+	      } else {
+	        dispatch(addFoundUser(res.data));
+	      }
+	    }).catch(function (err) {
+	      return console.log(err);
+	    });
+	  };
+	};
+	
+	/* ------------       REDUCER    ------------------ */
+	var userNotFound = exports.userNotFound = function userNotFound() {
+	  var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : false;
+	  var action = arguments[1];
+	
+	  switch (action.type) {
+	    case TOGGLE_USER_NOT_FOUND:
+	      return action.boolean;
+	    default:
+	      return state;
+	  }
+	};
+	
+	var foundUser = exports.foundUser = function foundUser() {
+	  var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+	  var action = arguments[1];
+	
+	  switch (action.type) {
+	    case ADD_FOUND_USER:
+	      return action.user;
+	    default:
+	      return state;
+	  }
+	};
+
+/***/ },
+/* 298 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -30375,7 +30452,7 @@
 	exports['default'] = thunk;
 
 /***/ },
-/* 298 */
+/* 299 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -30386,11 +30463,11 @@
 	
 	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 	
-	var _core = __webpack_require__(299);
+	var _core = __webpack_require__(300);
 	
-	var _helpers = __webpack_require__(300);
+	var _helpers = __webpack_require__(301);
 	
-	var _defaults = __webpack_require__(303);
+	var _defaults = __webpack_require__(304);
 	
 	var _defaults2 = _interopRequireDefault(_defaults);
 	
@@ -30507,7 +30584,7 @@
 	module.exports = exports['default'];
 
 /***/ },
-/* 299 */
+/* 300 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -30520,9 +30597,9 @@
 	
 	exports.printBuffer = printBuffer;
 	
-	var _helpers = __webpack_require__(300);
+	var _helpers = __webpack_require__(301);
 	
-	var _diff = __webpack_require__(301);
+	var _diff = __webpack_require__(302);
 	
 	var _diff2 = _interopRequireDefault(_diff);
 	
@@ -30649,7 +30726,7 @@
 	}
 
 /***/ },
-/* 300 */
+/* 301 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -30673,7 +30750,7 @@
 	var timer = exports.timer = typeof performance !== "undefined" && performance !== null && typeof performance.now === "function" ? performance : Date;
 
 /***/ },
-/* 301 */
+/* 302 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -30683,7 +30760,7 @@
 	});
 	exports.default = diffLogger;
 	
-	var _deepDiff = __webpack_require__(302);
+	var _deepDiff = __webpack_require__(303);
 	
 	var _deepDiff2 = _interopRequireDefault(_deepDiff);
 	
@@ -30772,7 +30849,7 @@
 	module.exports = exports['default'];
 
 /***/ },
-/* 302 */
+/* 303 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/* WEBPACK VAR INJECTION */(function(global) {/*!
@@ -31201,7 +31278,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, (function() { return this; }())))
 
 /***/ },
-/* 303 */
+/* 304 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -31252,7 +31329,7 @@
 	module.exports = exports["default"];
 
 /***/ },
-/* 304 */
+/* 305 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -31301,7 +31378,7 @@
 	exports.default = Root;
 
 /***/ },
-/* 305 */
+/* 306 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -31312,7 +31389,7 @@
 	
 	var _reactRedux = __webpack_require__(178);
 	
-	var _table = __webpack_require__(306);
+	var _table = __webpack_require__(307);
 	
 	var _table2 = _interopRequireDefault(_table);
 	
@@ -31335,7 +31412,7 @@
 	exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(_table2.default);
 
 /***/ },
-/* 306 */
+/* 307 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -31350,9 +31427,9 @@
 	
 	var _react2 = _interopRequireDefault(_react);
 	
-	var _sqaureButton = __webpack_require__(307);
+	var _editDeleteButtonsComponent = __webpack_require__(313);
 	
-	var _sqaureButton2 = _interopRequireDefault(_sqaureButton);
+	var _editDeleteButtonsComponent2 = _interopRequireDefault(_editDeleteButtonsComponent);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
@@ -31444,7 +31521,7 @@
 	                _react2.default.createElement(
 	                  'td',
 	                  null,
-	                  'buttons'
+	                  _react2.default.createElement(_editDeleteButtonsComponent2.default, null)
 	                )
 	              );
 	            })
@@ -31460,37 +31537,8 @@
 	exports.default = Table;
 
 /***/ },
-/* 307 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-	
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-	
-	var _react = __webpack_require__(1);
-	
-	var _react2 = _interopRequireDefault(_react);
-	
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-	
-	exports.default = function (_ref) {
-	  var text = _ref.text,
-	      noPeople = _ref.noPeople;
-	  return _react2.default.createElement(
-	    'div',
-	    null,
-	    _react2.default.createElement(
-	      'a',
-	      { className: 'waves-effect waves-light btn spacing ' + (noPeople ? 'disabled' : '') },
-	      text
-	    )
-	  );
-	};
-
-/***/ },
-/* 308 */
+/* 308 */,
+/* 309 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -31505,15 +31553,15 @@
 	
 	var _react2 = _interopRequireDefault(_react);
 	
-	var _table = __webpack_require__(305);
+	var _table = __webpack_require__(306);
 	
 	var _table2 = _interopRequireDefault(_table);
 	
-	var _addNew = __webpack_require__(309);
+	var _addNew = __webpack_require__(310);
 	
 	var _addNew2 = _interopRequireDefault(_addNew);
 	
-	var _viewById = __webpack_require__(310);
+	var _viewById = __webpack_require__(312);
 	
 	var _viewById2 = _interopRequireDefault(_viewById);
 	
@@ -31604,7 +31652,7 @@
 	exports.default = Tabs;
 
 /***/ },
-/* 309 */
+/* 310 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -31738,7 +31786,37 @@
 	exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(AddNew);
 
 /***/ },
-/* 310 */
+/* 311 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	exports.postNewPerson = undefined;
+	
+	var _axios = __webpack_require__(272);
+	
+	var _axios2 = _interopRequireDefault(_axios);
+	
+	var _table = __webpack_require__(271);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	/* ------------       ASYNC ACTIONS     ------------------ */
+	var postNewPerson = exports.postNewPerson = function postNewPerson(details) {
+	  return function (dispatch) {
+	    _axios2.default.post('/api/people', details).then(function (res) {
+	      return dispatch((0, _table.addUser)(res.data));
+	    }).catch(function (err) {
+	      return console.log(err);
+	    });
+	  };
+	};
+
+/***/ },
+/* 312 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -31755,7 +31833,11 @@
 	
 	var _reactRedux = __webpack_require__(178);
 	
-	var _viewById = __webpack_require__(312);
+	var _viewById = __webpack_require__(297);
+	
+	var _table = __webpack_require__(306);
+	
+	var _table2 = _interopRequireDefault(_table);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
@@ -31795,7 +31877,6 @@
 	    key: 'setId',
 	    value: function setId(evt) {
 	      evt.preventDefault();
-	      console.log("HERHEHRHE", evt.target.value);
 	      this.setState({ id: evt.target.value });
 	    }
 	  }, {
@@ -31807,7 +31888,9 @@
 	  }, {
 	    key: 'render',
 	    value: function render() {
-	      var userNotFound = this.props.userNotFound;
+	      var _props = this.props,
+	          userNotFound = _props.userNotFound,
+	          foundUser = _props.foundUser;
 	
 	      return _react2.default.createElement(
 	        'div',
@@ -31848,7 +31931,8 @@
 	          'div',
 	          null,
 	          'That Id was not found. Please try another id.'
-	        ) : ''
+	        ) : '',
+	        foundUser.id ? _react2.default.createElement(_table2.default, null) : ''
 	      );
 	    }
 	  }]);
@@ -31860,10 +31944,12 @@
 	
 	
 	var mapStateToProps = function mapStateToProps(_ref) {
-	  var userNotFound = _ref.userNotFound;
+	  var userNotFound = _ref.userNotFound,
+	      foundUser = _ref.foundUser;
 	
 	  return {
-	    userNotFound: userNotFound
+	    userNotFound: userNotFound,
+	    foundUser: foundUser
 	  };
 	};
 	
@@ -31881,7 +31967,7 @@
 	exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(ViewById);
 
 /***/ },
-/* 311 */
+/* 313 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -31889,84 +31975,73 @@
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
 	});
-	exports.postNewPerson = undefined;
 	
-	var _axios = __webpack_require__(272);
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 	
-	var _axios2 = _interopRequireDefault(_axios);
+	var _react = __webpack_require__(1);
 	
-	var _table = __webpack_require__(271);
+	var _react2 = _interopRequireDefault(_react);
 	
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-	
-	/* ------------       ASYNC ACTIONS     ------------------ */
-	var postNewPerson = exports.postNewPerson = function postNewPerson(details) {
-	  return function (dispatch) {
-	    _axios2.default.post('/api/people', details).then(function (res) {
-	      return dispatch((0, _table.addUser)(res.data));
-	    }).catch(function (err) {
-	      return console.log(err);
-	    });
-	  };
-	};
-
-/***/ },
-/* 312 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-	
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-	exports.userNotFound = exports.findUserById = exports.toggleUserNotFoundError = exports.TOGGLE_USER_NOT_FOUND = undefined;
-	
-	var _axios = __webpack_require__(272);
-	
-	var _axios2 = _interopRequireDefault(_axios);
-	
-	var _table = __webpack_require__(271);
+	var _reactRedux = __webpack_require__(178);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
-	/* -----------------    ACTIONS     ------------------ */
-	var TOGGLE_USER_NOT_FOUND = exports.TOGGLE_USER_NOT_FOUND = 'TOGGLE_USER_NOT_FOUND';
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 	
-	/* -----------------    ACTION CREATORS     ------------------ */
-	var toggleUserNotFoundError = exports.toggleUserNotFoundError = function toggleUserNotFoundError(boolean) {
-	  return {
-	    type: TOGGLE_USER_NOT_FOUND,
-	    boolean: boolean
-	  };
-	};
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 	
-	/* ------------       ASYNC ACTIONS     ------------------ */
-	var findUserById = exports.findUserById = function findUserById(userId) {
-	  return function (dispatch) {
-	    _axios2.default.get('/api/people/' + userId).then(function (res) {
-	      if (res.status === 204) {
-	        dispatch(toggleUserNotFoundError(true));
-	      } else {
-	        dispatch((0, _table.addUser)(res.data));
-	      }
-	    }).catch(function (err) {
-	      return console.log(err);
-	    });
-	  };
-	};
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 	
-	/* ------------       REDUCER    ------------------ */
-	var userNotFound = exports.userNotFound = function userNotFound() {
-	  var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : false;
-	  var action = arguments[1];
+	var EditDeleteButtons = function (_React$Component) {
+	  _inherits(EditDeleteButtons, _React$Component);
 	
-	  switch (action.type) {
-	    case TOGGLE_USER_NOT_FOUND:
-	      return action.boolean;
-	    default:
-	      return state;
+	  function EditDeleteButtons(props) {
+	    _classCallCheck(this, EditDeleteButtons);
+	
+	    var _this = _possibleConstructorReturn(this, (EditDeleteButtons.__proto__ || Object.getPrototypeOf(EditDeleteButtons)).call(this, props));
+	
+	    _this.state = {
+	      name: '',
+	      favoriteCity: ''
+	    };
+	    return _this;
 	  }
+	
+	  _createClass(EditDeleteButtons, [{
+	    key: 'render',
+	    value: function render() {
+	      return _react2.default.createElement(
+	        'div',
+	        null,
+	        _react2.default.createElement(
+	          'i',
+	          { className: 'material-icons small' },
+	          'delete'
+	        ),
+	        _react2.default.createElement(
+	          'i',
+	          { className: 'material-icons small' },
+	          'mode_edit'
+	        )
+	      );
+	    }
+	  }]);
+	
+	  return EditDeleteButtons;
+	}(_react2.default.Component);
+	
+	/* ---------  CONTAINER   ------- */
+	
+	
+	var mapStateToProps = function mapStateToProps() {
+	  return {};
 	};
+	
+	var mapDispatchToProps = function mapDispatchToProps(dispatch) {
+	  return {};
+	};
+	
+	exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(EditDeleteButtons);
 
 /***/ }
 /******/ ]);

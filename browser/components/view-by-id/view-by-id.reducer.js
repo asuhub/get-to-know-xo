@@ -1,14 +1,21 @@
 import axios from 'axios';
-import { addUser } from '../table/table.reducer';
 
 /* -----------------    ACTIONS     ------------------ */
 export const TOGGLE_USER_NOT_FOUND = 'TOGGLE_USER_NOT_FOUND';
+export const ADD_FOUND_USER = 'ADD_FOUND_USER';
 
 /* -----------------    ACTION CREATORS     ------------------ */
 export const toggleUserNotFoundError = boolean => {
   return {
     type: TOGGLE_USER_NOT_FOUND,
     boolean
+  };
+};
+
+export const addFoundUser = user => {
+  return {
+    type: ADD_FOUND_USER,
+    user
   };
 };
 
@@ -20,7 +27,7 @@ export const findUserById = userId => {
         if (res.status === 204) {
           dispatch( toggleUserNotFoundError(true) );
         } else {
-          dispatch( addUser(res.data) );
+          dispatch( addFoundUser(res.data) );
         }
       })
       .catch(err => console.log(err));
@@ -32,6 +39,14 @@ export const userNotFound = (state = false, action) => {
 	switch (action.type) {
 		case TOGGLE_USER_NOT_FOUND:
 			return action.boolean;
+		default: return state;
+	}
+};
+
+export const foundUser = (state = {}, action) => {
+	switch (action.type) {
+		case ADD_FOUND_USER:
+			return action.user;
 		default: return state;
 	}
 };

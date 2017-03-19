@@ -1,5 +1,5 @@
 import React from 'react';
-import SquareButton from '../square-button/sqaure-button.component';
+import EditDeleteButtons from '../edit-delete-buttons/edit-delete-buttons.component.js';
 
 class Table extends React.Component {
   constructor(props){
@@ -25,7 +25,7 @@ class Table extends React.Component {
                 <td>{person.id}</td>
                 <td>{person.name}</td>
                 <td>{person.favoriteCity}</td>
-                <td>buttons</td>
+                <td><EditDeleteButtons /></td>
               </tr>
             ))}
           </tbody>
