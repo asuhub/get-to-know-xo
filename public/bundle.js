@@ -62,53 +62,32 @@
 	
 	var _store2 = _interopRequireDefault(_store);
 	
-	var _Homepage = __webpack_require__(314);
-	
-	var _Homepage2 = _interopRequireDefault(_Homepage);
-	
-	var _Board = __webpack_require__(326);
-	
-	var _Board2 = _interopRequireDefault(_Board);
-	
-	var _Root = __webpack_require__(328);
+	var _Root = __webpack_require__(304);
 	
 	var _Root2 = _interopRequireDefault(_Root);
 	
-	var _EmptyPage = __webpack_require__(329);
+	var _table = __webpack_require__(305);
 	
-	var _EmptyPage2 = _interopRequireDefault(_EmptyPage);
+	var _table2 = _interopRequireDefault(_table);
 	
-	var _Test = __webpack_require__(330);
+	var _tabs = __webpack_require__(308);
 	
-	var _Test2 = _interopRequireDefault(_Test);
+	var _tabs2 = _interopRequireDefault(_tabs);
 	
-	var _boardActions = __webpack_require__(303);
-	
-	var _joinboardformActions = __webpack_require__(305);
-	
-	var _createboardActions = __webpack_require__(275);
+	var _table3 = __webpack_require__(271);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
-	/*------ load the buttons for the board you are about to enter ------ */
+	//load all the users from the database
 	
 	
 	/*------ COMPONENTS/CONTAINERS ------ */
-	function onEnterConfirmBoard(nextState) {
-		_store2.default.dispatch((0, _boardActions.enterBoard)(nextState.params.boardId));
-		_store2.default.dispatch((0, _joinboardformActions.stateCurrentBoard)(nextState.params.boardId));
-		_store2.default.dispatch((0, _joinboardformActions.showBoardNotFound)(false));
-	}
-	
-	/*------ when you redirect back to the homepage, set the currentBoard state to empty/false lest you run into componentDidUpdate issues ------ */
-	
+	var onEnterGetPeople = function onEnterGetPeople(nextState) {
+		_store2.default.dispatch((0, _table3.fetchPeople)());
+	};
 	
 	/*------ ACTIONS ------ */
-	function onEnterResetCurrentBoard() {
-		_store2.default.dispatch((0, _joinboardformActions.stateCurrentBoard)(false));
-		_store2.default.dispatch((0, _createboardActions.pickButtonError)(false));
-		_store2.default.dispatch((0, _boardActions.foundBoard)([]));
-	}
+	
 	
 	_reactDom2.default.render(_react2.default.createElement(
 		_reactRedux.Provider,
@@ -119,23 +98,10 @@
 			_react2.default.createElement(
 				_reactRouter.Route,
 				{ component: _Root2.default },
-				_react2.default.createElement(_reactRouter.Route, { path: '/', component: _Test2.default })
+				_react2.default.createElement(_reactRouter.Route, { path: '/', component: _tabs2.default, onEnter: onEnterGetPeople })
 			)
 		)
 	), document.getElementById('app'));
-	
-	/*ReactDOM.render(
-	 <Provider store={store}>
-		<Router history={browserHistory}>
-			<Route component={Root}>
-				<Route path="/" component={Homepage} onEnter={onEnterResetCurrentBoard} />
-				<Route path="/:boardId" component={Board} onEnter={onEnterConfirmBoard} />
-				<Route path="/pageNotFound/error" component={EmptyPage} />
-				<IndexRoute component={Homepage} />
-			</Route>
-	</Router>
-	 </Provider>,
-	 document.getElementById('app'));*/
 
 /***/ },
 /* 1 */
@@ -28766,11 +28732,11 @@
 	
 	var _reducer2 = _interopRequireDefault(_reducer);
 	
-	var _reduxThunk = __webpack_require__(307);
+	var _reduxThunk = __webpack_require__(297);
 	
 	var _reduxThunk2 = _interopRequireDefault(_reduxThunk);
 	
-	var _reduxLogger = __webpack_require__(308);
+	var _reduxLogger = __webpack_require__(298);
 	
 	var _reduxLogger2 = _interopRequireDefault(_reduxLogger);
 	
@@ -28792,28 +28758,14 @@
 	
 	var _redux = __webpack_require__(189);
 	
-	var _homeformReducer = __webpack_require__(271);
+	var _table = __webpack_require__(271);
 	
-	var _pickbuttonReducer = __webpack_require__(273);
-	
-	var _createboardReducer = __webpack_require__(302);
-	
-	var _boardReducer = __webpack_require__(304);
-	
-	var _joinboardformReducer = __webpack_require__(306);
+	var _viewById = __webpack_require__(312);
 	
 	var rootReducer = (0, _redux.combineReducers)({
-		generatedBoard: _createboardReducer.generatedBoard,
-		currentBoard: _joinboardformReducer.currentBoard,
-		buttonsPicked: _pickbuttonReducer.buttonsPicked,
-		boardNotFound: _boardReducer.boardNotFound,
-		buttonsToLoad: _boardReducer.buttonsToLoad,
-		showCreateTab: _homeformReducer.showCreateTab,
-		showJoinTab: _homeformReducer.showJoinTab,
-		allButtonsSelected: _pickbuttonReducer.allButtonsSelected,
-		showPickButtonError: _createboardReducer.showPickButtonError,
-		buttonsAvailable: _pickbuttonReducer.buttonsAvailable,
-		audienceCount: _boardReducer.audienceCount
+		people: _table.people,
+		showNoPeopleError: _table.showNoPeopleError,
+		userNotFound: _viewById.userNotFound
 	});
 	
 	exports.default = rootReducer;
@@ -28825,63 +28777,91 @@
 	'use strict';
 	
 	Object.defineProperty(exports, "__esModule", {
-		value: true
+	  value: true
 	});
-	exports.showJoinTab = exports.showCreateTab = undefined;
+	exports.showNoPeopleError = exports.people = exports.fetchPeople = exports.addUser = exports.noPeopleError = exports.setPeople = exports.ADD_USER = exports.NO_PEOPLE_FOUND = exports.LOAD_PEOPLE = undefined;
 	
-	var _homeformActions = __webpack_require__(272);
+	var _axios = __webpack_require__(272);
 	
-	var showCreateTab = exports.showCreateTab = function showCreateTab() {
-		var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : false;
-		var action = arguments[1];
+	var _axios2 = _interopRequireDefault(_axios);
 	
-		switch (action.type) {
-			case _homeformActions.SHOW_CREATE:
-				return action.payload;
-			default:
-				return state;
-		}
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	/* -----------------    ACTIONS     ------------------ */
+	var LOAD_PEOPLE = exports.LOAD_PEOPLE = 'LOAD_PEOPLE';
+	var NO_PEOPLE_FOUND = exports.NO_PEOPLE_FOUND = 'NO_PEOPLE_FOUND';
+	var ADD_USER = exports.ADD_USER = 'ADD_USER';
+	
+	/* -----------------    ACTION CREATORS     ------------------ */
+	var setPeople = exports.setPeople = function setPeople(people) {
+	  return {
+	    type: LOAD_PEOPLE,
+	    people: people
+	  };
 	};
 	
-	var showJoinTab = exports.showJoinTab = function showJoinTab() {
-		var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : true;
-		var action = arguments[1];
+	var noPeopleError = exports.noPeopleError = function noPeopleError(boolean) {
+	  return {
+	    type: NO_PEOPLE_FOUND,
+	    boolean: boolean
+	  };
+	};
 	
-		switch (action.type) {
-			case _homeformActions.SHOW_JOIN:
-				return action.payload;
-			default:
-				return state;
-		}
+	var addUser = exports.addUser = function addUser(createdUser) {
+	  return {
+	    type: ADD_USER,
+	    createdUser: createdUser
+	  };
+	};
+	
+	/* ------------       ASYNC ACTIONS     ------------------ */
+	var fetchPeople = exports.fetchPeople = function fetchPeople() {
+	  return function (dispatch) {
+	    _axios2.default.get('/api/people').then(function (res) {
+	      if (res.status === 204) {
+	        dispatch(noPeopleError(true));
+	      } else {
+	        dispatch(setPeople(res.data));
+	      }
+	    }).catch(function (err) {
+	      return console.log(err);
+	    });
+	  };
+	};
+	
+	/* ------------       REDUCER    ------------------ */
+	var people = exports.people = function people() {
+	  var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
+	  var action = arguments[1];
+	
+	  var newState = state.slice(0);
+	  switch (action.type) {
+	    case LOAD_PEOPLE:
+	      return action.people;
+	    case ADD_USER:
+	      return newState.concat(action.createdUser);
+	    default:
+	      return state;
+	  }
+	};
+	
+	var showNoPeopleError = exports.showNoPeopleError = function showNoPeopleError() {
+	  var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : false;
+	  var action = arguments[1];
+	
+	  switch (action.type) {
+	    case NO_PEOPLE_FOUND:
+	      return action.boolean;
+	    default:
+	      return state;
+	  }
 	};
 
 /***/ },
 /* 272 */
-/***/ function(module, exports) {
+/***/ function(module, exports, __webpack_require__) {
 
-	'use strict';
-	
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-	/* -----------------    ACTIONS     ------------------ */
-	var SHOW_CREATE = exports.SHOW_CREATE = 'SHOW_CREATE';
-	var SHOW_JOIN = exports.SHOW_JOIN = 'SHOW_JOIN';
-	
-	/* ------------   ACTION CREATORS     ------------------ */
-	var showCreate = exports.showCreate = function showCreate(bool) {
-	  return {
-	    type: SHOW_CREATE,
-	    payload: bool
-	  };
-	};
-	
-	var showJoin = exports.showJoin = function showJoin(bool) {
-	  return {
-	    type: SHOW_JOIN,
-	    payload: bool
-	  };
-	};
+	module.exports = __webpack_require__(273);
 
 /***/ },
 /* 273 */
@@ -28889,201 +28869,10 @@
 
 	'use strict';
 	
-	Object.defineProperty(exports, "__esModule", {
-		value: true
-	});
-	exports.allButtonsSelected = exports.buttonsAvailable = exports.buttonsPicked = undefined;
-	
-	var _pickbuttonActions = __webpack_require__(274);
-	
-	var _createboardActions = __webpack_require__(275);
-	
-	var _initialstate = __webpack_require__(301);
-	
-	function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
-	
-	var buttonsPicked = exports.buttonsPicked = function buttonsPicked() {
-		var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
-		var action = arguments[1];
-	
-		switch (action.type) {
-			case _pickbuttonActions.PICKED_BUTTON:
-				return [].concat(_toConsumableArray(state), [action.payload]);
-			case _pickbuttonActions.REMOVED_BUTTON:
-				return state.filter(function (buttonInfo) {
-					return buttonInfo.icon !== action.payload.icon;
-				});
-			case _createboardActions.CLEAR_ALL_BUTTONS:
-				return [];
-			default:
-				return state;
-		}
-	};
-	
-	var buttonsAvailable = exports.buttonsAvailable = function buttonsAvailable() {
-		var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : _initialstate.buttonData;
-		var action = arguments[1];
-	
-		var newState = void 0;
-		switch (action.type) {
-			case _pickbuttonActions.TOGGLE_BUTTON_SELECTED:
-				newState = state.map(function (obj) {
-					if (obj.index == action.index) {
-						obj.isSelected = action.boolean;
-					}
-					return obj;
-				});
-				return newState;
-			case _pickbuttonActions.TOGGLE_ALL_BUTTONS:
-				newState = state.map(function (obj) {
-					obj.isSelected = action.boolean;
-					return obj;
-				});
-				return newState;
-			default:
-				return state;
-		}
-	};
-	
-	var allButtonsSelected = exports.allButtonsSelected = function allButtonsSelected() {
-		var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : false;
-		var action = arguments[1];
-	
-		switch (action.type) {
-			case _pickbuttonActions.TOGGLE_SELECT_ALL:
-				return action.payload;
-			default:
-				return state;
-		}
-	};
-
-/***/ },
-/* 274 */
-/***/ function(module, exports) {
-
-	'use strict';
-	
-	Object.defineProperty(exports, "__esModule", {
-		value: true
-	});
-	/* -----------------    ACTIONS     ------------------ */
-	var TOGGLE_SELECT_ALL = exports.TOGGLE_SELECT_ALL = 'TOGGLE_SELECT_ALL';
-	var PICKED_BUTTON = exports.PICKED_BUTTON = 'PICKED_BUTTON';
-	var REMOVED_BUTTON = exports.REMOVED_BUTTON = 'REMOVED_BUTTON';
-	var TOGGLE_BUTTON_SELECTED = exports.TOGGLE_BUTTON_SELECTED = 'TOGGLE_BUTTON_SELECTED';
-	var TOGGLE_ALL_BUTTONS = exports.TOGGLE_ALL_BUTTONS = 'TOGGLE_ALL_BUTTONS';
-	
-	/* ------------   ACTION CREATORS     ------------------ */
-	var pickedButton = exports.pickedButton = function pickedButton(data) {
-		return {
-			type: PICKED_BUTTON,
-			payload: data
-		};
-	};
-	
-	var removedButton = exports.removedButton = function removedButton(buttonData) {
-		return {
-			type: REMOVED_BUTTON,
-			payload: buttonData
-		};
-	};
-	
-	var toggleSelectAll = exports.toggleSelectAll = function toggleSelectAll(bool) {
-		return {
-			type: TOGGLE_SELECT_ALL,
-			payload: bool
-		};
-	};
-	
-	var toggleButtonSelected = exports.toggleButtonSelected = function toggleButtonSelected(bool, index) {
-		console.log(index);
-		return {
-			type: TOGGLE_BUTTON_SELECTED,
-			boolean: bool,
-			index: index
-		};
-	};
-	
-	var toggleAllButtons = exports.toggleAllButtons = function toggleAllButtons(bool) {
-		return {
-			type: TOGGLE_ALL_BUTTONS,
-			boolean: bool
-		};
-	};
-
-/***/ },
-/* 275 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-	
-	Object.defineProperty(exports, "__esModule", {
-		value: true
-	});
-	exports.addBoard = exports.clearAllButtons = exports.stateBoardId = exports.pickButtonError = exports.CLEAR_ALL_SELECTED_BUTTONS = exports.CLEAR_ALL_BUTTONS = exports.SET_BOARDID = exports.TOGGLE_PICK_BUTTON_ERROR = undefined;
-	
-	var _axios = __webpack_require__(276);
-	
-	var _axios2 = _interopRequireDefault(_axios);
-	
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-	
-	/* -----------------    ACTIONS     ------------------ */
-	var TOGGLE_PICK_BUTTON_ERROR = exports.TOGGLE_PICK_BUTTON_ERROR = 'TOGGLE_PICK_BUTTON_ERROR';
-	var SET_BOARDID = exports.SET_BOARDID = 'SET_BOARDID';
-	var CLEAR_ALL_BUTTONS = exports.CLEAR_ALL_BUTTONS = 'CLEAR_ALL_BUTTONS';
-	var CLEAR_ALL_SELECTED_BUTTONS = exports.CLEAR_ALL_SELECTED_BUTTONS = 'CLEAR_ALL_SELECTED_BUTTONS';
-	
-	/* ------------   ACTION CREATORS     ------------------ */
-	var pickButtonError = exports.pickButtonError = function pickButtonError(bool) {
-		return {
-			type: TOGGLE_PICK_BUTTON_ERROR,
-			payload: bool
-		};
-	};
-	
-	var stateBoardId = exports.stateBoardId = function stateBoardId(boardId) {
-		return {
-			type: SET_BOARDID,
-			payload: boardId
-		};
-	};
-	
-	var clearAllButtons = exports.clearAllButtons = function clearAllButtons() {
-		return {
-			type: CLEAR_ALL_BUTTONS
-		};
-	};
-	
-	/* ------------       ASYNC ACTION CREATORS     ------------------ */
-	var addBoard = exports.addBoard = function addBoard(boardDetails) {
-		return function (dispatch) {
-			_axios2.default.post('/api/', boardDetails).then(function (res) {
-				return res.data;
-			}).then(function (createdBoard) {
-				console.log(createdBoard);dispatch(stateBoardId(createdBoard.path));
-			}).catch(function (err) {
-				return console.log(err);
-			});
-		};
-	};
-
-/***/ },
-/* 276 */
-/***/ function(module, exports, __webpack_require__) {
-
-	module.exports = __webpack_require__(277);
-
-/***/ },
-/* 277 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-	
-	var utils = __webpack_require__(278);
-	var bind = __webpack_require__(279);
-	var Axios = __webpack_require__(280);
-	var defaults = __webpack_require__(281);
+	var utils = __webpack_require__(274);
+	var bind = __webpack_require__(275);
+	var Axios = __webpack_require__(276);
+	var defaults = __webpack_require__(277);
 	
 	/**
 	 * Create an instance of Axios
@@ -29116,15 +28905,15 @@
 	};
 	
 	// Expose Cancel & CancelToken
-	axios.Cancel = __webpack_require__(298);
-	axios.CancelToken = __webpack_require__(299);
-	axios.isCancel = __webpack_require__(295);
+	axios.Cancel = __webpack_require__(294);
+	axios.CancelToken = __webpack_require__(295);
+	axios.isCancel = __webpack_require__(291);
 	
 	// Expose all/spread
 	axios.all = function all(promises) {
 	  return Promise.all(promises);
 	};
-	axios.spread = __webpack_require__(300);
+	axios.spread = __webpack_require__(296);
 	
 	module.exports = axios;
 	
@@ -29133,12 +28922,12 @@
 
 
 /***/ },
-/* 278 */
+/* 274 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 	
-	var bind = __webpack_require__(279);
+	var bind = __webpack_require__(275);
 	
 	/*global toString:true*/
 	
@@ -29438,7 +29227,7 @@
 
 
 /***/ },
-/* 279 */
+/* 275 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -29455,17 +29244,17 @@
 
 
 /***/ },
-/* 280 */
+/* 276 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 	
-	var defaults = __webpack_require__(281);
-	var utils = __webpack_require__(278);
-	var InterceptorManager = __webpack_require__(292);
-	var dispatchRequest = __webpack_require__(293);
-	var isAbsoluteURL = __webpack_require__(296);
-	var combineURLs = __webpack_require__(297);
+	var defaults = __webpack_require__(277);
+	var utils = __webpack_require__(274);
+	var InterceptorManager = __webpack_require__(288);
+	var dispatchRequest = __webpack_require__(289);
+	var isAbsoluteURL = __webpack_require__(292);
+	var combineURLs = __webpack_require__(293);
 	
 	/**
 	 * Create a new instance of Axios
@@ -29546,13 +29335,13 @@
 
 
 /***/ },
-/* 281 */
+/* 277 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {'use strict';
 	
-	var utils = __webpack_require__(278);
-	var normalizeHeaderName = __webpack_require__(282);
+	var utils = __webpack_require__(274);
+	var normalizeHeaderName = __webpack_require__(278);
 	
 	var PROTECTION_PREFIX = /^\)\]\}',?\n/;
 	var DEFAULT_CONTENT_TYPE = {
@@ -29569,10 +29358,10 @@
 	  var adapter;
 	  if (typeof XMLHttpRequest !== 'undefined') {
 	    // For browsers use XHR adapter
-	    adapter = __webpack_require__(283);
+	    adapter = __webpack_require__(279);
 	  } else if (typeof process !== 'undefined') {
 	    // For node use HTTP adapter
-	    adapter = __webpack_require__(283);
+	    adapter = __webpack_require__(279);
 	  }
 	  return adapter;
 	}
@@ -29646,12 +29435,12 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(3)))
 
 /***/ },
-/* 282 */
+/* 278 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 	
-	var utils = __webpack_require__(278);
+	var utils = __webpack_require__(274);
 	
 	module.exports = function normalizeHeaderName(headers, normalizedName) {
 	  utils.forEach(headers, function processHeader(value, name) {
@@ -29664,18 +29453,18 @@
 
 
 /***/ },
-/* 283 */
+/* 279 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {'use strict';
 	
-	var utils = __webpack_require__(278);
-	var settle = __webpack_require__(284);
-	var buildURL = __webpack_require__(287);
-	var parseHeaders = __webpack_require__(288);
-	var isURLSameOrigin = __webpack_require__(289);
-	var createError = __webpack_require__(285);
-	var btoa = (typeof window !== 'undefined' && window.btoa && window.btoa.bind(window)) || __webpack_require__(290);
+	var utils = __webpack_require__(274);
+	var settle = __webpack_require__(280);
+	var buildURL = __webpack_require__(283);
+	var parseHeaders = __webpack_require__(284);
+	var isURLSameOrigin = __webpack_require__(285);
+	var createError = __webpack_require__(281);
+	var btoa = (typeof window !== 'undefined' && window.btoa && window.btoa.bind(window)) || __webpack_require__(286);
 	
 	module.exports = function xhrAdapter(config) {
 	  return new Promise(function dispatchXhrRequest(resolve, reject) {
@@ -29771,7 +29560,7 @@
 	    // This is only done if running in a standard browser environment.
 	    // Specifically not if we're in a web worker, or react-native.
 	    if (utils.isStandardBrowserEnv()) {
-	      var cookies = __webpack_require__(291);
+	      var cookies = __webpack_require__(287);
 	
 	      // Add xsrf header
 	      var xsrfValue = (config.withCredentials || isURLSameOrigin(config.url)) && config.xsrfCookieName ?
@@ -29848,12 +29637,12 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(3)))
 
 /***/ },
-/* 284 */
+/* 280 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 	
-	var createError = __webpack_require__(285);
+	var createError = __webpack_require__(281);
 	
 	/**
 	 * Resolve or reject a Promise based on response status.
@@ -29879,12 +29668,12 @@
 
 
 /***/ },
-/* 285 */
+/* 281 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 	
-	var enhanceError = __webpack_require__(286);
+	var enhanceError = __webpack_require__(282);
 	
 	/**
 	 * Create an Error with the specified message, config, error code, and response.
@@ -29902,7 +29691,7 @@
 
 
 /***/ },
-/* 286 */
+/* 282 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -29927,12 +29716,12 @@
 
 
 /***/ },
-/* 287 */
+/* 283 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 	
-	var utils = __webpack_require__(278);
+	var utils = __webpack_require__(274);
 	
 	function encode(val) {
 	  return encodeURIComponent(val).
@@ -30001,12 +29790,12 @@
 
 
 /***/ },
-/* 288 */
+/* 284 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 	
-	var utils = __webpack_require__(278);
+	var utils = __webpack_require__(274);
 	
 	/**
 	 * Parse headers into an object
@@ -30044,12 +29833,12 @@
 
 
 /***/ },
-/* 289 */
+/* 285 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 	
-	var utils = __webpack_require__(278);
+	var utils = __webpack_require__(274);
 	
 	module.exports = (
 	  utils.isStandardBrowserEnv() ?
@@ -30118,7 +29907,7 @@
 
 
 /***/ },
-/* 290 */
+/* 286 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -30160,12 +29949,12 @@
 
 
 /***/ },
-/* 291 */
+/* 287 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 	
-	var utils = __webpack_require__(278);
+	var utils = __webpack_require__(274);
 	
 	module.exports = (
 	  utils.isStandardBrowserEnv() ?
@@ -30219,12 +30008,12 @@
 
 
 /***/ },
-/* 292 */
+/* 288 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 	
-	var utils = __webpack_require__(278);
+	var utils = __webpack_require__(274);
 	
 	function InterceptorManager() {
 	  this.handlers = [];
@@ -30277,15 +30066,15 @@
 
 
 /***/ },
-/* 293 */
+/* 289 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 	
-	var utils = __webpack_require__(278);
-	var transformData = __webpack_require__(294);
-	var isCancel = __webpack_require__(295);
-	var defaults = __webpack_require__(281);
+	var utils = __webpack_require__(274);
+	var transformData = __webpack_require__(290);
+	var isCancel = __webpack_require__(291);
+	var defaults = __webpack_require__(277);
 	
 	/**
 	 * Throws a `Cancel` if cancellation has been requested.
@@ -30362,12 +30151,12 @@
 
 
 /***/ },
-/* 294 */
+/* 290 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 	
-	var utils = __webpack_require__(278);
+	var utils = __webpack_require__(274);
 	
 	/**
 	 * Transform the data for a request or a response
@@ -30388,7 +30177,7 @@
 
 
 /***/ },
-/* 295 */
+/* 291 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -30399,7 +30188,7 @@
 
 
 /***/ },
-/* 296 */
+/* 292 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -30419,7 +30208,7 @@
 
 
 /***/ },
-/* 297 */
+/* 293 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -30437,7 +30226,7 @@
 
 
 /***/ },
-/* 298 */
+/* 294 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -30462,12 +30251,12 @@
 
 
 /***/ },
-/* 299 */
+/* 295 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 	
-	var Cancel = __webpack_require__(298);
+	var Cancel = __webpack_require__(294);
 	
 	/**
 	 * A `CancelToken` is an object that can be used to request cancellation of an operation.
@@ -30525,7 +30314,7 @@
 
 
 /***/ },
-/* 300 */
+/* 296 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -30558,325 +30347,7 @@
 
 
 /***/ },
-/* 301 */
-/***/ function(module, exports) {
-
-	'use strict';
-	
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-	var buttonData = exports.buttonData = [{
-	  color: 'blue',
-	  icon: 'fa fa-sign-language',
-	  shortIcon: 'clap',
-	  isSelected: false,
-	  nickname: 'clap',
-	  index: '0'
-	}, {
-	  color: 'red',
-	  icon: 'fa fa-frown-o',
-	  shortIcon: 'frown',
-	  isSelected: false,
-	  nickname: 'frown',
-	  index: '1'
-	}, {
-	  color: 'gray',
-	  icon: 'fa fa-empire',
-	  shortIcon: 'empire',
-	  isSelected: false,
-	  nickname: 'empire',
-	  index: '2'
-	}, {
-	  color: 'dark-blue',
-	  icon: 'fa fa-heart-o',
-	  shortIcon: 'heart',
-	  isSelected: false,
-	  nickname: 'heart',
-	  index: '3'
-	}, {
-	  color: 'green',
-	  icon: 'fa fa-money fa-spin',
-	  shortIcon: 'money',
-	  isSelected: false,
-	  nickname: 'money',
-	  index: '4'
-	}, {
-	  color: 'pink',
-	  icon: 'fa fa-smile-o',
-	  shortIcon: 'smile',
-	  isSelected: false,
-	  nickname: 'smile',
-	  index: '5'
-	}, {
-	  color: 'yellow',
-	  icon: 'fa fa-question',
-	  shortIcon: 'question',
-	  isSelected: false,
-	  nickname: 'question',
-	  index: '6'
-	}, {
-	  color: 'mint-green',
-	  icon: 'fa fa-thumbs-o-up',
-	  shortIcon: 'thumb',
-	  isSelected: false,
-	  nickname: 'thumb',
-	  index: '7'
-	}, {
-	  color: 'orange',
-	  icon: 'fa fa-rebel',
-	  shortIcon: 'resistance',
-	  isSelected: false,
-	  nickname: 'resistance',
-	  index: '8'
-	}, {
-	  color: 'purple',
-	  icon: 'fa fa-bomb fa-spin',
-	  shortIcon: 'bomb',
-	  isSelected: false,
-	  nickname: 'bomb',
-	  index: '9'
-	}];
-
-/***/ },
-/* 302 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-	
-	Object.defineProperty(exports, "__esModule", {
-		value: true
-	});
-	exports.generatedBoard = exports.showPickButtonError = undefined;
-	
-	var _createboardActions = __webpack_require__(275);
-	
-	var _boardActions = __webpack_require__(303);
-	
-	var showPickButtonError = exports.showPickButtonError = function showPickButtonError() {
-		var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : false;
-		var action = arguments[1];
-	
-		switch (action.type) {
-			case _createboardActions.TOGGLE_PICK_BUTTON_ERROR:
-				return action.payload;
-			default:
-				return state;
-		}
-	};
-	
-	var generatedBoard = exports.generatedBoard = function generatedBoard() {
-		var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : '';
-		var action = arguments[1];
-	
-		switch (action.type) {
-			case _boardActions.SET_BOARDID:
-				return action.payload;
-			default:
-				return state;
-		}
-	};
-
-/***/ },
-/* 303 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-	
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-	exports.enterBoard = exports.setAudienceCount = exports.foundBoard = exports.stateBoardId = exports.SET_AUDIENCE_COUNT = exports.SET_BOARDID = exports.LOAD_BUTTONS = undefined;
-	
-	var _axios = __webpack_require__(276);
-	
-	var _axios2 = _interopRequireDefault(_axios);
-	
-	var _reactRouter = __webpack_require__(216);
-	
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-	
-	/* -----------------    ACTIONS     ------------------ */
-	var LOAD_BUTTONS = exports.LOAD_BUTTONS = 'LOAD_BUTTONS';
-	var SET_BOARDID = exports.SET_BOARDID = 'SET_BOARDID';
-	var SET_AUDIENCE_COUNT = exports.SET_AUDIENCE_COUNT = 'SET_AUDIENCE_COUNT';
-	
-	/* -----------------    ACTION CREATORS     ------------------ */
-	var stateBoardId = exports.stateBoardId = function stateBoardId(boardId) {
-	  return {
-	    type: SET_BOARDID,
-	    payload: boardId
-	  };
-	};
-	
-	var foundBoard = exports.foundBoard = function foundBoard(buttons) {
-	  return {
-	    type: LOAD_BUTTONS,
-	    payload: buttons
-	  };
-	};
-	
-	var setAudienceCount = exports.setAudienceCount = function setAudienceCount(audienceString) {
-	  return {
-	    type: SET_AUDIENCE_COUNT,
-	    payload: audienceString
-	  };
-	};
-	
-	/* ------------       REDUCER     ------------------ */
-	var enterBoard = exports.enterBoard = function enterBoard(pathId) {
-	  return function (dispatch) {
-	    _axios2.default.get('/api/buttons/' + pathId).then(function (res) {
-	      if (res.status === 204) {
-	        _reactRouter.browserHistory.replace('/pageNotFound/error');
-	      } else {
-	        dispatch(foundBoard(res.data));
-	      }
-	    }).catch(function (err) {
-	      return console.log(err);
-	    });
-	  };
-	};
-
-/***/ },
-/* 304 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-	
-	Object.defineProperty(exports, "__esModule", {
-		value: true
-	});
-	exports.audienceCount = exports.buttonsToLoad = exports.boardNotFound = undefined;
-	
-	var _joinboardformActions = __webpack_require__(305);
-	
-	var _boardActions = __webpack_require__(303);
-	
-	var boardNotFound = exports.boardNotFound = function boardNotFound() {
-		var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : false;
-		var action = arguments[1];
-	
-		switch (action.type) {
-			case _joinboardformActions.BOARD_NOT_FOUND:
-				return action.payload;
-			default:
-				return state;
-		}
-	};
-	
-	var buttonsToLoad = exports.buttonsToLoad = function buttonsToLoad() {
-		var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
-		var action = arguments[1];
-	
-		switch (action.type) {
-			case _boardActions.LOAD_BUTTONS:
-				return action.payload;
-			default:
-				return state;
-		}
-	};
-	
-	var audienceCount = exports.audienceCount = function audienceCount() {
-		var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : '';
-		var action = arguments[1];
-	
-		switch (action.type) {
-			case _boardActions.SET_AUDIENCE_COUNT:
-				return action.payload;
-			default:
-				return state;
-		}
-	};
-
-/***/ },
-/* 305 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-	
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-	exports.loadBoard = exports.stateCurrentBoard = exports.showBoardNotFound = exports.SET_CURRENT_BOARD = exports.BOARD_NOT_FOUND = undefined;
-	
-	var _axios = __webpack_require__(276);
-	
-	var _axios2 = _interopRequireDefault(_axios);
-	
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-	
-	/* -----------------    ACTIONS     ------------------ */
-	var BOARD_NOT_FOUND = exports.BOARD_NOT_FOUND = 'BOARD_NOT_FOUND';
-	var SET_CURRENT_BOARD = exports.SET_CURRENT_BOARD = 'SET_CURRENT_BOARD';
-	
-	/* ------------   ACTION CREATORS     ------------------ */
-	var showBoardNotFound = exports.showBoardNotFound = function showBoardNotFound(bool) {
-	  return {
-	    type: BOARD_NOT_FOUND,
-	    payload: bool
-	  };
-	};
-	
-	var stateCurrentBoard = exports.stateCurrentBoard = function stateCurrentBoard(boardId) {
-	  return {
-	    type: SET_CURRENT_BOARD,
-	    payload: boardId
-	  };
-	};
-	
-	/* ------------       DISPATCHERS     ------------------ */
-	var loadBoard = exports.loadBoard = function loadBoard(pathId) {
-	  return function (dispatch) {
-	    _axios2.default.get('/api/' + pathId).then(function (res) {
-	      return res.data;
-	    }).then(function (board) {
-	      board.message ? dispatch(showBoardNotFound(true)) : dispatch(stateCurrentBoard(board.path));
-	    }).catch(function (err) {
-	      return console.log(err);
-	    });
-	  };
-	};
-
-/***/ },
-/* 306 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-	
-	Object.defineProperty(exports, "__esModule", {
-		value: true
-	});
-	exports.foundBoardReducer = exports.currentBoard = undefined;
-	
-	var _joinboardformActions = __webpack_require__(305);
-	
-	var currentBoard = exports.currentBoard = function currentBoard() {
-		var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : false;
-		var action = arguments[1];
-	
-		switch (action.type) {
-			case _joinboardformActions.SET_CURRENT_BOARD:
-				return action.payload;
-			default:
-				return state;
-		}
-	};
-	
-	var foundBoardReducer = exports.foundBoardReducer = function foundBoardReducer() {
-		var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : false;
-		var action = arguments[1];
-	
-		switch (action.type) {
-			case _joinboardformActions.BOARD_NOT_FOUND:
-				return action.payload;
-			default:
-				return state;
-		}
-	};
-
-/***/ },
-/* 307 */
+/* 297 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -30904,7 +30375,7 @@
 	exports['default'] = thunk;
 
 /***/ },
-/* 308 */
+/* 298 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -30915,11 +30386,11 @@
 	
 	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 	
-	var _core = __webpack_require__(309);
+	var _core = __webpack_require__(299);
 	
-	var _helpers = __webpack_require__(310);
+	var _helpers = __webpack_require__(300);
 	
-	var _defaults = __webpack_require__(313);
+	var _defaults = __webpack_require__(303);
 	
 	var _defaults2 = _interopRequireDefault(_defaults);
 	
@@ -31036,7 +30507,7 @@
 	module.exports = exports['default'];
 
 /***/ },
-/* 309 */
+/* 299 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -31049,9 +30520,9 @@
 	
 	exports.printBuffer = printBuffer;
 	
-	var _helpers = __webpack_require__(310);
+	var _helpers = __webpack_require__(300);
 	
-	var _diff = __webpack_require__(311);
+	var _diff = __webpack_require__(301);
 	
 	var _diff2 = _interopRequireDefault(_diff);
 	
@@ -31178,7 +30649,7 @@
 	}
 
 /***/ },
-/* 310 */
+/* 300 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -31202,7 +30673,7 @@
 	var timer = exports.timer = typeof performance !== "undefined" && performance !== null && typeof performance.now === "function" ? performance : Date;
 
 /***/ },
-/* 311 */
+/* 301 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -31212,7 +30683,7 @@
 	});
 	exports.default = diffLogger;
 	
-	var _deepDiff = __webpack_require__(312);
+	var _deepDiff = __webpack_require__(302);
 	
 	var _deepDiff2 = _interopRequireDefault(_deepDiff);
 	
@@ -31301,7 +30772,7 @@
 	module.exports = exports['default'];
 
 /***/ },
-/* 312 */
+/* 302 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/* WEBPACK VAR INJECTION */(function(global) {/*!
@@ -31730,7 +31201,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, (function() { return this; }())))
 
 /***/ },
-/* 313 */
+/* 303 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -31781,1164 +31252,7 @@
 	module.exports = exports["default"];
 
 /***/ },
-/* 314 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-	
-	Object.defineProperty(exports, "__esModule", {
-		value: true
-	});
-	
-	var _reactRedux = __webpack_require__(178);
-	
-	var _Homepage = __webpack_require__(315);
-	
-	var _Homepage2 = _interopRequireDefault(_Homepage);
-	
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-	
-	var mapStateToProps = function mapStateToProps(_ref) {
-		var buttonsAvailable = _ref.buttonsAvailable;
-	
-		return {
-			buttonsAvailable: buttonsAvailable
-		};
-	};
-	
-	var mapDispatchToProps = null;
-	
-	exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(_Homepage2.default);
-
-/***/ },
-/* 315 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-	
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-	
-	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-	
-	var _react = __webpack_require__(1);
-	
-	var _react2 = _interopRequireDefault(_react);
-	
-	var _HomeForm = __webpack_require__(316);
-	
-	var _HomeForm2 = _interopRequireDefault(_HomeForm);
-	
-	var _iconAnimations = __webpack_require__(324);
-	
-	var _iconAnimations2 = _interopRequireDefault(_iconAnimations);
-	
-	var _Columns = __webpack_require__(325);
-	
-	var _Columns2 = _interopRequireDefault(_Columns);
-	
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-	
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-	
-	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-	
-	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-	
-	var Homepage = function (_React$Component) {
-	  _inherits(Homepage, _React$Component);
-	
-	  function Homepage(props) {
-	    _classCallCheck(this, Homepage);
-	
-	    var _this = _possibleConstructorReturn(this, (Homepage.__proto__ || Object.getPrototypeOf(Homepage)).call(this, props));
-	
-	    _this.handleIconClick = _this.handleIconClick.bind(_this);
-	    _this.drawAction = _this.drawAction.bind(_this);
-	    return _this;
-	  }
-	
-	  _createClass(Homepage, [{
-	    key: 'handleIconClick',
-	    value: function handleIconClick(evt) {
-	      this.drawAction({ icon: evt.currentTarget.dataset.icon });
-	    }
-	  }, {
-	    key: 'drawAction',
-	    value: function drawAction(icon) {
-	      (0, _iconAnimations2.default)(icon.icon);
-	    }
-	  }, {
-	    key: 'render',
-	    value: function render() {
-	      var _this2 = this;
-	
-	      var buttonsAvailable = this.props.buttonsAvailable;
-	
-	      return _react2.default.createElement(
-	        'div',
-	        null,
-	        _react2.default.createElement(
-	          'div',
-	          { id: 'wrap' },
-	          _react2.default.createElement(
-	            'div',
-	            null,
-	            _react2.default.createElement(
-	              'h1',
-	              { className: 'top-margin' },
-	              ' Silent Salutations '
-	            ),
-	            _react2.default.createElement(
-	              'div',
-	              { className: 'social-container' },
-	              _react2.default.createElement('a', { className: 'fa fa-github fa-2x', href: 'https://github.com/smanwaring/silent-clapper' }),
-	              _react2.default.createElement('a', { className: 'fa fa-twitter fa-2x', href: 'https://twitter.com/intent/tweet?text=Silent+Applauding+%3E+Regular+Applauding.+%F0%9F%91%8F+silent-salutations.herokuapp.com.+' })
-	            ),
-	            _react2.default.createElement(
-	              'div',
-	              { className: 'form-container' },
-	              _react2.default.createElement(_HomeForm2.default, null)
-	            ),
-	            _react2.default.createElement(_Columns2.default, null)
-	          )
-	        ),
-	        _react2.default.createElement(
-	          'footer',
-	          null,
-	          buttonsAvailable && buttonsAvailable.map(function (btn) {
-	            return _react2.default.createElement(
-	              'button',
-	              { key: btn.icon, className: 'btn btn-circle btn-xl ' + btn.color, onClick: _this2.handleIconClick, 'data-icon': btn.icon },
-	              _react2.default.createElement('i', { className: btn.icon.replace('fa-spin', '') })
-	            );
-	          })
-	        )
-	      );
-	    }
-	  }]);
-	
-	  return Homepage;
-	}(_react2.default.Component);
-	
-	exports.default = Homepage;
-
-/***/ },
-/* 316 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-	
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-	
-	var _reactRedux = __webpack_require__(178);
-	
-	var _HomeForm = __webpack_require__(317);
-	
-	var _HomeForm2 = _interopRequireDefault(_HomeForm);
-	
-	var _homeformActions = __webpack_require__(272);
-	
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-	
-	var mapStateToProps = function mapStateToProps(_ref) {
-	  var showCreateTab = _ref.showCreateTab,
-	      showJoinTab = _ref.showJoinTab;
-	
-	  return {
-	    showCreateTab: showCreateTab,
-	    showJoinTab: showJoinTab
-	  };
-	};
-	
-	var mapDispatchToProps = function mapDispatchToProps(dispatch) {
-	  return {
-	    changeShowCreateTab: function changeShowCreateTab(bool) {
-	      dispatch((0, _homeformActions.showCreate)(bool));
-	    },
-	    changeShowJoinTab: function changeShowJoinTab(bool) {
-	      dispatch((0, _homeformActions.showJoin)(bool));
-	    }
-	  };
-	};
-	
-	exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(_HomeForm2.default);
-
-/***/ },
-/* 317 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-	
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-	
-	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-	
-	var _react = __webpack_require__(1);
-	
-	var _react2 = _interopRequireDefault(_react);
-	
-	var _JoinBoardForm = __webpack_require__(318);
-	
-	var _JoinBoardForm2 = _interopRequireDefault(_JoinBoardForm);
-	
-	var _CreateBoard = __webpack_require__(320);
-	
-	var _CreateBoard2 = _interopRequireDefault(_CreateBoard);
-	
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-	
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-	
-	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-	
-	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-	
-	var HomeForm = function (_React$Component) {
-	  _inherits(HomeForm, _React$Component);
-	
-	  function HomeForm(props) {
-	    _classCallCheck(this, HomeForm);
-	
-	    var _this = _possibleConstructorReturn(this, (HomeForm.__proto__ || Object.getPrototypeOf(HomeForm)).call(this, props));
-	
-	    _this.handleCreateBoardClick = _this.handleCreateBoardClick.bind(_this);
-	    _this.handleJoinBoardClick = _this.handleJoinBoardClick.bind(_this);
-	    return _this;
-	  }
-	
-	  _createClass(HomeForm, [{
-	    key: 'handleCreateBoardClick',
-	    value: function handleCreateBoardClick() {
-	      this.props.changeShowCreateTab(true);
-	      this.props.changeShowJoinTab(false);
-	    }
-	  }, {
-	    key: 'handleJoinBoardClick',
-	    value: function handleJoinBoardClick() {
-	      this.props.changeShowJoinTab(true);
-	      this.props.changeShowCreateTab(false);
-	    }
-	  }, {
-	    key: 'render',
-	    value: function render() {
-	      var _props = this.props,
-	          showJoinTab = _props.showJoinTab,
-	          showCreateTab = _props.showCreateTab;
-	
-	      return _react2.default.createElement(
-	        'div',
-	        { className: 'container' },
-	        _react2.default.createElement(
-	          'div',
-	          { className: 'row' },
-	          _react2.default.createElement(
-	            'div',
-	            { className: 'col-md-8 col-md-offset-2 col-lg-8 col-lg-offset-2 col-sm-10 col-sm-offset-1 col-xs-12' },
-	            _react2.default.createElement(
-	              'div',
-	              { className: 'panel panel-border' },
-	              _react2.default.createElement(
-	                'div',
-	                { className: 'panel-heading' },
-	                ' ',
-	                _react2.default.createElement(
-	                  'div',
-	                  { className: 'row' },
-	                  ' ',
-	                  _react2.default.createElement(
-	                    'div',
-	                    { className: 'col-xs-6' },
-	                    _react2.default.createElement(
-	                      'a',
-	                      { href: '#', onClick: this.handleJoinBoardClick, className: showJoinTab ? 'active' : '' },
-	                      'Join a Board'
-	                    )
-	                  ),
-	                  _react2.default.createElement(
-	                    'div',
-	                    { className: 'col-xs-6' },
-	                    _react2.default.createElement(
-	                      'a',
-	                      { href: '#', onClick: this.handleCreateBoardClick, className: showCreateTab ? 'active' : '' },
-	                      'Create a Board'
-	                    )
-	                  )
-	                ),
-	                _react2.default.createElement('hr', null)
-	              ),
-	              ' ',
-	              _react2.default.createElement(
-	                'div',
-	                { className: 'panel-body' },
-	                _react2.default.createElement(
-	                  'div',
-	                  { className: 'row' },
-	                  _react2.default.createElement(
-	                    'div',
-	                    { className: 'col-lg-12' },
-	                    _react2.default.createElement(_JoinBoardForm2.default, null),
-	                    _react2.default.createElement(_CreateBoard2.default, null)
-	                  )
-	                )
-	              )
-	            )
-	          )
-	        )
-	      );
-	    }
-	  }]);
-	
-	  return HomeForm;
-	}(_react2.default.Component);
-	
-	exports.default = HomeForm;
-
-/***/ },
-/* 318 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-	
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-	
-	var _reactRedux = __webpack_require__(178);
-	
-	var _JoinBoardForm = __webpack_require__(319);
-	
-	var _JoinBoardForm2 = _interopRequireDefault(_JoinBoardForm);
-	
-	var _joinboardformActions = __webpack_require__(305);
-	
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-	
-	var mapStateToProps = function mapStateToProps(_ref) {
-	  var showJoinTab = _ref.showJoinTab,
-	      boardNotFound = _ref.boardNotFound,
-	      currentBoard = _ref.currentBoard;
-	
-	  return {
-	    showJoinTab: showJoinTab,
-	    boardNotFound: boardNotFound,
-	    currentBoard: currentBoard
-	  };
-	};
-	
-	var mapDispatchToProps = function mapDispatchToProps(dispatch) {
-	  return {
-	    confirmBoard: function confirmBoard(boardId) {
-	      dispatch((0, _joinboardformActions.loadBoard)(boardId));
-	    },
-	    clearBoardNotFound: function clearBoardNotFound(bool) {
-	      dispatch((0, _joinboardformActions.showBoardNotFound)(bool));
-	    }
-	  };
-	};
-	
-	exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(_JoinBoardForm2.default);
-
-/***/ },
-/* 319 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-	
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-	
-	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-	
-	var _react = __webpack_require__(1);
-	
-	var _react2 = _interopRequireDefault(_react);
-	
-	var _reactRouter = __webpack_require__(216);
-	
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-	
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-	
-	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-	
-	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-	
-	var JoinBoardForm = function (_React$Component) {
-	  _inherits(JoinBoardForm, _React$Component);
-	
-	  function JoinBoardForm(props) {
-	    _classCallCheck(this, JoinBoardForm);
-	
-	    var _this = _possibleConstructorReturn(this, (JoinBoardForm.__proto__ || Object.getPrototypeOf(JoinBoardForm)).call(this, props));
-	
-	    _this.confirmBoardExists = _this.confirmBoardExists.bind(_this);
-	    return _this;
-	  }
-	
-	  _createClass(JoinBoardForm, [{
-	    key: 'componentDidUpdate',
-	    value: function componentDidUpdate() {
-	      var self = this;
-	      if (this.props.boardNotFound) {
-	        setTimeout(function () {
-	          self.props.clearBoardNotFound(false);
-	        }, 2000);
-	      }
-	      if (this.props.currentBoard) {
-	        _reactRouter.browserHistory.replace('/' + this.props.currentBoard);
-	      }
-	    }
-	  }, {
-	    key: 'confirmBoardExists',
-	    value: function confirmBoardExists(evt) {
-	      evt.preventDefault();
-	      var boardId = evt.target.boardId.value.toString();
-	      this.props.confirmBoard(boardId);
-	    }
-	  }, {
-	    key: 'render',
-	    value: function render() {
-	      var _this2 = this;
-	
-	      var _props = this.props,
-	          showJoinTab = _props.showJoinTab,
-	          boardNotFound = _props.boardNotFound;
-	
-	      return _react2.default.createElement(
-	        'div',
-	        null,
-	        _react2.default.createElement(
-	          'form',
-	          { onSubmit: function onSubmit(evt) {
-	              return _this2.confirmBoardExists(evt);
-	            }, role: 'form', style: { display: showJoinTab ? 'block' : 'none' } },
-	          _react2.default.createElement(
-	            'div',
-	            { className: 'form-group' },
-	            _react2.default.createElement('input', { name: 'boardId', type: 'text', tabIndex: '1', className: 'form-control', placeholder: 'Board #' })
-	          ),
-	          boardNotFound ? _react2.default.createElement(
-	            'div',
-	            null,
-	            'Oops! We couldn\'t find that board'
-	          ) : '',
-	          _react2.default.createElement(
-	            'div',
-	            { className: 'form-group' },
-	            _react2.default.createElement(
-	              'div',
-	              { className: 'row' },
-	              _react2.default.createElement(
-	                'div',
-	                { className: 'col-sm-6 col-sm-offset-3 col-xs-6 col-xs-offset-3' },
-	                _react2.default.createElement(
-	                  'button',
-	                  { type: 'submit', tabIndex: '4', className: 'form-control btn btn-join' },
-	                  'Join'
-	                )
-	              )
-	            )
-	          )
-	        )
-	      );
-	    }
-	  }]);
-	
-	  return JoinBoardForm;
-	}(_react2.default.Component);
-	
-	exports.default = JoinBoardForm;
-
-/***/ },
-/* 320 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-	
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-	
-	var _reactRedux = __webpack_require__(178);
-	
-	var _CreateBoard = __webpack_require__(321);
-	
-	var _CreateBoard2 = _interopRequireDefault(_CreateBoard);
-	
-	var _createboardActions = __webpack_require__(275);
-	
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-	
-	var mapStateToProps = function mapStateToProps(_ref) {
-	  var buttonsPicked = _ref.buttonsPicked,
-	      generatedBoard = _ref.generatedBoard,
-	      showCreateTab = _ref.showCreateTab,
-	      showPickButtonError = _ref.showPickButtonError;
-	
-	  return {
-	    buttonsPicked: buttonsPicked,
-	    generatedBoard: generatedBoard,
-	    showCreateTab: showCreateTab,
-	    showPickButtonError: showPickButtonError
-	  };
-	};
-	
-	var mapDispatchToProps = function mapDispatchToProps(dispatch) {
-	  return {
-	    addBoard: function addBoard(details) {
-	      dispatch((0, _createboardActions.addBoard)(details));
-	    },
-	    pickButtonsError: function pickButtonsError(bool) {
-	      dispatch((0, _createboardActions.pickButtonError)(bool));
-	    },
-	    clearGeneratedboard: function clearGeneratedboard(details) {
-	      dispatch((0, _createboardActions.stateBoardId)(details));
-	      dispatch((0, _createboardActions.clearAllButtons)());
-	      dispatch((0, _createboardActions.clearAllSelectedButtons)());
-	    }
-	  };
-	};
-	
-	exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(_CreateBoard2.default);
-
-/***/ },
-/* 321 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-	
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-	
-	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-	
-	var _react = __webpack_require__(1);
-	
-	var _react2 = _interopRequireDefault(_react);
-	
-	var _PickButtons = __webpack_require__(322);
-	
-	var _PickButtons2 = _interopRequireDefault(_PickButtons);
-	
-	var _reactRouter = __webpack_require__(216);
-	
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-	
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-	
-	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-	
-	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-	
-	var CreateBoard = function (_React$Component) {
-	  _inherits(CreateBoard, _React$Component);
-	
-	  function CreateBoard(props) {
-	    _classCallCheck(this, CreateBoard);
-	
-	    var _this = _possibleConstructorReturn(this, (CreateBoard.__proto__ || Object.getPrototypeOf(CreateBoard)).call(this, props));
-	
-	    _this.generateBoardId = _this.generateBoardId.bind(_this);
-	    _this.clearGeneratedboard = _this.clearGeneratedboard.bind(_this);
-	    return _this;
-	  }
-	
-	  _createClass(CreateBoard, [{
-	    key: 'componentDidUpdate',
-	    value: function componentDidUpdate() {
-	      var self = this;
-	      if (this.props.showPickButtonError) {
-	        setTimeout(function () {
-	          self.props.pickButtonsError(false);
-	        }, 2000);
-	      }
-	    }
-	  }, {
-	    key: 'generateBoardId',
-	    value: function generateBoardId(evt) {
-	      evt.preventDefault();
-	      if (this.props.buttonsPicked.length < 1) {
-	        this.props.pickButtonsError(true);
-	      } else {
-	        var boardId = Math.floor(Math.random() * 89999 + 10000);
-	        var details = {
-	          path: boardId,
-	          buttons: this.props.buttonsPicked
-	        };
-	        this.props.addBoard(details);
-	      }
-	    }
-	  }, {
-	    key: 'clearGeneratedboard',
-	    value: function clearGeneratedboard(evt) {
-	      evt.preventDefault();
-	      this.props.clearGeneratedboard('');
-	    }
-	  }, {
-	    key: 'render',
-	    value: function render() {
-	      var _props = this.props,
-	          generatedBoard = _props.generatedBoard,
-	          showPickButtonError = _props.showPickButtonError,
-	          buttonsPicked = _props.buttonsPicked,
-	          showCreateTab = _props.showCreateTab;
-	
-	      return _react2.default.createElement(
-	        'form',
-	        { role: 'form', style: { display: showCreateTab ? 'block' : 'none' } },
-	        this.props && generatedBoard ? _react2.default.createElement(
-	          'div',
-	          null,
-	          _react2.default.createElement(
-	            'h4',
-	            null,
-	            'Sweet! Here\'s your board #:'
-	          ),
-	          _react2.default.createElement(
-	            'h4',
-	            { className: 'textlarge' },
-	            generatedBoard
-	          ),
-	          _react2.default.createElement(
-	            'div',
-	            { className: 'col-sm-6 col-sm-offset-3' },
-	            _react2.default.createElement(
-	              _reactRouter.Link,
-	              { to: '/' + generatedBoard },
-	              _react2.default.createElement(
-	                'button',
-	                { type: 'submit', tabIndex: '4', className: 'form-control btn btn-create' },
-	                'GO TO MY BOARD'
-	              )
-	            ),
-	            _react2.default.createElement(
-	              'h5',
-	              null,
-	              'OR'
-	            ),
-	            _react2.default.createElement(
-	              'button',
-	              { tabIndex: '4', onClick: this.clearGeneratedboard, className: 'form-control btn btn-create-new' },
-	              'GENERATE A NEW BOARD'
-	            )
-	          )
-	        ) : _react2.default.createElement(
-	          'div',
-	          { className: 'form-group' },
-	          _react2.default.createElement(_PickButtons2.default, null),
-	          _react2.default.createElement(
-	            'div',
-	            { className: 'row' },
-	            showPickButtonError && buttonsPicked.length < 1 ? _react2.default.createElement(
-	              'div',
-	              null,
-	              'Please select some buttons!'
-	            ) : '',
-	            _react2.default.createElement(
-	              'div',
-	              { className: 'col-sm-8 col-sm-offset-2 col-xs-8 col-xs-offset-2' },
-	              _react2.default.createElement(
-	                'button',
-	                { tabIndex: '4', className: 'form-control btn btn-create generate', onClick: this.generateBoardId },
-	                ' Generate My Board Link '
-	              )
-	            )
-	          )
-	        )
-	      );
-	    }
-	  }]);
-	
-	  return CreateBoard;
-	}(_react2.default.Component);
-	
-	exports.default = CreateBoard;
-
-/***/ },
-/* 322 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-	
-	Object.defineProperty(exports, "__esModule", {
-		value: true
-	});
-	
-	var _reactRedux = __webpack_require__(178);
-	
-	var _PickButtons = __webpack_require__(323);
-	
-	var _PickButtons2 = _interopRequireDefault(_PickButtons);
-	
-	var _pickbuttonActions = __webpack_require__(274);
-	
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-	
-	var mapStateToProps = function mapStateToProps(_ref) {
-		var buttonsPicked = _ref.buttonsPicked,
-		    allButtonsSelected = _ref.allButtonsSelected,
-		    buttonsAvailable = _ref.buttonsAvailable;
-	
-		return {
-			buttonsPicked: buttonsPicked,
-			allButtonsSelected: allButtonsSelected,
-			buttonsAvailable: buttonsAvailable
-		};
-	};
-	
-	var mapDispatchToProps = function mapDispatchToProps(dispatch) {
-		return {
-			addButton: function addButton(icon) {
-				dispatch((0, _pickbuttonActions.pickedButton)(icon));
-			},
-			removeButton: function removeButton(icon) {
-				dispatch((0, _pickbuttonActions.removedButton)(icon));
-			},
-			toggleSelect: function toggleSelect(bool) {
-				dispatch((0, _pickbuttonActions.toggleSelectAll)(bool));
-			},
-			toggleButton: function toggleButton(bool, index) {
-				dispatch((0, _pickbuttonActions.toggleButtonSelected)(bool, index));
-			},
-			toggleAllButtons: function toggleAllButtons(bool) {
-				dispatch((0, _pickbuttonActions.toggleAllButtons)(bool));
-			}
-		};
-	};
-	
-	exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(_PickButtons2.default);
-
-/***/ },
-/* 323 */
-/***/ function(module, exports, __webpack_require__) {
-
-	"use strict";
-	
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-	
-	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-	
-	var _react = __webpack_require__(1);
-	
-	var _react2 = _interopRequireDefault(_react);
-	
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-	
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-	
-	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-	
-	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-	
-	var PickButtons = function (_React$Component) {
-	  _inherits(PickButtons, _React$Component);
-	
-	  function PickButtons(props) {
-	    _classCallCheck(this, PickButtons);
-	
-	    var _this = _possibleConstructorReturn(this, (PickButtons.__proto__ || Object.getPrototypeOf(PickButtons)).call(this, props));
-	
-	    _this.handleIconClick = _this.handleIconClick.bind(_this);
-	    _this.handleCheck = _this.handleCheck.bind(_this);
-	    _this.deselectAllinDB = _this.deselectAllinDB.bind(_this);
-	    _this.selectAllInDB = _this.selectAllinDB.bind(_this);
-	    return _this;
-	  }
-	
-	  _createClass(PickButtons, [{
-	    key: "handleIconClick",
-	    value: function handleIconClick(evt, color, index) {
-	      evt.preventDefault();
-	      var icon = evt.currentTarget.dataset.icon;
-	      var data = { icon: icon, color: color };
-	
-	      if (this.props.buttonsPicked.map(function (data) {
-	        return data.icon;
-	      }).indexOf(icon) < 0) {
-	        this.props.addButton(data);
-	      } else {
-	        this.props.removeButton(data);
-	      }
-	      if (!this.props.buttonsAvailable[index]["isSelected"]) {
-	        this.props.toggleSelect(false);
-	      }
-	      this.props.toggleButton(!this.props.buttonsAvailable[index]["isSelected"], index);
-	    }
-	  }, {
-	    key: "selectAllinDB",
-	    value: function selectAllinDB() {
-	      var _this2 = this;
-	
-	      var pickedArray = this.props.buttonsPicked.map(function (data) {
-	        return data.icon;
-	      });
-	      var notSelectedArray = this.props.buttonsAvailable.filter(function (item) {
-	        return pickedArray.indexOf(item.icon) < 0;
-	      });
-	
-	      notSelectedArray.forEach(function (item) {
-	        _this2.props.addButton(item);
-	      });
-	      this.props.toggleAllButtons(true);
-	      this.props.toggleSelect(true);
-	    }
-	  }, {
-	    key: "deselectAllinDB",
-	    value: function deselectAllinDB() {
-	      var _this3 = this;
-	
-	      this.props.buttonsAvailable.forEach(function (item, i) {
-	        _this3.props.removeButton(item);
-	        _this3.props.toggleAllButtons(false);
-	        _this3.props.toggleSelect(false);
-	      });
-	    }
-	  }, {
-	    key: "handleCheck",
-	    value: function handleCheck() {
-	      if (this.props.allButtonsSelected) {
-	        this.deselectAllinDB();
-	      } else {
-	        this.selectAllinDB();
-	      }
-	    }
-	  }, {
-	    key: "render",
-	    value: function render() {
-	      var buttonsAvailable = this.props.buttonsAvailable;
-	
-	      var addRemove = this.handleIconClick;
-	      var baseClass = 'btn btn btn-circle btn-md';
-	      var unselectedClass = 'btn btn-circle btn-md btn-hover nuetralbg';
-	      var allButtonsOn = this.props.buttonsPicked.length === 10;
-	      return _react2.default.createElement(
-	        "div",
-	        null,
-	        _react2.default.createElement(
-	          "h4",
-	          { className: "pick-no-margin" },
-	          "Pick your buttons"
-	        ),
-	        _react2.default.createElement(
-	          "div",
-	          { className: "checkbox" },
-	          _react2.default.createElement(
-	            "label",
-	            null,
-	            _react2.default.createElement("input", { type: "checkbox", checked: allButtonsOn ? 'checked' : '', onClick: this.handleCheck }),
-	            " select all"
-	          )
-	        ),
-	        _react2.default.createElement(
-	          "div",
-	          { className: "button-spacer" },
-	          buttonsAvailable && buttonsAvailable.map(function (btn, i) {
-	            return _react2.default.createElement(
-	              "button",
-	              { key: btn.nickname, className: btn.isSelected ? baseClass + " " + btn.color : unselectedClass, onClick: function onClick(evt) {
-	                  addRemove(evt, btn.color, i);
-	                }, "data-icon": btn.icon },
-	              _react2.default.createElement("i", { className: btn.icon.replace('fa-spin', '') })
-	            );
-	          })
-	        )
-	      );
-	    }
-	  }]);
-	
-	  return PickButtons;
-	}(_react2.default.Component);
-	
-	exports.default = PickButtons;
-
-/***/ },
-/* 324 */
-/***/ function(module, exports) {
-
-	"use strict";
-	
-	Object.defineProperty(exports, "__esModule", {
-	    value: true
-	});
-	var addIcons = function addIcons(icon) {
-	    var columns = [].slice.call(document.querySelectorAll('.columns'));
-	    var lowRange = 1.2,
-	        highRange = 1.6,
-	        flowArray = ["flowOne", "flowTwo", "flowThree"],
-	        colorArray = ["colOne", "colTwo", "colThree", "colFour", "colFive", "colSix"],
-	        speed = (Math.random() * (highRange - lowRange) + lowRange).toFixed(1);
-	
-	    //pick a random column on the page
-	    function randomColumnContainer() {
-	        var column = '.column-' + Math.floor(Math.random() * columns.length);
-	        return column;
-	    }
-	
-	    //creating DIV element
-	    var animationDiv = document.createElement('div');
-	
-	    //creating icon element (which will be appended to the animationDiv)
-	    var iconElement = document.createElement('i');
-	
-	    //choose a random column on the window to display the animation
-	    var randomColumn = document.querySelector(randomColumnContainer());
-	
-	    //adding classes to the animationDiv, includes column spec and icon animation color
-	    animationDiv.setAttribute('class', "column " + colorArray[Math.floor(Math.random() * 6)]);
-	
-	    //setting size of the icon element between a certain range
-	    iconElement.style.fontSize = Math.floor(Math.random() * (50 - 22) + 80) + 'px';
-	    //set the icon to the passed in icon
-	    iconElement.setAttribute('class', "" + icon);
-	
-	    //append the icon to the animationDiv
-	    animationDiv.appendChild(iconElement);
-	
-	    //setting animationDiv keyframe and time animation properties & easing
-	    animationDiv.style.animation = flowArray[Math.floor(Math.random() * 3)] + "  " + speed + "s linear";
-	
-	    //make the icon animation visible
-	    animationDiv.style.display = 'initial';
-	
-	    //appending animationDiv to a random column that is in the HTML
-	    randomColumn.appendChild(animationDiv);
-	
-	    //when animation is over, remove animationDiv from the DOM
-	    setTimeout(function () {
-	        randomColumn.removeChild(animationDiv);
-	    }, speed * 900);
-	};
-	
-	exports.default = addIcons;
-
-/***/ },
-/* 325 */
-/***/ function(module, exports, __webpack_require__) {
-
-	"use strict";
-	
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-	
-	exports.default = function (props) {
-	  return _react2.default.createElement(
-	    "div",
-	    null,
-	    _react2.default.createElement("div", { className: "columns column-0" }),
-	    _react2.default.createElement("div", { className: "columns column-1" }),
-	    _react2.default.createElement("div", { className: "columns column-2" }),
-	    _react2.default.createElement("div", { className: "columns column-3" }),
-	    _react2.default.createElement("div", { className: "columns column-4" })
-	  );
-	};
-	
-	var _react = __webpack_require__(1);
-	
-	var _react2 = _interopRequireDefault(_react);
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-/***/ },
-/* 326 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-	
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-	
-	var _reactRedux = __webpack_require__(178);
-	
-	var _Board = __webpack_require__(327);
-	
-	var _Board2 = _interopRequireDefault(_Board);
-	
-	var _boardActions = __webpack_require__(303);
-	
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-	
-	var mapStateToProps = function mapStateToProps(_ref) {
-	  var generatedBoard = _ref.generatedBoard,
-	      currentBoard = _ref.currentBoard,
-	      buttonsToLoad = _ref.buttonsToLoad,
-	      connectToSocket = _ref.connectToSocket,
-	      audienceCount = _ref.audienceCount;
-	
-	  return {
-	    generatedBoard: generatedBoard,
-	    currentBoard: currentBoard,
-	    buttonsToLoad: buttonsToLoad,
-	    connectToSocket: connectToSocket,
-	    audienceCount: audienceCount
-	  };
-	};
-	
-	var mapDispatchToProps = function mapDispatchToProps(dispatch) {
-	  return {
-	    setBoardId: function setBoardId(boardId) {
-	      dispatch((0, _boardActions.stateBoardId)(boardId));
-	    },
-	    updateAudienceCount: function updateAudienceCount(audienceString) {
-	      dispatch((0, _boardActions.setAudienceCount)(audienceString));
-	    }
-	  };
-	};
-	
-	exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(_Board2.default);
-
-/***/ },
-/* 327 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-	
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-	
-	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-	
-	var _react = __webpack_require__(1);
-	
-	var _react2 = _interopRequireDefault(_react);
-	
-	var _reactRouter = __webpack_require__(216);
-	
-	var _HomeForm = __webpack_require__(316);
-	
-	var _HomeForm2 = _interopRequireDefault(_HomeForm);
-	
-	var _iconAnimations = __webpack_require__(324);
-	
-	var _iconAnimations2 = _interopRequireDefault(_iconAnimations);
-	
-	var _Columns = __webpack_require__(325);
-	
-	var _Columns2 = _interopRequireDefault(_Columns);
-	
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-	
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-	
-	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-	
-	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-	
-	// just like require-ish import '../file/..'
-	
-	
-	var Board = function (_React$Component) {
-	  _inherits(Board, _React$Component);
-	
-	  function Board(props) {
-	    _classCallCheck(this, Board);
-	
-	    var _this = _possibleConstructorReturn(this, (Board.__proto__ || Object.getPrototypeOf(Board)).call(this, props));
-	
-	    _this.handleIconClick = _this.handleIconClick.bind(_this);
-	    _this.drawAction = _this.drawAction.bind(_this);
-	    return _this;
-	  }
-	
-	  _createClass(Board, [{
-	    key: 'componentDidMount',
-	    value: function componentDidMount() {
-	      var _this2 = this;
-	
-	      var component = this;
-	      // initialize client socket
-	      this.socket = io.connect();
-	      //join room
-	      this.socket.emit('wantToJoinRoom', component.props.currentBoard || component.props.generatedBoard);
-	      // emitted from server, caught here with the icon and calls drawAction which initiates CSS animations!
-	      this.socket.on('showAction', function (icon) {
-	        // hey, someone else clicked an icon and we found out from the server
-	        component.drawAction(icon);
-	      });
-	      //emitted from server, caught here with the current num of people connected
-	      this.socket.on('connectionEvent', function (numPeople) {
-	        var audience = 'person';
-	        if (numPeople > 1) {
-	          audience = 'people';
-	        }
-	        if (numPeople > 0) {
-	          _this2.props.updateAudienceCount(numPeople + ' ' + audience + ' connected');
-	        }
-	      });
-	    }
-	  }, {
-	    key: 'handleIconClick',
-	    value: function handleIconClick(evt) {
-	      this.socket.emit('registerAction', { icon: evt.currentTarget.dataset.icon });
-	    }
-	  }, {
-	    key: 'drawAction',
-	    value: function drawAction(icon) {
-	      (0, _iconAnimations2.default)(icon.icon);
-	    }
-	  }, {
-	    key: 'render',
-	    value: function render() {
-	      var _this3 = this;
-	
-	      var audienceCount = this.props.audienceCount;
-	
-	      return _react2.default.createElement(
-	        'div',
-	        null,
-	        _react2.default.createElement(
-	          'div',
-	          { id: 'wrap' },
-	          _react2.default.createElement(
-	            'h1',
-	            null,
-	            ' Silent Salutations'
-	          ),
-	          _react2.default.createElement(
-	            'div',
-	            { id: 'num-people' },
-	            _react2.default.createElement(
-	              'span',
-	              null,
-	              audienceCount ? audienceCount : 'audience connecting...'
-	            )
-	          ),
-	          _react2.default.createElement(_Columns2.default, null)
-	        ),
-	        _react2.default.createElement(
-	          'footer',
-	          null,
-	          this.props.buttonsToLoad && this.props.buttonsToLoad.map(function (button, i) {
-	            return _react2.default.createElement(
-	              'button',
-	              { key: i, className: 'btn btn-circle btn-xl ' + button.color, onClick: _this3.handleIconClick, 'data-icon': button.icon },
-	              _react2.default.createElement('i', { className: button.icon.replace('fa-spin', '') })
-	            );
-	          })
-	        )
-	      );
-	    }
-	  }]);
-	
-	  return Board;
-	}(_react2.default.Component);
-	
-	exports.default = Board;
-
-/***/ },
-/* 328 */
+/* 304 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -32987,7 +31301,41 @@
 	exports.default = Root;
 
 /***/ },
-/* 329 */
+/* 305 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
+	var _reactRedux = __webpack_require__(178);
+	
+	var _table = __webpack_require__(306);
+	
+	var _table2 = _interopRequireDefault(_table);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	var mapStateToProps = function mapStateToProps(_ref) {
+	  var people = _ref.people,
+	      showNoPeopleError = _ref.showNoPeopleError;
+	
+	  return {
+	    people: people,
+	    showNoPeopleError: showNoPeopleError
+	  };
+	};
+	
+	var mapDispatchToProps = function mapDispatchToProps(dispatch) {
+	  return {};
+	};
+	
+	exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(_table2.default);
+
+/***/ },
+/* 306 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -33002,15 +31350,9 @@
 	
 	var _react2 = _interopRequireDefault(_react);
 	
-	var _reactRouter = __webpack_require__(216);
+	var _sqaureButton = __webpack_require__(307);
 	
-	var _iconAnimations = __webpack_require__(324);
-	
-	var _iconAnimations2 = _interopRequireDefault(_iconAnimations);
-	
-	var _Columns = __webpack_require__(325);
-	
-	var _Columns2 = _interopRequireDefault(_Columns);
+	var _sqaureButton2 = _interopRequireDefault(_sqaureButton);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
@@ -33020,85 +31362,135 @@
 	
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 	
-	var EmptyPage = function (_React$Component) {
-	  _inherits(EmptyPage, _React$Component);
+	var Table = function (_React$Component) {
+	  _inherits(Table, _React$Component);
 	
-	  function EmptyPage(props) {
-	    _classCallCheck(this, EmptyPage);
+	  function Table(props) {
+	    _classCallCheck(this, Table);
 	
-	    var _this = _possibleConstructorReturn(this, (EmptyPage.__proto__ || Object.getPrototypeOf(EmptyPage)).call(this, props));
-	
-	    _this.interval = null;
-	    _this.drawAction = _this.drawAction.bind(_this);
-	    _this.startInterval = _this.startInterval.bind(_this);
-	    return _this;
+	    return _possibleConstructorReturn(this, (Table.__proto__ || Object.getPrototypeOf(Table)).call(this, props));
 	  }
 	
-	  _createClass(EmptyPage, [{
-	    key: 'componentDidMount',
-	    value: function componentDidMount() {
-	      this.interval = setInterval(this.startInterval, 500);
-	    }
-	  }, {
-	    key: 'componentWillUnmount',
-	    value: function componentWillUnmount() {
-	      clearInterval(this.interval);
-	    }
-	  }, {
-	    key: 'startInterval',
-	    value: function startInterval() {
-	      this.drawAction({ icon: 'fa fa-frown-o' });
-	    }
-	  }, {
-	    key: 'drawAction',
-	    value: function drawAction(icon) {
-	      (0, _iconAnimations2.default)(icon.icon);
-	    }
-	  }, {
+	  _createClass(Table, [{
 	    key: 'render',
 	    value: function render() {
+	      var people = this.props.people;
+	
+	      var noPeople = people.length < 1;
 	      return _react2.default.createElement(
 	        'div',
-	        { id: 'wrap' },
+	        null,
 	        _react2.default.createElement(
-	          'h1',
+	          'table',
 	          null,
-	          ' Silent Salutations '
-	        ),
-	        _react2.default.createElement(_Columns2.default, null),
-	        _react2.default.createElement(
-	          'button',
-	          { className: 'btn red btn-circle btn-xl', 'data-icon': 'fa fa-frown-o' },
-	          _react2.default.createElement('i', { className: 'fa fa-frown-o' })
-	        ),
-	        _react2.default.createElement(
-	          'h1',
-	          { className: 'textbold' },
-	          'Oops! That room doesn\'t exist...'
-	        ),
-	        _react2.default.createElement(
-	          _reactRouter.Link,
-	          { to: '/' },
 	          _react2.default.createElement(
-	            'h1',
+	            'thead',
 	            null,
-	            ' Go back home'
+	            _react2.default.createElement(
+	              'tr',
+	              null,
+	              _react2.default.createElement(
+	                'th',
+	                { 'data-field': 'id' },
+	                'Id'
+	              ),
+	              _react2.default.createElement(
+	                'th',
+	                { 'data-field': 'name' },
+	                'Name'
+	              ),
+	              _react2.default.createElement(
+	                'th',
+	                { 'data-field': 'favorite-city' },
+	                'Favorite City'
+	              ),
+	              _react2.default.createElement(
+	                'th',
+	                { 'data-field': 'actions' },
+	                'Actions'
+	              )
+	            )
+	          ),
+	          _react2.default.createElement(
+	            'tbody',
+	            null,
+	            noPeople ? _react2.default.createElement(
+	              'tr',
+	              null,
+	              _react2.default.createElement(
+	                'td',
+	                null,
+	                'No people records found'
+	              )
+	            ) : people && people.map(function (person) {
+	              return _react2.default.createElement(
+	                'tr',
+	                { key: 'person -' + person.id },
+	                _react2.default.createElement(
+	                  'td',
+	                  null,
+	                  person.id
+	                ),
+	                _react2.default.createElement(
+	                  'td',
+	                  null,
+	                  person.name
+	                ),
+	                _react2.default.createElement(
+	                  'td',
+	                  null,
+	                  person.favoriteCity
+	                ),
+	                _react2.default.createElement(
+	                  'td',
+	                  null,
+	                  'buttons'
+	                )
+	              );
+	            })
 	          )
 	        )
 	      );
 	    }
 	  }]);
 	
-	  return EmptyPage;
+	  return Table;
 	}(_react2.default.Component);
 	
-	exports.default = EmptyPage;
-	
-	
-	module.exports = EmptyPage;
+	exports.default = Table;
 
 /***/ },
-/* 330 */
+/* 307 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
+	var _react = __webpack_require__(1);
+	
+	var _react2 = _interopRequireDefault(_react);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	exports.default = function (_ref) {
+	  var text = _ref.text,
+	      noPeople = _ref.noPeople;
+	  return _react2.default.createElement(
+	    'div',
+	    null,
+	    _react2.default.createElement(
+	      'a',
+	      { className: 'waves-effect waves-light btn spacing ' + (noPeople ? 'disabled' : '') },
+	      text
+	    )
+	  );
+	};
+
+/***/ },
+/* 308 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -33113,15 +31505,17 @@
 	
 	var _react2 = _interopRequireDefault(_react);
 	
-	var _reactRouter = __webpack_require__(216);
+	var _table = __webpack_require__(305);
 	
-	var _iconAnimations = __webpack_require__(324);
+	var _table2 = _interopRequireDefault(_table);
 	
-	var _iconAnimations2 = _interopRequireDefault(_iconAnimations);
+	var _addNew = __webpack_require__(309);
 	
-	var _Columns = __webpack_require__(325);
+	var _addNew2 = _interopRequireDefault(_addNew);
 	
-	var _Columns2 = _interopRequireDefault(_Columns);
+	var _viewById = __webpack_require__(310);
+	
+	var _viewById2 = _interopRequireDefault(_viewById);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
@@ -33131,33 +31525,448 @@
 	
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 	
-	var Test = function (_React$Component) {
-	  _inherits(Test, _React$Component);
+	var Tabs = function (_React$Component) {
+	  _inherits(Tabs, _React$Component);
 	
-	  function Test() {
-	    _classCallCheck(this, Test);
+	  function Tabs(props) {
+	    _classCallCheck(this, Tabs);
 	
-	    return _possibleConstructorReturn(this, (Test.__proto__ || Object.getPrototypeOf(Test)).apply(this, arguments));
+	    return _possibleConstructorReturn(this, (Tabs.__proto__ || Object.getPrototypeOf(Tabs)).call(this, props));
 	  }
 	
-	  _createClass(Test, [{
+	  _createClass(Tabs, [{
 	    key: 'render',
 	    value: function render() {
 	      return _react2.default.createElement(
 	        'div',
 	        null,
-	        'Hello World!'
+	        _react2.default.createElement(
+	          'div',
+	          { className: 'row' },
+	          _react2.default.createElement(
+	            'div',
+	            { className: 'col s12' },
+	            _react2.default.createElement(
+	              'ul',
+	              { className: 'tabs' },
+	              _react2.default.createElement(
+	                'li',
+	                { className: 'tab col s3' },
+	                _react2.default.createElement(
+	                  'a',
+	                  { className: 'active', href: '#view-all' },
+	                  'View All'
+	                )
+	              ),
+	              _react2.default.createElement(
+	                'li',
+	                { className: 'tab col s3' },
+	                _react2.default.createElement(
+	                  'a',
+	                  { href: '#by-id' },
+	                  'View By Id'
+	                )
+	              ),
+	              _react2.default.createElement(
+	                'li',
+	                { className: 'tab col s3' },
+	                _react2.default.createElement(
+	                  'a',
+	                  { href: '#add-new' },
+	                  'Add New'
+	                )
+	              )
+	            )
+	          ),
+	          _react2.default.createElement(
+	            'div',
+	            { id: 'view-all', className: 'col s12' },
+	            _react2.default.createElement(_table2.default, null)
+	          ),
+	          _react2.default.createElement(
+	            'div',
+	            { id: 'by-id', className: 'col s12' },
+	            _react2.default.createElement(_viewById2.default, null)
+	          ),
+	          _react2.default.createElement(
+	            'div',
+	            { id: 'add-new', className: 'col s12' },
+	            _react2.default.createElement(_addNew2.default, null)
+	          )
+	        )
 	      );
 	    }
 	  }]);
 	
-	  return Test;
+	  return Tabs;
 	}(_react2.default.Component);
 	
-	exports.default = Test;
+	exports.default = Tabs;
+
+/***/ },
+/* 309 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+	
+	var _react = __webpack_require__(1);
+	
+	var _react2 = _interopRequireDefault(_react);
+	
+	var _reactRedux = __webpack_require__(178);
+	
+	var _addNewReducer = __webpack_require__(311);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+	
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+	
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+	
+	var AddNew = function (_React$Component) {
+	  _inherits(AddNew, _React$Component);
+	
+	  function AddNew(props) {
+	    _classCallCheck(this, AddNew);
+	
+	    var _this = _possibleConstructorReturn(this, (AddNew.__proto__ || Object.getPrototypeOf(AddNew)).call(this, props));
+	
+	    _this.state = {
+	      name: '',
+	      favoriteCity: ''
+	    };
+	    _this.addNewPerson = _this.addNewPerson.bind(_this);
+	    _this.setName = _this.setName.bind(_this);
+	    _this.setFavoriteCity = _this.setFavoriteCity.bind(_this);
+	    return _this;
+	  }
+	
+	  _createClass(AddNew, [{
+	    key: 'setName',
+	    value: function setName(evt) {
+	      evt.preventDefault();
+	      this.setState({ name: evt.target.value });
+	    }
+	  }, {
+	    key: 'setFavoriteCity',
+	    value: function setFavoriteCity(evt) {
+	      evt.preventDefault();
+	      this.setState({ favoriteCity: evt.target.value });
+	    }
+	  }, {
+	    key: 'addNewPerson',
+	    value: function addNewPerson() {
+	      var details = {
+	        name: this.state.name,
+	        favoriteCity: this.state.favoriteCity
+	      };
+	      this.props.postNewPerson(details);
+	    }
+	  }, {
+	    key: 'render',
+	    value: function render() {
+	      return _react2.default.createElement(
+	        'div',
+	        null,
+	        _react2.default.createElement(
+	          'div',
+	          { className: 'row' },
+	          _react2.default.createElement(
+	            'form',
+	            { className: 'col s12' },
+	            _react2.default.createElement(
+	              'div',
+	              { className: 'row' },
+	              _react2.default.createElement(
+	                'div',
+	                { className: 'input-field col s6' },
+	                _react2.default.createElement('input', { onChange: this.setName, id: 'first_name', type: 'text', className: 'validate' }),
+	                _react2.default.createElement(
+	                  'label',
+	                  { htmlFor: 'first_name' },
+	                  'Name'
+	                )
+	              ),
+	              _react2.default.createElement(
+	                'div',
+	                { className: 'input-field col s6' },
+	                _react2.default.createElement('input', { onChange: this.setFavoriteCity, id: 'last_name', type: 'text', className: 'validate' }),
+	                _react2.default.createElement(
+	                  'label',
+	                  { htmlFor: 'last_name' },
+	                  'Favorite City'
+	                )
+	              )
+	            )
+	          )
+	        ),
+	        _react2.default.createElement(
+	          'div',
+	          { className: 'waves-effect waves-light btn', onClick: this.addNewPerson },
+	          'Add Person'
+	        )
+	      );
+	    }
+	  }]);
+	
+	  return AddNew;
+	}(_react2.default.Component);
+	
+	/* ---------  CONTAINER   ------- */
 	
 	
-	module.exports = Test;
+	var mapStateToProps = function mapStateToProps() {
+	  return {};
+	};
+	
+	var mapDispatchToProps = function mapDispatchToProps(dispatch) {
+	  return {
+	    postNewPerson: function postNewPerson(details) {
+	      dispatch((0, _addNewReducer.postNewPerson)(details));
+	    }
+	  };
+	};
+	
+	exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(AddNew);
+
+/***/ },
+/* 310 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+	
+	var _react = __webpack_require__(1);
+	
+	var _react2 = _interopRequireDefault(_react);
+	
+	var _reactRedux = __webpack_require__(178);
+	
+	var _viewById = __webpack_require__(312);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+	
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+	
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+	
+	var ViewById = function (_React$Component) {
+	  _inherits(ViewById, _React$Component);
+	
+	  function ViewById(props) {
+	    _classCallCheck(this, ViewById);
+	
+	    var _this = _possibleConstructorReturn(this, (ViewById.__proto__ || Object.getPrototypeOf(ViewById)).call(this, props));
+	
+	    _this.state = {
+	      id: ''
+	    };
+	    _this.setId = _this.setId.bind(_this);
+	    _this.findUser = _this.findUser.bind(_this);
+	    return _this;
+	  }
+	
+	  _createClass(ViewById, [{
+	    key: 'componentDidUpdate',
+	    value: function componentDidUpdate() {
+	      var self = this;
+	      if (this.props.userNotFound) {
+	        setTimeout(function () {
+	          self.props.toggleUserNotFound(false);
+	        }, 5000);
+	      }
+	    }
+	  }, {
+	    key: 'setId',
+	    value: function setId(evt) {
+	      evt.preventDefault();
+	      console.log("HERHEHRHE", evt.target.value);
+	      this.setState({ id: evt.target.value });
+	    }
+	  }, {
+	    key: 'findUser',
+	    value: function findUser() {
+	      var userId = this.state.id;
+	      this.props.fetchUser(userId);
+	    }
+	  }, {
+	    key: 'render',
+	    value: function render() {
+	      var userNotFound = this.props.userNotFound;
+	
+	      return _react2.default.createElement(
+	        'div',
+	        null,
+	        _react2.default.createElement(
+	          'div',
+	          { className: 'row' },
+	          _react2.default.createElement(
+	            'form',
+	            { className: 'col s12' },
+	            _react2.default.createElement(
+	              'div',
+	              { className: 'row' },
+	              _react2.default.createElement(
+	                'div',
+	                { className: 'col s12' },
+	                'Enter a Person\'s Id:',
+	                _react2.default.createElement(
+	                  'div',
+	                  { className: 'input-field inline' },
+	                  _react2.default.createElement('input', { onChange: this.setId, id: 'id', type: 'text', className: 'validate' }),
+	                  _react2.default.createElement(
+	                    'label',
+	                    { htmlFor: 'id' },
+	                    'Id'
+	                  )
+	                )
+	              )
+	            )
+	          )
+	        ),
+	        _react2.default.createElement(
+	          'div',
+	          { className: 'waves-effect waves-light btn', onClick: this.findUser },
+	          'Find by Id'
+	        ),
+	        userNotFound ? _react2.default.createElement(
+	          'div',
+	          null,
+	          'That Id was not found. Please try another id.'
+	        ) : ''
+	      );
+	    }
+	  }]);
+	
+	  return ViewById;
+	}(_react2.default.Component);
+	
+	/* ---------  CONTAINER   ------- */
+	
+	
+	var mapStateToProps = function mapStateToProps(_ref) {
+	  var userNotFound = _ref.userNotFound;
+	
+	  return {
+	    userNotFound: userNotFound
+	  };
+	};
+	
+	var mapDispatchToProps = function mapDispatchToProps(dispatch) {
+	  return {
+	    fetchUser: function fetchUser(userId) {
+	      dispatch((0, _viewById.findUserById)(userId));
+	    },
+	    toggleUserNotFound: function toggleUserNotFound(boolean) {
+	      dispatch((0, _viewById.toggleUserNotFoundError)(boolean));
+	    }
+	  };
+	};
+	
+	exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(ViewById);
+
+/***/ },
+/* 311 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	exports.postNewPerson = undefined;
+	
+	var _axios = __webpack_require__(272);
+	
+	var _axios2 = _interopRequireDefault(_axios);
+	
+	var _table = __webpack_require__(271);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	/* ------------       ASYNC ACTIONS     ------------------ */
+	var postNewPerson = exports.postNewPerson = function postNewPerson(details) {
+	  return function (dispatch) {
+	    _axios2.default.post('/api/people', details).then(function (res) {
+	      return dispatch((0, _table.addUser)(res.data));
+	    }).catch(function (err) {
+	      return console.log(err);
+	    });
+	  };
+	};
+
+/***/ },
+/* 312 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	exports.userNotFound = exports.findUserById = exports.toggleUserNotFoundError = exports.TOGGLE_USER_NOT_FOUND = undefined;
+	
+	var _axios = __webpack_require__(272);
+	
+	var _axios2 = _interopRequireDefault(_axios);
+	
+	var _table = __webpack_require__(271);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	/* -----------------    ACTIONS     ------------------ */
+	var TOGGLE_USER_NOT_FOUND = exports.TOGGLE_USER_NOT_FOUND = 'TOGGLE_USER_NOT_FOUND';
+	
+	/* -----------------    ACTION CREATORS     ------------------ */
+	var toggleUserNotFoundError = exports.toggleUserNotFoundError = function toggleUserNotFoundError(boolean) {
+	  return {
+	    type: TOGGLE_USER_NOT_FOUND,
+	    boolean: boolean
+	  };
+	};
+	
+	/* ------------       ASYNC ACTIONS     ------------------ */
+	var findUserById = exports.findUserById = function findUserById(userId) {
+	  return function (dispatch) {
+	    _axios2.default.get('/api/people/' + userId).then(function (res) {
+	      if (res.status === 204) {
+	        dispatch(toggleUserNotFoundError(true));
+	      } else {
+	        dispatch((0, _table.addUser)(res.data));
+	      }
+	    }).catch(function (err) {
+	      return console.log(err);
+	    });
+	  };
+	};
+	
+	/* ------------       REDUCER    ------------------ */
+	var userNotFound = exports.userNotFound = function userNotFound() {
+	  var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : false;
+	  var action = arguments[1];
+	
+	  switch (action.type) {
+	    case TOGGLE_USER_NOT_FOUND:
+	      return action.boolean;
+	    default:
+	      return state;
+	  }
+	};
 
 /***/ }
 /******/ ]);

@@ -7,53 +7,26 @@ import { Router, Route, browserHistory, IndexRoute } from 'react-router';
 import store from './store';
 
 /*------ COMPONENTS/CONTAINERS ------ */
-import Homepage from './containers/Homepage';
-import Board from './containers/Board';
 import Root from './components/Root';
-import EmptyPage from './components/EmptyPage';
-import Test from './components/Test';
+import Table from './components/table/table.container';
+import Tabs from './components/tabs/tabs.component';
 
 /*------ ACTIONS ------ */
-import { enterBoard, foundBoard } from './actions/board-actions';
-import { showBoardNotFound, stateCurrentBoard } from './actions/joinboardform-actions';
-import { pickButtonError } from './actions/createboard-actions';
+import { fetchPeople } from './components/table/table.reducer';
 
-/*------ load the buttons for the board you are about to enter ------ */
-function onEnterConfirmBoard(nextState) {
-	store.dispatch( enterBoard(nextState.params.boardId) );
-	store.dispatch( stateCurrentBoard(nextState.params.boardId));
-	store.dispatch( showBoardNotFound(false) );
-}
+//load all the users from the database
+const onEnterGetPeople = nextState => {
+	store.dispatch( fetchPeople() );
+};
 
-/*------ when you redirect back to the homepage, set the currentBoard state to empty/false lest you run into componentDidUpdate issues ------ */
-function onEnterResetCurrentBoard() {
-	store.dispatch( stateCurrentBoard(false) );
-	store.dispatch( pickButtonError(false) );
-	store.dispatch( foundBoard( [] ) );
-}
 
 ReactDOM.render(
   <Provider store={store}>
 		<Router history={browserHistory}>
 			<Route component={Root}>
-				<Route path="/" component={Test}/>
+				<Route path="/" component={Tabs} onEnter={onEnterGetPeople} />
 			</Route>
 	</Router>
   </Provider>,
   document.getElementById('app'));
-
-
-
-	/*ReactDOM.render(
-  <Provider store={store}>
-		<Router history={browserHistory}>
-			<Route component={Root}>
-				<Route path="/" component={Homepage} onEnter={onEnterResetCurrentBoard} />
-				<Route path="/:boardId" component={Board} onEnter={onEnterConfirmBoard} />
-				<Route path="/pageNotFound/error" component={EmptyPage} />
-				<IndexRoute component={Homepage} />
-			</Route>
-	</Router>
-  </Provider>,
-  document.getElementById('app'));*/
 

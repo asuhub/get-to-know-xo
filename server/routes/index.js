@@ -21,6 +21,7 @@ router.get('/people', (req, res, next) => {
 
 // POST/create a new person
 router.post('/people', (req, res, next) => {
+  console.log(req.body);
   People.create(req.body)
   .then( createdPerson => res.status(201).send(createdPerson))
   .catch(next);
@@ -31,7 +32,6 @@ router.post('/people', (req, res, next) => {
 // router.get('/people/latest', (req, res, next) => {
 //   People.findOne({
 //     where: {
-
 //     }
 //   })
 //   .then( createdPerson => res.status(201).send(createdPerson))
