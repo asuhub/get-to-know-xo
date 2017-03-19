@@ -10,6 +10,9 @@ module.exports = {
   },
   context: __dirname,
   devtool: 'source-map',
+  resolve: {
+    extensions: ['', '.js', '.jsx']
+  },
   module: {
     loaders: [
       {
@@ -20,9 +23,13 @@ module.exports = {
           presets: ['react', 'es2015']
         }
       },
-      {
+      { 
 		    test: /\.css$/, 
-		    loader: "style-loader!css-loader"
+		    loader: 'style-loader!css-loader' 
+		  },
+      { 
+		    test: /\.scss$/, 
+		    loaders: ['style-loader', 'css-loader', 'sass-loader' ]
 		  }
     ]
   }

@@ -1,55 +1,67 @@
 // init router
 const router = require('express').Router();
-const Board = require('../db/models').Board;
-const Button = require('../db/models').Button;
+const People = require('../db/models').People;
 
-// Shortcut for grabbing the correct board 
-router.param('pathId', function(req, res, next, thePathId){
-  Board.findOne( { where: { path: thePathId } })
-  .then(function(foundBoard){
-    req.board = foundBoard;
-    next(); // call next() here so the middleware knows to go to the next route
+// Shortcut for getting the correct user on a request that contains :userId
+router.param('userId', function(req, res, next, userId){
+  People.findOne( { where: { id: userId } })
+  .then( foundUser => {
+    req.user = foundUser;
+    next(); // called next() here so the middleware knows to go to the next route for request completion
   })
 	.catch(next); // error handling
 });
 
-//POST a newly created board and save the buttons to the Buttons table with a boardId
-router.post('/', (req, res, next) => {
-  let buttons = req.body.buttons;
-  Board.create({
-    path: req.body.path,
-    buttons: buttons
-  }, {
-    include: [ Button ]
-  })
-  .then(createdBoard => res.status(201).send(createdBoard))
+// GET all people in the database
+router.get('/people', (req, res, next) => {
+  People.findAll()
+  .then( people => res.status(200).send(people))
   .catch(next);
 });
 
-//GET the board if it exists
-router.get('/:pathId', (req, res, next) => {
-  let data = { message: 'not found' };
-  let foundBoard = req.board;
-  if (!foundBoard){
-    res.send(data);
+// POST/create a new person
+router.post('/people', (req, res, next) => {
+  People.create(req.body)
+  .then( createdPerson => res.status(201).send(createdPerson))
+  .catch(next);
+});
+
+
+// // GET the object created in most previous create
+// router.post('/', (req, res, next) => {
+//   People.create(req.body)
+//   .then( createdPerson => res.status(201).send(createdPerson))
+//   .catch(next);
+// });
+
+// GET a specific user
+router.get('/people/:userId', (req, res, next) => {
+  const foundUser = req.user;
+  if (!foundUser){
+    res.sendStatus(204);
   } else {
-    res.status(200).send( { path: foundBoard.path } );
+    res.status(200).send(foundUser);
   }
 });
 
-//Get the buttons for a particular board
-router.get('/buttons/:pathId', (req, res, next) => {
-  if (!req.board){
-    res.sendStatus(204);
-  } else {
-    Button.findAll({
-      where: {
-        boardId: req.board.id
-      }
-    })
-    .then(foundButtons => res.status(200).send(foundButtons) )
-    .catch(next);
-  }
+// PUT/modify an existing user
+router.put('/people/:userId', (req, res, next) => {
+  const userToUpdate = req.foundUser;
+  userToUpdate.update(req.body)
+  .then( updatedUser => res.status(201).send(updatedUser))
+  .catch(next);
 });
+
+// Delete a specific user
+router.delete('/people/:userId', (req, res, next) => {
+  const foundUser = req.user;
+  if (!foundUser) {
+    res.sendStatus(204);
+  }
+  foundUser.destroy()
+  .then( () => res.sendStatus(204))
+  .catch(next);
+});
+
 
 module.exports = router;

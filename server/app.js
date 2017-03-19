@@ -47,7 +47,7 @@ app.use((req, res) => {
 app.use((err, req, res, next) => {
   if (process.env.NODE_ENV !== 'testing') {
     console.error(chalk.red(err));
-    console.error(chalk.red(err.stack))
+    console.error(chalk.red(err.stack));
   }
   res.status(err.status || 500).send(err.message || 'Internal server error.');
 });

@@ -1,9 +1,5 @@
-const Board = require('./board');
-const Button = require('./button');
-
-Board.hasMany(Button); // button << board_id // board.getButton/setButton
+const People = require('./people');
 
 module.exports = {
-  Board: Board,
-  Button: Button
+  People: People
 };

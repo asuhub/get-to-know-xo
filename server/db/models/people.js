@@ -1,15 +1,15 @@
 const Sequelize = require('sequelize');
 const db = require('../../db');
 
-const Button = db.define('button', {
-  icon: {
+const People = db.define('people', {
+  name: {
     type: Sequelize.STRING,
     allowNull: false
   },
-  color: {
+    favoriteCity: {
     type: Sequelize.STRING,
     allowNull: false
-  }
+  },
 });
 
-module.exports = Button;
+module.exports = People;

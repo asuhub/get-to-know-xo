@@ -11,6 +11,7 @@ import Homepage from './containers/Homepage';
 import Board from './containers/Board';
 import Root from './components/Root';
 import EmptyPage from './components/EmptyPage';
+import Test from './components/Test';
 
 /*------ ACTIONS ------ */
 import { enterBoard, foundBoard } from './actions/board-actions';
@@ -35,6 +36,18 @@ ReactDOM.render(
   <Provider store={store}>
 		<Router history={browserHistory}>
 			<Route component={Root}>
+				<Route path="/" component={Test}/>
+			</Route>
+	</Router>
+  </Provider>,
+  document.getElementById('app'));
+
+
+
+	/*ReactDOM.render(
+  <Provider store={store}>
+		<Router history={browserHistory}>
+			<Route component={Root}>
 				<Route path="/" component={Homepage} onEnter={onEnterResetCurrentBoard} />
 				<Route path="/:boardId" component={Board} onEnter={onEnterConfirmBoard} />
 				<Route path="/pageNotFound/error" component={EmptyPage} />
@@ -42,4 +55,5 @@ ReactDOM.render(
 			</Route>
 	</Router>
   </Provider>,
-  document.getElementById('app'));
+  document.getElementById('app'));*/
+
