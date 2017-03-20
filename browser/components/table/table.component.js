@@ -18,7 +18,7 @@ const Table = ( {people, modalOpen, editingPerson }) => {
             </colgroup>
           <thead>
             <tr>
-              <th data-field="id">Id</th>
+              <th data-field="id">ID</th>
               <th data-field="name">Name</th>
               <th data-field="favorite-city">Favorite City</th>
               <th data-field="actions">Actions</th>

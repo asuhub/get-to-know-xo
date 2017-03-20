@@ -32013,7 +32013,7 @@
 	          _react2.default.createElement(
 	            'th',
 	            { 'data-field': 'id' },
-	            'Id'
+	            'ID'
 	          ),
 	          _react2.default.createElement(
 	            'th',
