@@ -33760,7 +33760,7 @@
 	        this.state.blankEntryError ? _react2.default.createElement(
 	          'div',
 	          { className: 'error-text' },
-	          'Oops! An update cannot be blank'
+	          'Oops! An update cannot be blank.'
 	        ) : '',
 	        _react2.default.createElement(
 	          'div',
@@ -34175,8 +34175,8 @@
 	          ),
 	          userNotFound ? _react2.default.createElement(
 	            'div',
-	            null,
-	            'That Id was not found. Please try another id.'
+	            { className: 'error-text' },
+	            'That ID was not found. Please try another ID.'
 	          ) : ''
 	        ),
 	        foundUser.id ? _react2.default.createElement(_table2.default, { people: [foundUser], modalOpen: modalOpen, closeModal: this.closeModal }) : ''
@@ -34253,7 +34253,7 @@
 	
 	
 	// module
-	exports.push([module.id, "body {\n  background-color: #f8f8f8; }\n\n.tab-wrapper {\n  width: 100%;\n  background-color: white;\n  padding: 10px 20px; }\n  .tab-wrapper .skinny {\n    width: 15%; }\n\n.btn {\n  width: 100%;\n  z-index: 1;\n  background-color: #1ed760;\n  margin-top: 10px; }\n  .btn:hover {\n    color: white;\n    background-color: #2ebd59; }\n\n@media (min-width: 640px) {\n  .tab-wrapper {\n    width: 80%;\n    margin: 0 auto; } }\n", ""]);
+	exports.push([module.id, "body {\n  background-color: #f8f8f8; }\n\n.tab-wrapper {\n  width: 100%;\n  background-color: white;\n  padding: 10px 20px; }\n  .tab-wrapper .skinny {\n    width: 15%; }\n\n.btn {\n  width: 100%;\n  z-index: 1;\n  background-color: #1ed760;\n  margin-top: 10px; }\n  .btn:hover {\n    color: white;\n    background-color: #2ebd59; }\n\n.error-text {\n  width: 100%;\n  margin: 10px 0px;\n  color: red; }\n\n@media (min-width: 640px) {\n  .tab-wrapper {\n    width: 80%;\n    margin: 0 auto; } }\n", ""]);
 	
 	// exports
 

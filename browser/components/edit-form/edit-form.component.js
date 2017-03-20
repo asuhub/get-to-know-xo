@@ -65,7 +65,7 @@ class EditForm extends React.Component {
             </div>
           </form>
           </div>
-          { this.state.blankEntryError ? <div className="error-text">Oops! An update cannot be blank</div> : ''}
+          { this.state.blankEntryError ? <div className="error-text">Oops! An update cannot be blank.</div> : ''}
           <div className="waves-effect waves-light btn" onClick={this.updatePerson}>Save</div>
           <div className="waves-effect waves-light btn" onClick={this.closeModal}>Close</div>
         </div>

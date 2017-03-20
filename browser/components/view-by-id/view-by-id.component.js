@@ -56,7 +56,7 @@ class ViewById extends React.Component {
           </form>
           </div>
           <div className="waves-effect waves-light btn" onClick={this.findUser}>Find by Id</div>
-          { userNotFound ? <div>That Id was not found. Please try another id.</div> : ''}
+          { userNotFound ? <div className="error-text">That ID was not found. Please try another ID.</div> : ''}
         </div>
         { foundUser.id ? <Table people={[foundUser]} modalOpen={modalOpen} closeModal={this.closeModal} /> : ''}
       </div>
