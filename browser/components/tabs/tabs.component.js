@@ -24,9 +24,9 @@ class Tabs extends React.Component {
         <div className="row">
           <div className="col s12">
             <ul className="tabs margin-bottom">
-              <li className="tab col s4"><a className="active" href="#view-all">View All</a></li>
-              <li className="tab col s4"><a  href="#by-id">View By Id</a></li>
-              <li className="tab col s4"><a href="#add-new">Add New</a></li>
+              <li className="tab bold col s4"><a className="active" href="#view-all">View All</a></li>
+              <li className="tab bold col s4"><a  href="#by-id">View By Id</a></li>
+              <li className="tab bold col s4"><a href="#add-new">Add New</a></li>
             </ul>
           </div>
           <div id="view-all" className="col s12">

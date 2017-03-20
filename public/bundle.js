@@ -31934,7 +31934,7 @@
 	              { className: 'tabs margin-bottom' },
 	              _react2.default.createElement(
 	                'li',
-	                { className: 'tab col s4' },
+	                { className: 'tab bold col s4' },
 	                _react2.default.createElement(
 	                  'a',
 	                  { className: 'active', href: '#view-all' },
@@ -31943,7 +31943,7 @@
 	              ),
 	              _react2.default.createElement(
 	                'li',
-	                { className: 'tab col s4' },
+	                { className: 'tab bold col s4' },
 	                _react2.default.createElement(
 	                  'a',
 	                  { href: '#by-id' },
@@ -31952,7 +31952,7 @@
 	              ),
 	              _react2.default.createElement(
 	                'li',
-	                { className: 'tab col s4' },
+	                { className: 'tab bold col s4' },
 	                _react2.default.createElement(
 	                  'a',
 	                  { href: '#add-new' },
@@ -34346,7 +34346,7 @@
 	
 	
 	// module
-	exports.push([module.id, ".tabs a:focus, .tabs a:hover {\n  text-decoration: none; }\n\n.tabs {\n  background-color: transparent; }\n\n.margin-bottom {\n  margin-bottom: 20px; }\n\n.tabs .tab a {\n  color: #1ed760; }\n\n.tabs .tab a:hover, .tabs .tab a.active {\n  background-color: transparent;\n  color: #2ebd59; }\n\n.tabs .tab.disabled a, .tabs .tab.disabled a:hover {\n  color: rgba(102, 147, 153, 0.7); }\n\n.tabs .indicator {\n  background-color: #2ebd59; }\n", ""]);
+	exports.push([module.id, ".tabs a:focus, .tabs a:hover {\n  text-decoration: none; }\n\n.tabs {\n  background-color: transparent; }\n\n.margin-bottom {\n  margin-bottom: 20px; }\n\n.tabs .tab a {\n  color: #1ed760; }\n\n.tabs .tab a:hover, .tabs .tab a.active {\n  background-color: transparent;\n  color: #2ebd59; }\n\n.tabs .tab.disabled a, .tabs .tab.disabled a:hover {\n  color: rgba(102, 147, 153, 0.7); }\n\n.tabs .indicator {\n  background-color: #2ebd59; }\n\n.bold {\n  font-weight: 500; }\n", ""]);
 	
 	// exports
 
