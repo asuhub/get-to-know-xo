@@ -31458,8 +31458,6 @@
 	
 	var _react2 = _interopRequireDefault(_react);
 	
-	var _reactRedux = __webpack_require__(178);
-	
 	__webpack_require__(307);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
@@ -31469,7 +31467,7 @@
 	    'header',
 	    null,
 	    _react2.default.createElement(
-	      'h1',
+	      'h2',
 	      null,
 	      'Spotify Code Challenge '
 	    ),
@@ -31477,6 +31475,28 @@
 	      'h5',
 	      null,
 	      'Built by Stephanie Manwaring'
+	    ),
+	    _react2.default.createElement(
+	      'div',
+	      { className: 'center-text' },
+	      _react2.default.createElement(
+	        'a',
+	        { className: 'inline', href: 'https://github.com/smanwaring/codeChallengeFellowship' },
+	        _react2.default.createElement(
+	          'div',
+	          null,
+	          'github repository'
+	        )
+	      ),
+	      _react2.default.createElement(
+	        'a',
+	        { className: 'inline', href: 'https://stephanie.manwaring.io/' },
+	        _react2.default.createElement(
+	          'div',
+	          null,
+	          'stephanie.manwaring.io'
+	        )
+	      )
 	    )
 	  );
 	};
@@ -31518,7 +31538,7 @@
 	
 	
 	// module
-	exports.push([module.id, "header {\n  width: 100%; }\n  header h5, header h1 {\n    width: 100%;\n    text-align: center; }\n", ""]);
+	exports.push([module.id, "header {\n  width: 100%; }\n  header h5, header h2 {\n    width: 100%;\n    text-align: center; }\n\n.center-text {\n  text-align: center; }\n\n.inline {\n  display: inline-block;\n  margin: 10px; }\n", ""]);
 	
 	// exports
 
@@ -32268,7 +32288,7 @@
 	
 	
 	// module
-	exports.push([module.id, ".delete {\n  color: #ff6437; }\n  .delete:hover {\n    color: #ed491a; }\n\n.edit {\n  color: #a0c3d2; }\n  .edit:hover {\n    color: #7dadc2; }\n\n.spacer {\n  margin-left: 2px;\n  margin-right: 2px; }\n", ""]);
+	exports.push([module.id, ".delete {\n  color: #ff6437; }\n  .delete:hover {\n    color: #ed491a;\n    cursor: pointer; }\n\n.edit {\n  color: #a0c3d2; }\n  .edit:hover {\n    color: #7dadc2;\n    cursor: pointer; }\n\n.spacer {\n  margin-left: 2px;\n  margin-right: 2px; }\n", ""]);
 	
 	// exports
 

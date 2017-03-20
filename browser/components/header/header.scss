@@ -1,7 +1,16 @@
 header {
   width: 100%;
-  h5, h1 {
+  h5, h2 {
     width: 100%;
     text-align: center;
   }
+}
+
+.center-text {
+  text-align: center;
+}
+
+.inline {
+  display: inline-block;
+  margin: 10px;
 }
