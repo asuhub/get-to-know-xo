@@ -3,7 +3,7 @@ const router = require('express').Router();
 const People = require('../db/models').People;
 
 // Shortcut for getting the correct user on a request that contains :userId
-router.param('userId', function(req, res, next, userId){
+router.param('userId', (req, res, next, userId) => {
   People.findOne( { where: { id: userId } })
   .then( foundUser => {
     req.user = foundUser;
@@ -48,10 +48,15 @@ router.get('/people/:userId', (req, res, next) => {
 
 // PUT/modify an existing user
 router.put('/people/:userId', (req, res, next) => {
-  const userToUpdate = req.user;
-  userToUpdate.update(req.body)
-  .then( updatedUser => res.status(201).send(updatedUser))
-  .catch(next);
+  const foundUser = req.user;
+  if (!foundUser){
+    res.sendStatus(204);
+  } else {
+    const userToUpdate = req.user;
+    userToUpdate.update(req.body)
+    .then( updatedUser => res.status(201).send(updatedUser))
+    .catch(next);
+  }
 });
 
 // Delete a specific user
@@ -59,10 +64,11 @@ router.delete('/people/:userId', (req, res, next) => {
   const foundUser = req.user;
   if (!foundUser) {
     res.sendStatus(204);
+  } else {
+    foundUser.destroy()
+    .then( () => res.sendStatus(204))
+    .catch(next);
   }
-  foundUser.destroy()
-  .then( () => res.sendStatus(204))
-  .catch(next);
 });
 
 

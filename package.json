@@ -46,7 +46,6 @@
     "redux-thunk": "^2.1.0",
     "sass-loader": "^6.0.3",
     "sequelize": "^3.28.0",
-    "socket.io": "^1.7.2",
     "style-loader": "^0.13.1"
   },
   "devDependencies": {
