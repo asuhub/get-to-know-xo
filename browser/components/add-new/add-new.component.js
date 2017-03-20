@@ -41,6 +41,9 @@ class AddNew extends React.Component {
       };
       this.props.postNewPerson(details);
       this.setState({successMessage: true});
+      setTimeout( () =>  {
+        self.setState({successMessage: false});
+      }, 3000);
     }
   }
 
