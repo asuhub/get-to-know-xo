@@ -6,10 +6,10 @@
   "scripts": {
     "start": "node server/app.js",
     "dev": "webpack -w & nodemon server/app.js",
-    "test": "mocha tests/button.test.js",
+    "test": "mocha tests/server.test.js",
     "build": "webpack",
     "build-watch": "webpack -w --progress --colors",
-    "test-watch": "mocha --compilers js:babel-register --watch tests/button.test.js"
+    "test-watch": "mocha --compilers js:babel-register --watch tests/server.test.js"
   },
   "contributors": [
     "Stephanie Manwaring <stephanie.manwaring@gmail.com> (http://stephanie.manwaring.io)"
