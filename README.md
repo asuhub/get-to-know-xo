@@ -13,7 +13,7 @@ This code challenge is a small crud app where you can:
 
 ### About the app
 
-codeChallenge by Stephanie Manwaring is built using the NERDS stack (Node.js, Express, React, Database-Sequelize).
+codeChallenge by Stephanie Manwaring is built using the NERDS stack (Node.js, Express, React, Database-Sequelize). It uses HTML5, CSS3, and Sass.
 
 It is a responsive deskop application. 
 
