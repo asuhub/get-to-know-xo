@@ -2,11 +2,11 @@
 const router = require('express').Router();
 const People = require('../db/models').People;
 
-// Shortcut for getting the correct user on a request that contains :userId
-router.param('userId', (req, res, next, userId) => {
-  People.findOne( { where: { id: userId } })
+// Shortcut for getting the correct user on a request that contains :personId
+router.param('personId', (req, res, next, personId) => {
+  People.findOne( { where: { id: personId } })
   .then( foundUser => {
-    req.user = foundUser;
+    req.person = foundUser;
     next(); // called next() here so the middleware knows to go to the next route for request completion
   })
 	.catch(next); // error handling
@@ -27,8 +27,8 @@ router.post('/people', (req, res, next) => {
 });
 
 // GET a specific user
-router.get('/people/:userId', (req, res, next) => {
-  const foundUser = req.user;
+router.get('/people/:personId', (req, res, next) => {
+  const foundUser = req.person;
   if (!foundUser){
     res.sendStatus(204);
   } else {
@@ -37,12 +37,12 @@ router.get('/people/:userId', (req, res, next) => {
 });
 
 // PUT/modify an existing user
-router.put('/people/:userId', (req, res, next) => {
-  const foundUser = req.user;
+router.put('/people/:personId', (req, res, next) => {
+  const foundUser = req.person;
   if (!foundUser){
     res.sendStatus(204);
   } else {
-    const userToUpdate = req.user;
+    const userToUpdate = req.person;
     userToUpdate.update(req.body)
     .then( updatedUser => res.status(201).send(updatedUser))
     .catch(next);
@@ -50,8 +50,8 @@ router.put('/people/:userId', (req, res, next) => {
 });
 
 // Delete a specific user
-router.delete('/people/:userId', (req, res, next) => {
-  const foundUser = req.user;
+router.delete('/people/:personId', (req, res, next) => {
+  const foundUser = req.person;
   if (!foundUser) {
     res.sendStatus(204);
   } else {
