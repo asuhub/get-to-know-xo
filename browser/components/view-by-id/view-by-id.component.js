@@ -33,8 +33,9 @@ class ViewById extends React.Component {
   }
 
   render() {
-    const { userNotFound, foundUser } = this.props;
+    const { userNotFound, foundUser, modalOpen, editingPerson } = this.props;
     return (
+    <div>
       <div className="tab-wrapper z-depth-3">
         <div className="row">
           <form className="col s12">
@@ -50,17 +51,20 @@ class ViewById extends React.Component {
           </div>
           <div className="waves-effect waves-light btn" onClick={this.findUser}>Find by Id</div>
           { userNotFound ? <div>That Id was not found. Please try another id.</div> : ''}
-          { foundUser.id ? <Table people={[foundUser]} /> : ''}
         </div>
+        { foundUser.id ? <Table people={[foundUser]} modalOpen={modalOpen} editingPerson={editingPerson} /> : ''}
+      </div>
     );
   }
 }
 
 /* ---------  CONTAINER   ------- */
-const mapStateToProps = ({ userNotFound, foundUser }) => {
+const mapStateToProps = ({ userNotFound, foundUser, modalOpen, editingPerson }) => {
   return {
     userNotFound,
-    foundUser
+    foundUser,
+    modalOpen,
+    editingPerson
   };
 };
 

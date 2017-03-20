@@ -31457,7 +31457,7 @@
 	    _react2.default.createElement(
 	      'h5',
 	      null,
-	      'Made By Stephanie'
+	      'Built by Stephanie Manwaring'
 	    )
 	  );
 	};
@@ -31866,6 +31866,11 @@
 	  _createClass(Tabs, [{
 	    key: 'render',
 	    value: function render() {
+	      var _props = this.props,
+	          modalOpen = _props.modalOpen,
+	          people = _props.people,
+	          editingPerson = _props.editingPerson;
+	
 	      return _react2.default.createElement(
 	        'div',
 	        null,
@@ -31910,7 +31915,7 @@
 	          _react2.default.createElement(
 	            'div',
 	            { id: 'view-all', className: 'col s12' },
-	            _react2.default.createElement(_table2.default, { people: this.props.people })
+	            _react2.default.createElement(_table2.default, { people: people, modalOpen: modalOpen, editingPerson: editingPerson })
 	          ),
 	          _react2.default.createElement(
 	            'div',
@@ -31931,10 +31936,14 @@
 	}(_react2.default.Component);
 	
 	var mapStateToProps = function mapStateToProps(_ref) {
-	  var people = _ref.people;
+	  var people = _ref.people,
+	      modalOpen = _ref.modalOpen,
+	      editingPerson = _ref.editingPerson;
 	
 	  return {
-	    people: people
+	    people: people,
+	    modalOpen: modalOpen,
+	    editingPerson: editingPerson
 	  };
 	};
 	
@@ -31954,13 +31963,9 @@
 	  value: true
 	});
 	
-	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-	
 	var _react = __webpack_require__(1);
 	
 	var _react2 = _interopRequireDefault(_react);
-	
-	var _reactRedux = __webpack_require__(178);
 	
 	var _actions = __webpack_require__(313);
 	
@@ -31978,165 +31983,146 @@
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-	
-	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-	
-	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-	
-	var Table = function (_React$Component) {
-	  _inherits(Table, _React$Component);
-	
-	  function Table(props) {
-	    _classCallCheck(this, Table);
-	
-	    return _possibleConstructorReturn(this, (Table.__proto__ || Object.getPrototypeOf(Table)).call(this, props));
-	  }
-	
-	  _createClass(Table, [{
-	    key: 'render',
-	    value: function render() {
-	      var _props = this.props,
-	          people = _props.people,
-	          modalOpen = _props.modalOpen;
-	
-	      var noPeople = people.length < 1;
-	      return _react2.default.createElement(
-	        'div',
-	        { className: 'tab-wrapper z-depth-3' },
-	        _react2.default.createElement(
-	          'table',
-	          null,
-	          _react2.default.createElement(
-	            'colgroup',
-	            null,
-	            _react2.default.createElement('col', null),
-	            _react2.default.createElement('col', null),
-	            _react2.default.createElement('col', null),
-	            _react2.default.createElement('col', { className: 'skinny' })
-	          ),
-	          _react2.default.createElement(
-	            'thead',
-	            null,
-	            _react2.default.createElement(
-	              'tr',
-	              null,
-	              _react2.default.createElement(
-	                'th',
-	                { 'data-field': 'id' },
-	                'Id'
-	              ),
-	              _react2.default.createElement(
-	                'th',
-	                { 'data-field': 'name' },
-	                'Name'
-	              ),
-	              _react2.default.createElement(
-	                'th',
-	                { 'data-field': 'favorite-city' },
-	                'Favorite City'
-	              ),
-	              _react2.default.createElement(
-	                'th',
-	                { 'data-field': 'actions' },
-	                'Actions'
-	              )
-	            )
-	          ),
-	          _react2.default.createElement(
-	            'tbody',
-	            null,
-	            noPeople ? _react2.default.createElement(
-	              'tr',
-	              null,
-	              _react2.default.createElement(
-	                'td',
-	                null,
-	                'No people records found'
-	              )
-	            ) : people && people.map(function (person) {
-	              return _react2.default.createElement(
-	                'tr',
-	                { key: 'person -' + person.id },
-	                _react2.default.createElement(
-	                  'td',
-	                  { className: 'test' },
-	                  person.id
-	                ),
-	                _react2.default.createElement(
-	                  'td',
-	                  null,
-	                  person.name
-	                ),
-	                _react2.default.createElement(
-	                  'td',
-	                  null,
-	                  person.favoriteCity
-	                ),
-	                _react2.default.createElement(
-	                  'td',
-	                  null,
-	                  _react2.default.createElement(_actions2.default, { person: person })
-	                )
-	              );
-	            })
-	          )
-	        ),
-	        _react2.default.createElement(
-	          _reactModal2.default,
-	          {
-	            isOpen: modalOpen,
-	            style: _table2.default,
-	            contentLabel: 'Modal'
-	          },
-	          _react2.default.createElement(
-	            'h4',
-	            null,
-	            'Edit Person'
-	          ),
-	          _react2.default.createElement(
-	            'div',
-	            null,
-	            this.props.editingPerson
-	          ),
-	          _react2.default.createElement(
-	            'button',
-	            null,
-	            'Close'
-	          ),
-	          _react2.default.createElement(
-	            'button',
-	            null,
-	            'Save'
-	          )
-	        )
-	      );
-	    }
-	  }]);
-	
-	  return Table;
-	}(_react2.default.Component);
-	
-	/* ---------  CONTAINER   ------- */
-	
-	
-	var mapStateToProps = function mapStateToProps(_ref) {
+	var Table = function Table(_ref) {
 	  var people = _ref.people,
 	      modalOpen = _ref.modalOpen,
 	      editingPerson = _ref.editingPerson;
 	
-	  return {
-	    people: people,
-	    modalOpen: modalOpen,
-	    editingPerson: editingPerson
-	  };
+	  console.log(modalOpen);
+	  var noPeople = people.length < 1;
+	  return _react2.default.createElement(
+	    'div',
+	    { className: 'tab-wrapper z-depth-3 margin-top' },
+	    _react2.default.createElement(
+	      'table',
+	      null,
+	      _react2.default.createElement(
+	        'colgroup',
+	        null,
+	        _react2.default.createElement('col', null),
+	        _react2.default.createElement('col', null),
+	        _react2.default.createElement('col', null),
+	        _react2.default.createElement('col', { className: 'skinny' })
+	      ),
+	      _react2.default.createElement(
+	        'thead',
+	        null,
+	        _react2.default.createElement(
+	          'tr',
+	          null,
+	          _react2.default.createElement(
+	            'th',
+	            { 'data-field': 'id' },
+	            'Id'
+	          ),
+	          _react2.default.createElement(
+	            'th',
+	            { 'data-field': 'name' },
+	            'Name'
+	          ),
+	          _react2.default.createElement(
+	            'th',
+	            { 'data-field': 'favorite-city' },
+	            'Favorite City'
+	          ),
+	          _react2.default.createElement(
+	            'th',
+	            { 'data-field': 'actions' },
+	            'Actions'
+	          )
+	        )
+	      ),
+	      _react2.default.createElement(
+	        'tbody',
+	        null,
+	        noPeople ? _react2.default.createElement(
+	          'tr',
+	          null,
+	          _react2.default.createElement(
+	            'td',
+	            null,
+	            'No people records found'
+	          )
+	        ) : people && people.map(function (person) {
+	          return _react2.default.createElement(
+	            'tr',
+	            { key: 'person -' + person.id },
+	            _react2.default.createElement(
+	              'td',
+	              { className: 'test' },
+	              person.id
+	            ),
+	            _react2.default.createElement(
+	              'td',
+	              null,
+	              person.name
+	            ),
+	            _react2.default.createElement(
+	              'td',
+	              null,
+	              person.favoriteCity
+	            ),
+	            _react2.default.createElement(
+	              'td',
+	              null,
+	              _react2.default.createElement(_actions2.default, { person: person })
+	            )
+	          );
+	        })
+	      )
+	    ),
+	    _react2.default.createElement(
+	      _reactModal2.default,
+	      {
+	        isOpen: modalOpen,
+	        style: _table2.default,
+	        contentLabel: 'Modal'
+	      },
+	      _react2.default.createElement(
+	        'h4',
+	        null,
+	        'Edit Person'
+	      ),
+	      _react2.default.createElement(
+	        'div',
+	        null,
+	        editingPerson
+	      ),
+	      _react2.default.createElement(
+	        'button',
+	        null,
+	        'Close'
+	      ),
+	      _react2.default.createElement(
+	        'button',
+	        null,
+	        'Save'
+	      )
+	    )
+	  );
 	};
 	
-	var mapDispatchToProps = function mapDispatchToProps(dispatch) {
-	  return {};
-	};
+	exports.default = Table;
 	
-	exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(Table);
+	// /* ---------  CONTAINER   ------- */
+	// const mapStateToProps = ( {people, modalOpen, editingPerson } ) => {
+	//   return {
+	//     people,
+	//     modalOpen,
+	//     editingPerson
+	//   };
+	// };
+	
+	// const mapDispatchToProps = dispatch => {
+	//   return {
+	//   };
+	
+	// };
+	
+	// export default connect(
+	//   mapStateToProps,
+	//   mapDispatchToProps
+	// )(Table);
 
 /***/ },
 /* 313 */
@@ -33656,7 +33642,6 @@
 	    outline: 'none',
 	    padding: '20px',
 	    zIndex: 3
-	
 	  }
 	};
 
@@ -33695,7 +33680,7 @@
 	
 	
 	// module
-	exports.push([module.id, "", ""]);
+	exports.push([module.id, ".margin-top {\n  margin-top: 15px !important; }\n", ""]);
 	
 	// exports
 
@@ -33981,48 +33966,54 @@
 	    value: function render() {
 	      var _props = this.props,
 	          userNotFound = _props.userNotFound,
-	          foundUser = _props.foundUser;
+	          foundUser = _props.foundUser,
+	          modalOpen = _props.modalOpen,
+	          editingPerson = _props.editingPerson;
 	
 	      return _react2.default.createElement(
 	        'div',
-	        { className: 'tab-wrapper z-depth-3' },
+	        null,
 	        _react2.default.createElement(
 	          'div',
-	          { className: 'row' },
+	          { className: 'tab-wrapper z-depth-3' },
 	          _react2.default.createElement(
-	            'form',
-	            { className: 'col s12' },
+	            'div',
+	            { className: 'row' },
 	            _react2.default.createElement(
-	              'div',
-	              { className: 'row' },
+	              'form',
+	              { className: 'col s12' },
 	              _react2.default.createElement(
 	                'div',
-	                { className: 'col s12' },
+	                { className: 'row' },
 	                _react2.default.createElement(
 	                  'div',
-	                  { className: 'input-field col s6 inline' },
-	                  _react2.default.createElement('input', { onChange: this.setId, id: 'id', type: 'text', className: 'validate' }),
+	                  { className: 'col s12' },
 	                  _react2.default.createElement(
-	                    'label',
-	                    { htmlFor: 'id' },
-	                    'Person\'s ID'
+	                    'div',
+	                    { className: 'input-field col s6 inline' },
+	                    _react2.default.createElement('input', { onChange: this.setId, id: 'id', type: 'text', className: 'validate' }),
+	                    _react2.default.createElement(
+	                      'label',
+	                      { htmlFor: 'id' },
+	                      'Person\'s ID'
+	                    )
 	                  )
 	                )
 	              )
 	            )
-	          )
+	          ),
+	          _react2.default.createElement(
+	            'div',
+	            { className: 'waves-effect waves-light btn', onClick: this.findUser },
+	            'Find by Id'
+	          ),
+	          userNotFound ? _react2.default.createElement(
+	            'div',
+	            null,
+	            'That Id was not found. Please try another id.'
+	          ) : ''
 	        ),
-	        _react2.default.createElement(
-	          'div',
-	          { className: 'waves-effect waves-light btn', onClick: this.findUser },
-	          'Find by Id'
-	        ),
-	        userNotFound ? _react2.default.createElement(
-	          'div',
-	          null,
-	          'That Id was not found. Please try another id.'
-	        ) : '',
-	        foundUser.id ? _react2.default.createElement(_table2.default, { people: [foundUser] }) : ''
+	        foundUser.id ? _react2.default.createElement(_table2.default, { people: [foundUser], modalOpen: modalOpen, editingPerson: editingPerson }) : ''
 	      );
 	    }
 	  }]);
@@ -34035,11 +34026,15 @@
 	
 	var mapStateToProps = function mapStateToProps(_ref) {
 	  var userNotFound = _ref.userNotFound,
-	      foundUser = _ref.foundUser;
+	      foundUser = _ref.foundUser,
+	      modalOpen = _ref.modalOpen,
+	      editingPerson = _ref.editingPerson;
 	
 	  return {
 	    userNotFound: userNotFound,
-	    foundUser: foundUser
+	    foundUser: foundUser,
+	    modalOpen: modalOpen,
+	    editingPerson: editingPerson
 	  };
 	};
 	
@@ -34131,7 +34126,7 @@
 	
 	
 	// module
-	exports.push([module.id, ".tabs a:focus, .tabs a:hover {\n  text-decoration: none; }\n\n.margin-bottom {\n  margin-bottom: 20px; }\n\n.tabs .tab a {\n  color: #1ed760; }\n\n.tabs .tab a:hover, .tabs .tab a.active {\n  background-color: transparent;\n  color: #2ebd59; }\n\n.tabs .tab.disabled a, .tabs .tab.disabled a:hover {\n  color: rgba(102, 147, 153, 0.7); }\n\n.tabs .indicator {\n  background-color: #2ebd59; }\n", ""]);
+	exports.push([module.id, ".tabs a:focus, .tabs a:hover {\n  text-decoration: none; }\n\n.tabs {\n  background-color: transparent; }\n\n.margin-bottom {\n  margin-bottom: 20px; }\n\n.tabs .tab a {\n  color: #1ed760; }\n\n.tabs .tab a:hover, .tabs .tab a.active {\n  background-color: transparent;\n  color: #2ebd59; }\n\n.tabs .tab.disabled a, .tabs .tab.disabled a:hover {\n  color: rgba(102, 147, 153, 0.7); }\n\n.tabs .indicator {\n  background-color: #2ebd59; }\n", ""]);
 	
 	// exports
 

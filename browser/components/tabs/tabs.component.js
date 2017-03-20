@@ -11,6 +11,7 @@ class Tabs extends React.Component {
     super(props);
   }
   render() {
+    const { modalOpen, people, editingPerson} = this.props;
     return (
       <div>
         <div className="row">
@@ -22,7 +23,7 @@ class Tabs extends React.Component {
             </ul>
           </div>
           <div id="view-all" className="col s12">
-            <Table people={this.props.people} />
+            <Table people={people} modalOpen={modalOpen} editingPerson={editingPerson} />
           </div>
           <div id="by-id" className="col s12">
             <ViewById />
@@ -36,9 +37,11 @@ class Tabs extends React.Component {
   }
 }
 
-const mapStateToProps = ( {people } ) => {
+const mapStateToProps = ( { people, modalOpen, editingPerson } ) => {
   return {
     people,
+    modalOpen,
+    editingPerson
   };
 };
 

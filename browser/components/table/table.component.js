@@ -1,20 +1,14 @@
 import React from 'react';
-import { connect } from 'react-redux';
 import Actions from '../actions/actions.component';
 import Modal from 'react-modal';
 import ModalStyles from './table.modal';
 import './table.scss';
 
-class Table extends React.Component {
-  constructor(props){
-    super(props);
-  }
-
-  render(){
-    const { people, modalOpen } = this.props;
+const Table = ( {people, modalOpen, editingPerson }) => {
+  console.log(modalOpen);
     const noPeople = people.length < 1;
     return (
-      <div className="tab-wrapper z-depth-3">
+      <div className="tab-wrapper z-depth-3 margin-top">
         <table>
             <colgroup>
               <col />
@@ -47,32 +41,34 @@ class Table extends React.Component {
             contentLabel="Modal"
           >
             <h4>Edit Person</h4>
-            <div>{this.props.editingPerson}</div>
+            <div>{editingPerson}</div>
             <button>Close</button>
             <button>Save</button>
           </Modal>
       </div>
     );
-  }
-}
-
-/* ---------  CONTAINER   ------- */
-const mapStateToProps = ( {people, modalOpen, editingPerson } ) => {
-  return {
-    people,
-    modalOpen,
-    editingPerson
-  };
 };
 
-const mapDispatchToProps = dispatch => {
-  return {
-  };
 
-};
+export default Table;
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(Table);
+// /* ---------  CONTAINER   ------- */
+// const mapStateToProps = ( {people, modalOpen, editingPerson } ) => {
+//   return {
+//     people,
+//     modalOpen,
+//     editingPerson
+//   };
+// };
+
+// const mapDispatchToProps = dispatch => {
+//   return {
+//   };
+
+// };
+
+// export default connect(
+//   mapStateToProps,
+//   mapDispatchToProps
+// )(Table);
 

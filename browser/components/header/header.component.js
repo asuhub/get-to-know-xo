@@ -4,7 +4,7 @@ import './header.scss';
 
 const Header = ()  => (
       <header>
-        <h5>Made By Stephanie</h5>
+        <h5>Built by Stephanie Manwaring</h5>
       </header>
 );
 

@@ -22,7 +22,6 @@ module.exports = {
     outline                    : 'none',
     padding                    : '20px',
     zIndex                     : 3
- 
   }
 }
 
