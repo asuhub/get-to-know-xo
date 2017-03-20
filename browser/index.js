@@ -23,6 +23,7 @@ ReactDOM.render(
 		<Router history={browserHistory}>
 			<Route component={Root}>
 				<Route path="/" component={Tabs} onEnter={onEnterGetPeople} />
+				<IndexRoute component={Tabs} />
 			</Route>
 	</Router>
   </Provider>,

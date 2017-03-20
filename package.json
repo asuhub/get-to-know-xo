@@ -1,7 +1,7 @@
 {
-  "name": "silent-clapper",
+  "name": "spotify-code-challenge",
   "version": "1.0.0",
-  "description": "A colorful siled reaction and applaud web app",
+  "description": "a simple CRUD app",
   "main": "server/app.js",
   "scripts": {
     "start": "node server/app.js",
@@ -16,14 +16,14 @@
   ],
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/smanwaring/silent-clapper.git"
+    "url": "https://github.com/smanwaring/codeChallengeFellowship"
   },
   "author": "",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/smanwaring/silent-clapper/issues"
+    "url": "https://github.com/smanwaring/codeChallengeFellowship"
   },
-  "homepage": "https://github.com/smanwaring/silent-clapper#readme",
+  "homepage": "https://github.com/smanwaring/codeChallengeFellowship",
   "dependencies": {
     "axios": "^0.15.3",
     "body-parser": "^1.15.2",

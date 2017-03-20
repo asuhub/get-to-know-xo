@@ -94,7 +94,8 @@
 			_react2.default.createElement(
 				_reactRouter.Route,
 				{ component: _Root2.default },
-				_react2.default.createElement(_reactRouter.Route, { path: '/', component: _tabs2.default, onEnter: onEnterGetPeople })
+				_react2.default.createElement(_reactRouter.Route, { path: '/', component: _tabs2.default, onEnter: onEnterGetPeople }),
+				_react2.default.createElement(_reactRouter.IndexRoute, { component: _tabs2.default })
 			)
 		)
 	), document.getElementById('app'));
