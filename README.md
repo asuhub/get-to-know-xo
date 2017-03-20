@@ -50,9 +50,13 @@ npm run dev
 ```
 The first command will run Webpack in watch mode, rebuilding the client static files in '/public' every time a change is made to the source files. The second command will run the Node.js server in development mode.
 
+## Testing
 
-### Testing
-To run the test suite, execute the command **npm test**
+To run the test suite, execute the command `npm test`
+
+The easiest way to test is with [Postman](https://www.getpostman.com/).
+
+[![Run in Postman](https://run.pstmn.io/button.svg)](https://app.getpostman.com/run-collection/b679dd0210a9500f7fef)
 
 
 
