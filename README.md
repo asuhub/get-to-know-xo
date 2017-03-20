@@ -13,7 +13,7 @@ This is a small CRUD app where you can:
 
 ### About the app
 
-codeChallenge by Stephanie Manwaring is a responsive web app built using the NERDS stack (Node.js, Express, React, Database-Sequelize). It uses HTML5, CSS3, and Sass.
+codeChallenge by Stephanie Manwaring is a responsive web app built using the NERRDS stack (Node.js, Express, React, Redux, Database-Sequelize). It uses HTML5, CSS3, and Sass.
 
 It uses [materialize css](http://materializecss.com/) for styling. 
 
