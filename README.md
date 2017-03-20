@@ -1,13 +1,21 @@
-## Welcome the world of Silent Salutations!
+## Welcome to my codeChallenge!
 
-Invite your friends from afar or audience members to join your board and watch or participate in visual reactions.
+[Visit the live site hosted on Heroku](https://silent-salutations.herokuapp.com/)
 
-[Visit silent-salutations.herokuapp.com](https://silent-salutations.herokuapp.com/)
+First and foremost - thank you for considering me for this once in a lifetime position.
+If you have any questions about the app, please don't hesitate to reach out to me directly at stephanie.manwaring@gmail.com
 
-A fun little "silent-clapper" I built during a 24 hour hackathon (and have since added to). Silent Salutations uses sockets to connect people who are watching your presentation remotely and allows them to participate in a visual-applaud (and more...depending on the icons available to them). 
+This code challenge is a small crud app where you can:
+* view people in the codeChallenge database (each person has an id, name, and favorite city)
+* edit a person in codeChallengethe database 
+* add people to the codeChallenge database
+* query people in the database by Id
 
-![](/public/img/laptop-screen.png)  ![](/public/img/phone-screen.png)
+### About the app
 
+codeChallenge by Stephanie Manwaring is built using the NERDS stack (Node.js, Express, React, Database-Sequelize).
+
+It is a responsive deskop application. 
 
 ### Prerequisites
 
@@ -16,7 +24,7 @@ Make sure you have the following:
 [Node.js (>6.7) and npm](https://nodejs.org/en/)
 
 [PostgreSQL](https://www.postgresql.org/)
-
+* be sure this is up and running when you launch
 
 ### Running Locally
 
