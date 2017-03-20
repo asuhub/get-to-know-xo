@@ -86,12 +86,12 @@ describe('People', () => {
           });
       });
 
-      xit('GET /api/people >> returns all the people in the database', (done) => {
+      it('GET /api/people >> returns all the people in the database', (done) => {
         agent.get('/api/people')
           .expect(200)
           .end((err, res) => {
             if (err) return done(err);
-            expect(res.body[0]).to.include({ name: 'Stephanie' });
+            expect(res.body[0]).to.include({ name: 'Tony' });
             expect(res.body).to.have.length(1);
             done();
           });
@@ -125,12 +125,17 @@ describe('People', () => {
         });
     });
 
-      xit('PUT /api/people/:userId >> updates the user', (done) => {
-        agent.put('/api/people/200')
+      it('PUT /api/people/:userId >> updates the user', (done) => {
+        agent.put('/api/people/400')
+        .set('Content-type', 'application/json')
+        .send({
+          favoriteCity: 'Brooklyn'
+        })
         .expect(201)
         .end((err, res) => {
           if (err) return done(err);
-          expect(res.body.name).to.be.equal('Stephanie');
+          expect(res.body.name).to.be.equal('Tony');
+          expect(res.body.favoriteCity).to.be.equal('Brooklyn');
           done();
         });
       });
