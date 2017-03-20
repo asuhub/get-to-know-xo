@@ -1,6 +1,6 @@
 ## Welcome to my codeChallenge!
 
-[Visit the live site hosted on Heroku](https://silent-salutations.herokuapp.com/)
+[Visit the live site hosted on Heroku](https://spotify-stephaniemanwaring.herokuapp.com/)
 
 First and foremost - thank you for considering me for this once in a lifetime position.
 If you have any questions about the app, please don't hesitate to reach out to me directly at stephanie.manwaring@gmail.com
