@@ -14,8 +14,6 @@ const db = require('./db');
 require('./db/models');
 
 server.on('request', app);
-//after server on, init socket
-// const io = require('./socket')(server);
 
 const PATHS = {
   indexHTML: path.join(__dirname, '../public/index.html'),
