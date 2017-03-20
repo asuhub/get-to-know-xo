@@ -9,7 +9,7 @@ This code challenge is a small crud app where you can:
 * view people in the codeChallenge database (each person has an id, name, and favorite city)
 * edit a person in codeChallengethe database 
 * add people to the codeChallenge database
-* query people in the codeChallenge database by Id
+* query people in the codeChallenge database by ID
 
 ### About the app
 
@@ -26,6 +26,8 @@ Make sure you have the following:
 [PostgreSQL](https://www.postgresql.org/) (be sure this is up and running when you launch)
 
 ### Running Locally
+
+Clone the repository.
 
 ```
 npm install
