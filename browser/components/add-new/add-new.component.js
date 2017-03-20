@@ -9,6 +9,7 @@ class AddNew extends React.Component {
     this.state = {
       name: '',
       favoriteCity: '',
+      blankEntryError: false
     };
     this.addNewPerson = this.addNewPerson.bind(this);
     this.setName = this.setName.bind(this);
@@ -26,11 +27,19 @@ class AddNew extends React.Component {
   }
 
   addNewPerson() {
-    const details = {
-      name: this.state.name,
-      favoriteCity: this.state.favoriteCity
-    };
-    this.props.postNewPerson(details);
+    const self = this;
+    if (this.state.name === '' || this.state.favoriteCity === '') {
+      this.setState({blankEntryError: true});
+      setTimeout( () =>  {
+        self.setState({blankEntryError: false});
+      }, 3000);
+    } else {
+      const details = {
+        name: this.state.name,
+        favoriteCity: this.state.favoriteCity
+      };
+      this.props.postNewPerson(details);
+    }
   }
 
   render() {
@@ -50,6 +59,7 @@ class AddNew extends React.Component {
             </div>
           </form>
           </div>
+          { this.state.blankEntryError ? <div className="error-text">Oops! Fields cannot be empty.</div> : ''}
           <div className="waves-effect waves-light btn" onClick={this.addNewPerson}>Add Person</div>
         </div>
     );

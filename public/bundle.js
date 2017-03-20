@@ -31466,6 +31466,11 @@
 	    'header',
 	    null,
 	    _react2.default.createElement(
+	      'h1',
+	      null,
+	      'Spotify Code Challenge '
+	    ),
+	    _react2.default.createElement(
 	      'h5',
 	      null,
 	      'Built by Stephanie Manwaring'
@@ -31510,7 +31515,7 @@
 	
 	
 	// module
-	exports.push([module.id, "header {\n  width: 100%; }\n  header h5 {\n    width: 100%;\n    text-align: center; }\n", ""]);
+	exports.push([module.id, "header {\n  width: 100%; }\n  header h5, header h1 {\n    width: 100%;\n    text-align: center; }\n", ""]);
 	
 	// exports
 
@@ -33884,7 +33889,8 @@
 	
 	    _this.state = {
 	      name: '',
-	      favoriteCity: ''
+	      favoriteCity: '',
+	      blankEntryError: false
 	    };
 	    _this.addNewPerson = _this.addNewPerson.bind(_this);
 	    _this.setName = _this.setName.bind(_this);
@@ -33907,11 +33913,19 @@
 	  }, {
 	    key: 'addNewPerson',
 	    value: function addNewPerson() {
-	      var details = {
-	        name: this.state.name,
-	        favoriteCity: this.state.favoriteCity
-	      };
-	      this.props.postNewPerson(details);
+	      var self = this;
+	      if (this.state.name === '' || this.state.favoriteCity === '') {
+	        this.setState({ blankEntryError: true });
+	        setTimeout(function () {
+	          self.setState({ blankEntryError: false });
+	        }, 3000);
+	      } else {
+	        var details = {
+	          name: this.state.name,
+	          favoriteCity: this.state.favoriteCity
+	        };
+	        this.props.postNewPerson(details);
+	      }
 	    }
 	  }, {
 	    key: 'render',
@@ -33951,6 +33965,11 @@
 	            )
 	          )
 	        ),
+	        this.state.blankEntryError ? _react2.default.createElement(
+	          'div',
+	          { className: 'error-text' },
+	          'Oops! Fields cannot be empty.'
+	        ) : '',
 	        _react2.default.createElement(
 	          'div',
 	          { className: 'waves-effect waves-light btn', onClick: this.addNewPerson },
