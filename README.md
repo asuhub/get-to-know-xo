@@ -5,7 +5,7 @@
 First and foremost - thank you for considering me for this once in a lifetime position.
 If you have any questions about the app, please don't hesitate to reach out to me directly at stephanie.manwaring@gmail.com
 
-This code challenge is a small crud app where you can:
+This is a small CRUD app where you can:
 * view people in the codeChallenge database (each person has an id, name, and favorite city)
 * edit a person in codeChallengethe database 
 * add people to the codeChallenge database
@@ -13,11 +13,10 @@ This code challenge is a small crud app where you can:
 
 ### About the app
 
-codeChallenge by Stephanie Manwaring is built using the NERDS stack (Node.js, Express, React, Database-Sequelize). It uses HTML5, CSS3, and Sass.
+codeChallenge by Stephanie Manwaring is a responsive web app built using the NERDS stack (Node.js, Express, React, Database-Sequelize). It uses HTML5, CSS3, and Sass.
 
-It uses materialize css for styling. [materialize css](http://materializecss.com/)
+It uses [materialize css](http://materializecss.com/) for styling. 
 
-It is a responsive deskop application. 
 
 ### Prerequisites
 
