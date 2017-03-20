@@ -19,15 +19,15 @@ class Actions extends React.Component {
     this.props.openModal(bool);
   }
 
-  setEditingPerson(personId) {
-    this.props.editingPerson(personId);
+  setEditingPerson(person) {
+    this.props.editingPerson(person);
   }
 
   render() {
     const { person } = this.props;
     return (
       <div>
-        <i className="material-icons small edit spacer" onClick={() => { this.openModal(true); this.setEditingPerson(person.id)}}>mode_edit</i>
+        <i className="material-icons small edit spacer" onClick={() => { this.openModal(true); this.setEditingPerson(person)}}>mode_edit</i>
         <i className="material-icons small delete spacer" onClick={this.deletePerson}>delete</i>
       </div>
     );
@@ -45,8 +45,8 @@ const mapDispatchToProps = dispatch => {
     openModal: (bool) => {
       dispatch( toggleEditPerson(bool) );
     },
-    editingPerson: (personId) => {
-      dispatch( personToEdit(personId) );
+    editingPerson: (person) => {
+      dispatch( personToEdit(person) );
     },
     deletePerson: (personId) => {
       dispatch( deleteUserFromDb(personId) );

@@ -39,7 +39,7 @@ class ViewById extends React.Component {
   }
 
   render() {
-    const { userNotFound, foundUser, modalOpen, editingPerson } = this.props;
+    const { userNotFound, foundUser, modalOpen } = this.props;
     return (
     <div>
       <div className="tab-wrapper z-depth-3">
@@ -58,19 +58,18 @@ class ViewById extends React.Component {
           <div className="waves-effect waves-light btn" onClick={this.findUser}>Find by Id</div>
           { userNotFound ? <div>That Id was not found. Please try another id.</div> : ''}
         </div>
-        { foundUser.id ? <Table people={[foundUser]} modalOpen={modalOpen} editingPerson={editingPerson} closeModal={this.closeModal}/> : ''}
+        { foundUser.id ? <Table people={[foundUser]} modalOpen={modalOpen} closeModal={this.closeModal} /> : ''}
       </div>
     );
   }
 }
 
 /* ---------  CONTAINER   ------- */
-const mapStateToProps = ({ userNotFound, foundUser, modalOpen, editingPerson }) => {
+const mapStateToProps = ({ userNotFound, foundUser, modalOpen }) => {
   return {
     userNotFound,
     foundUser,
     modalOpen,
-    editingPerson
   };
 };
 

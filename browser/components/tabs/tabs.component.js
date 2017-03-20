@@ -30,7 +30,7 @@ class Tabs extends React.Component {
             </ul>
           </div>
           <div id="view-all" className="col s12">
-            <Table people={people} modalOpen={modalOpen} editingPerson={editingPerson} closeModal={this.closeModal} />
+            <Table people={people} modalOpen={modalOpen} closeModal={this.closeModal} />
           </div>
           <div id="by-id" className="col s12">
             <ViewById />

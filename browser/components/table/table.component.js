@@ -5,8 +5,7 @@ import ModalStyles from './table.modal';
 import EditForm from '../edit-form/edit-form.component';
 import './table.scss';
 
-const Table = ( {people, modalOpen, editingPerson, closeModal }) => {
-  console.log(modalOpen);
+const Table = ( {people, modalOpen }) => {
     const noPeople = people.length < 1;
     return (
       <div className="tab-wrapper z-depth-3 margin-top">
@@ -47,7 +46,6 @@ const Table = ( {people, modalOpen, editingPerson, closeModal }) => {
       </div>
     );
 };
-
 
 export default Table;
 

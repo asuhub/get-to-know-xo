@@ -28822,10 +28822,10 @@
 	  };
 	};
 	
-	var personToEdit = exports.personToEdit = function personToEdit(personId) {
+	var personToEdit = exports.personToEdit = function personToEdit(person) {
 	  return {
 	    type: EDIT_PERSON,
-	    personId: personId
+	    person: person
 	  };
 	};
 	
@@ -28905,12 +28905,12 @@
 	};
 	
 	var editingPerson = exports.editingPerson = function editingPerson() {
-	  var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
+	  var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
 	  var action = arguments[1];
 	
 	  switch (action.type) {
 	    case EDIT_PERSON:
-	      return action.personId;
+	      return action.person;
 	    default:
 	      return state;
 	  }
@@ -31844,19 +31844,19 @@
 	
 	var _table2 = _interopRequireDefault(_table);
 	
-	var _addNew = __webpack_require__(329);
+	var _addNew = __webpack_require__(330);
 	
 	var _addNew2 = _interopRequireDefault(_addNew);
 	
-	var _viewById = __webpack_require__(333);
+	var _viewById = __webpack_require__(334);
 	
 	var _viewById2 = _interopRequireDefault(_viewById);
 	
 	var _table3 = __webpack_require__(271);
 	
-	__webpack_require__(334);
+	__webpack_require__(335);
 	
-	__webpack_require__(336);
+	__webpack_require__(337);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
@@ -31935,7 +31935,7 @@
 	          _react2.default.createElement(
 	            'div',
 	            { id: 'view-all', className: 'col s12' },
-	            _react2.default.createElement(_table2.default, { people: people, modalOpen: modalOpen, editingPerson: editingPerson, closeModal: this.closeModal })
+	            _react2.default.createElement(_table2.default, { people: people, modalOpen: modalOpen, closeModal: this.closeModal })
 	          ),
 	          _react2.default.createElement(
 	            'div',
@@ -32003,21 +32003,18 @@
 	
 	var _table2 = _interopRequireDefault(_table);
 	
-	var _editForm = __webpack_require__(338);
+	var _editForm = __webpack_require__(327);
 	
 	var _editForm2 = _interopRequireDefault(_editForm);
 	
-	__webpack_require__(327);
+	__webpack_require__(328);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
 	var Table = function Table(_ref) {
 	  var people = _ref.people,
-	      modalOpen = _ref.modalOpen,
-	      editingPerson = _ref.editingPerson,
-	      closeModal = _ref.closeModal;
+	      modalOpen = _ref.modalOpen;
 	
-	  console.log(modalOpen);
 	  var noPeople = people.length < 1;
 	  return _react2.default.createElement(
 	    'div',
@@ -32175,8 +32172,8 @@
 	    }
 	  }, {
 	    key: 'setEditingPerson',
-	    value: function setEditingPerson(personId) {
-	      this.props.editingPerson(personId);
+	    value: function setEditingPerson(person) {
+	      this.props.editingPerson(person);
 	    }
 	  }, {
 	    key: 'render',
@@ -32191,7 +32188,7 @@
 	        _react2.default.createElement(
 	          'i',
 	          { className: 'material-icons small edit spacer', onClick: function onClick() {
-	              _this2.openModal(true);_this2.setEditingPerson(person.id);
+	              _this2.openModal(true);_this2.setEditingPerson(person);
 	            } },
 	          'mode_edit'
 	        ),
@@ -32219,8 +32216,8 @@
 	    openModal: function openModal(bool) {
 	      dispatch((0, _table.toggleEditPerson)(bool));
 	    },
-	    editingPerson: function editingPerson(personId) {
-	      dispatch((0, _table.personToEdit)(personId));
+	    editingPerson: function editingPerson(person) {
+	      dispatch((0, _table.personToEdit)(person));
 	    },
 	    deletePerson: function deletePerson(personId) {
 	      dispatch((0, _table.deleteUserFromDb)(personId));
@@ -33644,10 +33641,157 @@
 /* 327 */
 /***/ function(module, exports, __webpack_require__) {
 
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+	
+	var _react = __webpack_require__(1);
+	
+	var _react2 = _interopRequireDefault(_react);
+	
+	var _reactRedux = __webpack_require__(178);
+	
+	var _table = __webpack_require__(271);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+	
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+	
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+	
+	var EditForm = function (_React$Component) {
+	  _inherits(EditForm, _React$Component);
+	
+	  function EditForm(props) {
+	    _classCallCheck(this, EditForm);
+	
+	    var _this = _possibleConstructorReturn(this, (EditForm.__proto__ || Object.getPrototypeOf(EditForm)).call(this, props));
+	
+	    _this.state = {
+	      name: _this.props.editingPerson.name,
+	      favoriteCity: _this.props.editingPerson.favoriteCity
+	    };
+	    _this.closeModal = _this.closeModal.bind(_this);
+	    _this.updateName = _this.updateName.bind(_this);
+	    _this.updateFavoriteCity = _this.updateFavoriteCity.bind(_this);
+	    _this.updatePerson = _this.updatePerson.bind(_this);
+	    return _this;
+	  }
+	
+	  _createClass(EditForm, [{
+	    key: 'closeModal',
+	    value: function closeModal() {
+	      this.props.closeModal(false);
+	    }
+	  }, {
+	    key: 'updateFavoriteCity',
+	    value: function updateFavoriteCity(evt) {
+	      evt.preventDefault();
+	      this.setState({ favoriteCity: evt.target.value });
+	    }
+	  }, {
+	    key: 'updateName',
+	    value: function updateName(evt) {
+	      evt.preventDefault();
+	      this.setState({ name: evt.target.value });
+	    }
+	  }, {
+	    key: 'updatePerson',
+	    value: function updatePerson() {
+	
+	      this.setState({ name: evt.target.value });
+	    }
+	  }, {
+	    key: 'render',
+	    value: function render() {
+	      return _react2.default.createElement(
+	        'div',
+	        { className: 'tab-wrapper' },
+	        _react2.default.createElement(
+	          'div',
+	          { className: 'row' },
+	          _react2.default.createElement(
+	            'form',
+	            { className: 'col s12' },
+	            _react2.default.createElement(
+	              'div',
+	              { className: 'row' },
+	              _react2.default.createElement(
+	                'div',
+	                { className: 'input-field col s6' },
+	                _react2.default.createElement('input', { id: 'first_name', type: 'text', className: 'validate', value: this.state.name }),
+	                _react2.default.createElement(
+	                  'label',
+	                  { htmlFor: 'first_name', className: this.state.name ? 'active' : '' },
+	                  'Name'
+	                )
+	              ),
+	              _react2.default.createElement(
+	                'div',
+	                { className: 'input-field col s6' },
+	                _react2.default.createElement('input', { id: 'last_name', type: 'text', className: 'validate', value: this.state.favoriteCity }),
+	                _react2.default.createElement(
+	                  'label',
+	                  { htmlFor: 'last_name', className: this.state.favoriteCity ? 'active' : '' },
+	                  'Favorite City'
+	                )
+	              )
+	            )
+	          )
+	        ),
+	        _react2.default.createElement(
+	          'div',
+	          { className: 'waves-effect waves-light btn', onClick: this.closeModal },
+	          'Save'
+	        ),
+	        _react2.default.createElement(
+	          'div',
+	          { className: 'waves-effect waves-light btn', onClick: this.closeModal },
+	          'Close'
+	        )
+	      );
+	    }
+	  }]);
+	
+	  return EditForm;
+	}(_react2.default.Component);
+	
+	var mapStateToProps = function mapStateToProps(_ref) {
+	  var people = _ref.people,
+	      modalOpen = _ref.modalOpen,
+	      editingPerson = _ref.editingPerson;
+	
+	  return {
+	    people: people,
+	    modalOpen: modalOpen,
+	    editingPerson: editingPerson
+	  };
+	};
+	
+	var mapDispatchToProps = function mapDispatchToProps(dispatch) {
+	  return {
+	    closeModal: function closeModal(bool) {
+	      dispatch((0, _table.toggleEditPerson)(bool));
+	    }
+	  };
+	};
+	
+	exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(EditForm);
+
+/***/ },
+/* 328 */
+/***/ function(module, exports, __webpack_require__) {
+
 	// style-loader: Adds some css to the DOM by adding a <style> tag
 	
 	// load the styles
-	var content = __webpack_require__(328);
+	var content = __webpack_require__(329);
 	if(typeof content === 'string') content = [[module.id, content, '']];
 	// add the styles to the DOM
 	var update = __webpack_require__(310)(content, {});
@@ -33667,7 +33811,7 @@
 	}
 
 /***/ },
-/* 328 */
+/* 329 */
 /***/ function(module, exports, __webpack_require__) {
 
 	exports = module.exports = __webpack_require__(309)();
@@ -33681,7 +33825,7 @@
 
 
 /***/ },
-/* 329 */
+/* 330 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -33698,9 +33842,9 @@
 	
 	var _reactRedux = __webpack_require__(178);
 	
-	var _addNewReducer = __webpack_require__(330);
+	var _addNewReducer = __webpack_require__(331);
 	
-	__webpack_require__(331);
+	__webpack_require__(332);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
@@ -33817,7 +33961,7 @@
 	exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(AddNew);
 
 /***/ },
-/* 330 */
+/* 331 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -33847,13 +33991,13 @@
 	};
 
 /***/ },
-/* 331 */
+/* 332 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// style-loader: Adds some css to the DOM by adding a <style> tag
 	
 	// load the styles
-	var content = __webpack_require__(332);
+	var content = __webpack_require__(333);
 	if(typeof content === 'string') content = [[module.id, content, '']];
 	// add the styles to the DOM
 	var update = __webpack_require__(310)(content, {});
@@ -33873,7 +34017,7 @@
 	}
 
 /***/ },
-/* 332 */
+/* 333 */
 /***/ function(module, exports, __webpack_require__) {
 
 	exports = module.exports = __webpack_require__(309)();
@@ -33887,7 +34031,7 @@
 
 
 /***/ },
-/* 333 */
+/* 334 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -33970,8 +34114,7 @@
 	      var _props = this.props,
 	          userNotFound = _props.userNotFound,
 	          foundUser = _props.foundUser,
-	          modalOpen = _props.modalOpen,
-	          editingPerson = _props.editingPerson;
+	          modalOpen = _props.modalOpen;
 	
 	      return _react2.default.createElement(
 	        'div',
@@ -34016,7 +34159,7 @@
 	            'That Id was not found. Please try another id.'
 	          ) : ''
 	        ),
-	        foundUser.id ? _react2.default.createElement(_table2.default, { people: [foundUser], modalOpen: modalOpen, editingPerson: editingPerson, closeModal: this.closeModal }) : ''
+	        foundUser.id ? _react2.default.createElement(_table2.default, { people: [foundUser], modalOpen: modalOpen, closeModal: this.closeModal }) : ''
 	      );
 	    }
 	  }]);
@@ -34030,14 +34173,12 @@
 	var mapStateToProps = function mapStateToProps(_ref) {
 	  var userNotFound = _ref.userNotFound,
 	      foundUser = _ref.foundUser,
-	      modalOpen = _ref.modalOpen,
-	      editingPerson = _ref.editingPerson;
+	      modalOpen = _ref.modalOpen;
 	
 	  return {
 	    userNotFound: userNotFound,
 	    foundUser: foundUser,
-	    modalOpen: modalOpen,
-	    editingPerson: editingPerson
+	    modalOpen: modalOpen
 	  };
 	};
 	
@@ -34058,13 +34199,13 @@
 	exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(ViewById);
 
 /***/ },
-/* 334 */
+/* 335 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// style-loader: Adds some css to the DOM by adding a <style> tag
 	
 	// load the styles
-	var content = __webpack_require__(335);
+	var content = __webpack_require__(336);
 	if(typeof content === 'string') content = [[module.id, content, '']];
 	// add the styles to the DOM
 	var update = __webpack_require__(310)(content, {});
@@ -34084,7 +34225,7 @@
 	}
 
 /***/ },
-/* 335 */
+/* 336 */
 /***/ function(module, exports, __webpack_require__) {
 
 	exports = module.exports = __webpack_require__(309)();
@@ -34098,13 +34239,13 @@
 
 
 /***/ },
-/* 336 */
+/* 337 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// style-loader: Adds some css to the DOM by adding a <style> tag
 	
 	// load the styles
-	var content = __webpack_require__(337);
+	var content = __webpack_require__(338);
 	if(typeof content === 'string') content = [[module.id, content, '']];
 	// add the styles to the DOM
 	var update = __webpack_require__(310)(content, {});
@@ -34124,7 +34265,7 @@
 	}
 
 /***/ },
-/* 337 */
+/* 338 */
 /***/ function(module, exports, __webpack_require__) {
 
 	exports = module.exports = __webpack_require__(309)();
@@ -34136,153 +34277,6 @@
 	
 	// exports
 
-
-/***/ },
-/* 338 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-	
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-	
-	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-	
-	var _react = __webpack_require__(1);
-	
-	var _react2 = _interopRequireDefault(_react);
-	
-	var _reactRedux = __webpack_require__(178);
-	
-	var _table = __webpack_require__(271);
-	
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-	
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-	
-	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-	
-	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-	
-	var EditForm = function (_React$Component) {
-	  _inherits(EditForm, _React$Component);
-	
-	  function EditForm(props) {
-	    _classCallCheck(this, EditForm);
-	
-	    var _this = _possibleConstructorReturn(this, (EditForm.__proto__ || Object.getPrototypeOf(EditForm)).call(this, props));
-	
-	    _this.state = {
-	      name: 'asdf',
-	      favoriteCity: 'fads'
-	    };
-	    _this.closeModal = _this.closeModal.bind(_this);
-	    _this.updateName = _this.updateName.bind(_this);
-	    _this.updateFavoriteCity = _this.updateFavoriteCity.bind(_this);
-	    _this.updatePerson = _this.updatePerson.bind(_this);
-	    return _this;
-	  }
-	
-	  _createClass(EditForm, [{
-	    key: 'closeModal',
-	    value: function closeModal() {
-	      this.props.closeModal(false);
-	    }
-	  }, {
-	    key: 'updateFavoriteCity',
-	    value: function updateFavoriteCity(evt) {
-	      evt.preventDefault();
-	      this.setState({ favoriteCity: evt.target.value });
-	    }
-	  }, {
-	    key: 'updateName',
-	    value: function updateName(evt) {
-	      evt.preventDefault();
-	      this.setState({ name: evt.target.value });
-	    }
-	  }, {
-	    key: 'updatePerson',
-	    value: function updatePerson() {
-	
-	      this.setState({ name: evt.target.value });
-	    }
-	  }, {
-	    key: 'render',
-	    value: function render() {
-	      return _react2.default.createElement(
-	        'div',
-	        { className: 'tab-wrapper' },
-	        _react2.default.createElement(
-	          'div',
-	          { className: 'row' },
-	          _react2.default.createElement(
-	            'form',
-	            { className: 'col s12' },
-	            _react2.default.createElement(
-	              'div',
-	              { className: 'row' },
-	              _react2.default.createElement(
-	                'div',
-	                { className: 'input-field col s6' },
-	                _react2.default.createElement('input', { id: 'first_name', type: 'text', className: 'validate', value: this.state.name }),
-	                _react2.default.createElement(
-	                  'label',
-	                  { htmlFor: 'first_name', className: this.state.name ? 'active' : '' },
-	                  'Name'
-	                )
-	              ),
-	              _react2.default.createElement(
-	                'div',
-	                { className: 'input-field col s6' },
-	                _react2.default.createElement('input', { id: 'last_name', type: 'text', className: 'validate', value: this.state.favoriteCity }),
-	                _react2.default.createElement(
-	                  'label',
-	                  { htmlFor: 'last_name', className: this.state.favoriteCity ? 'active' : '' },
-	                  'Favorite City'
-	                )
-	              )
-	            )
-	          )
-	        ),
-	        _react2.default.createElement(
-	          'div',
-	          { className: 'waves-effect waves-light btn', onClick: this.closeModal },
-	          'Save'
-	        ),
-	        _react2.default.createElement(
-	          'div',
-	          { className: 'waves-effect waves-light btn', onClick: this.closeModal },
-	          'Close'
-	        )
-	      );
-	    }
-	  }]);
-	
-	  return EditForm;
-	}(_react2.default.Component);
-	
-	var mapStateToProps = function mapStateToProps(_ref) {
-	  var people = _ref.people,
-	      modalOpen = _ref.modalOpen,
-	      editingPerson = _ref.editingPerson;
-	
-	  return {
-	    people: people,
-	    modalOpen: modalOpen,
-	    editingPerson: editingPerson
-	  };
-	};
-	
-	var mapDispatchToProps = function mapDispatchToProps(dispatch) {
-	  return {
-	    closeModal: function closeModal(bool) {
-	      dispatch((0, _table.toggleEditPerson)(bool));
-	    }
-	  };
-	};
-	
-	exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(EditForm);
 
 /***/ }
 /******/ ]);

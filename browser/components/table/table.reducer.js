@@ -15,14 +15,14 @@ export const setPeople = people => {
   };
 };
 
-export const noPeopleError = (boolean) => {
+export const noPeopleError = boolean => {
   return {
     type: NO_PEOPLE_FOUND,
     boolean
   };
 };
 
-export const addUser = (createdUser) => {
+export const addUser = createdUser => {
   return {
     type: ADD_USER,
     createdUser
@@ -36,10 +36,10 @@ export const toggleEditPerson = boolean => {
   };
 };
 
-export const personToEdit = (personId) => {
+export const personToEdit = person => {
   return {
     type: EDIT_PERSON,
-    personId
+    person
   };
 };
 
@@ -103,10 +103,10 @@ export const modalOpen = (state = false, action) => {
 	}
 };
 
-export const editingPerson = (state = null, action) => {
+export const editingPerson = (state = {}, action) => {
 	switch (action.type) {
 		case EDIT_PERSON:
-			return action.personId;
+			return action.person;
 		default: return state;
 	}
 };

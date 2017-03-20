@@ -6,8 +6,8 @@ class EditForm extends React.Component {
   constructor(props){
     super(props);
     this.state = {
-      name: 'asdf',
-      favoriteCity: 'fads'
+      name: this.props.editingPerson.name,
+      favoriteCity: this.props.editingPerson.favoriteCity
     };
     this.closeModal = this.closeModal.bind(this);
     this.updateName = this.updateName.bind(this);
