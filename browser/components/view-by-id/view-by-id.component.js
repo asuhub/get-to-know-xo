@@ -35,15 +35,14 @@ class ViewById extends React.Component {
   render() {
     const { userNotFound, foundUser } = this.props;
     return (
-      <div>
+      <div className="tab-wrapper">
         <div className="row">
           <form className="col s12">
             <div className="row">
               <div className="col s12">
-                Enter a Person's Id:
-                <div className="input-field inline">
+                <div className="input-field col s6 inline">
                   <input onChange={this.setId} id="id" type="text" className="validate" />
-                  <label htmlFor="id">Id</label>
+                  <label htmlFor="id">Person's ID</label>
                 </div>
               </div>
             </div>

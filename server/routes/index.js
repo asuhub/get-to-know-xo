@@ -21,12 +21,10 @@ router.get('/people', (req, res, next) => {
 
 // POST/create a new person
 router.post('/people', (req, res, next) => {
-  console.log(req.body);
   People.create(req.body)
   .then( createdPerson => res.status(201).send(createdPerson))
   .catch(next);
 });
-
 
 // // GET the object created in most previous create
 // router.get('/people/latest', (req, res, next) => {

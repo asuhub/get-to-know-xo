@@ -1,6 +1,6 @@
 'use strict';
 
-var webpack = require('webpack');
+let webpack = require('webpack');
 
 module.exports = {
   entry: './browser/index.js',
@@ -23,11 +23,11 @@ module.exports = {
           presets: ['react', 'es2015']
         }
       },
-      { 
+      {
 		    test: /\.css$/, 
-		    loader: 'style-loader!css-loader' 
+		    loader: 'style-loader!css-loader'
 		  },
-      { 
+      {
 		    test: /\.scss$/, 
 		    loaders: ['style-loader', 'css-loader', 'sass-loader' ]
 		  }

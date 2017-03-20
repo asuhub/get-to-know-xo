@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { postNewPerson} from './add-new.reducer.js';
+import './add-new.scss';
 
 class AddNew extends React.Component {
   constructor(props){
@@ -34,7 +35,7 @@ class AddNew extends React.Component {
 
   render() {
     return (
-      <div>
+      <div className="tab-wrapper">
         <div className="row">
           <form className="col s12">
             <div className="row">

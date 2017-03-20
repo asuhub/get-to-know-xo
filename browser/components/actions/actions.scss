@@ -1,0 +1,18 @@
+.delete {
+  color: #ff6437;;
+  &:hover {
+    color: #ed491a;
+  }
+}
+
+.edit {
+  color: #a0c3d2;
+  &:hover {
+    color: #a0c3d2;
+  }
+}
+
+.spacer {
+  margin-left: 2px;
+  margin-right: 2px;
+}

@@ -1,0 +1,3 @@
+.tabs a:focus, .tabs a:hover {
+  text-decoration: none;
+}

@@ -18,7 +18,6 @@ const onEnterGetPeople = nextState => {
 	store.dispatch( fetchPeople() );
 };
 
-
 ReactDOM.render(
   <Provider store={store}>
 		<Router history={browserHistory}>

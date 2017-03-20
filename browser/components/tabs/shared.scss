@@ -1,0 +1,28 @@
+body {
+  background-color: #f8f8f8;
+}
+
+.tab-wrapper {
+  width: 100%;
+  background-color: white;
+  padding: 10px 20px;
+  .skinny {
+    width: 10%;
+  }
+}
+
+.btn {
+  width: 100%;
+  z-index: 1;
+  &:hover {
+    color: white;
+  }
+}
+
+
+@media (min-width: 640px) {
+  .tab-wrapper{
+    width: 80%;
+    margin: 0 auto;
+  } 
+}

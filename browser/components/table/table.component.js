@@ -1,29 +1,27 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import EditDeleteButtons from '../edit-delete-buttons/edit-delete-buttons.component.js';
-import {  deleteUserFromDb } from './table.reducer';
+import Actions from '../actions/actions.component';
+import Modal from 'react-modal';
+import ModalStyles from './table.modal';
+import './table.scss';
 
 class Table extends React.Component {
   constructor(props){
     super(props);
-    this.state = {
-      editing: []
-    };
-    this.setEditing = this.setEditing.bind(this);
   }
-
-  //function to set the state to the id that is being edited
-  setEditing(id) {
-    this.setState({editing: this.state.editing.concat([id])});
-  }
-
 
   render(){
-    const { people  } = this.props;
+    const { people, modalOpen } = this.props;
     const noPeople = people.length < 1;
     return (
-      <div>
+      <div className="tab-wrapper">
         <table>
+            <colgroup>
+              <col/>
+              <col/>
+              <col/>
+              <col className="skinny"/>
+            </colgroup>
           <thead>
             <tr>
               <th data-field="id">Id</th>
@@ -35,23 +33,35 @@ class Table extends React.Component {
           <tbody>
             { noPeople ? <tr><td>No people records found</td></tr> : people && people.map( person => (
               <tr key={`person -${person.id}`}>
-                <td>{person.id}</td>
+                <td className="test">{person.id}</td>
                 <td>{person.name}</td>
                 <td>{person.favoriteCity}</td>
-                <td><EditDeleteButtons id={person.id} /></td>
+                <td><Actions person={person} /></td>
               </tr>
             ))}
           </tbody>
         </table>
+          <Modal
+            isOpen={modalOpen}
+            style={ModalStyles}
+            contentLabel="Modal"
+          >
+            <h4>Edit Person</h4>
+            <div>{this.props.editingPerson}</div>
+            <button>Close</button>
+            <button>Save</button>
+          </Modal>
       </div>
     );
   }
 }
 
 /* ---------  CONTAINER   ------- */
-const mapStateToProps = ( {people} ) => {
+const mapStateToProps = ( {people, modalOpen, editingPerson } ) => {
   return {
-    people
+    people,
+    modalOpen,
+    editingPerson
   };
 };
 
