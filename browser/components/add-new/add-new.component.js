@@ -40,11 +40,11 @@ class AddNew extends React.Component {
           <form className="col s12">
             <div className="row">
               <div className="input-field col s6">
-                <input onChange={this.setName}id="first_name" type="text" className="validate" />
+                <input onChange={this.setName} id="first_name" type="text" className="validate" />
                 <label htmlFor="first_name">Name</label>
               </div>
               <div className="input-field col s6">
-                <input onChange={this.setFavoriteCity}id="last_name" type="text" className="validate" />
+                <input onChange={this.setFavoriteCity} id="last_name" type="text" className="validate" />
                 <label htmlFor="last_name">Favorite City</label>
               </div>
             </div>

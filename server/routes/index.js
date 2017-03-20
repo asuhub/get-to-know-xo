@@ -48,7 +48,7 @@ router.get('/people/:userId', (req, res, next) => {
 
 // PUT/modify an existing user
 router.put('/people/:userId', (req, res, next) => {
-  const userToUpdate = req.foundUser;
+  const userToUpdate = req.user;
   userToUpdate.update(req.body)
   .then( updatedUser => res.status(201).send(updatedUser))
   .catch(next);

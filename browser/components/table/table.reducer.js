@@ -6,6 +6,7 @@ export const NO_PEOPLE_FOUND = 'NO_PEOPLE_FOUND';
 export const ADD_USER = 'ADD_USER';
 export const TOGGLE_EDIT_PERSON = 'TOGGLE_EDIT_PERSON';
 export const EDIT_PERSON = 'EDIT_PERSON';
+export const UPDATE_PERSON = 'UPDATE_PERSON';
 
 /* -----------------    ACTION CREATORS     ------------------ */
 export const setPeople = people => {
@@ -67,7 +68,7 @@ export const deleteUserFromDb = id => {
   };
 };
 
-export const updatePerson = (id, details) => {
+export const updatePersonInDb = (id, details) => {
   return dispatch => {
     axios.put(`/api/people/${id}`, details)
       .then(res => dispatch( fetchPeople() ) )

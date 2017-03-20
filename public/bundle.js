@@ -28778,7 +28778,7 @@
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
 	});
-	exports.editingPerson = exports.modalOpen = exports.showNoPeopleError = exports.people = exports.updatePerson = exports.deleteUserFromDb = exports.fetchPeople = exports.personToEdit = exports.toggleEditPerson = exports.addUser = exports.noPeopleError = exports.setPeople = exports.EDIT_PERSON = exports.TOGGLE_EDIT_PERSON = exports.ADD_USER = exports.NO_PEOPLE_FOUND = exports.LOAD_PEOPLE = undefined;
+	exports.editingPerson = exports.modalOpen = exports.showNoPeopleError = exports.people = exports.updatePersonInDb = exports.deleteUserFromDb = exports.fetchPeople = exports.personToEdit = exports.toggleEditPerson = exports.addUser = exports.noPeopleError = exports.setPeople = exports.UPDATE_PERSON = exports.EDIT_PERSON = exports.TOGGLE_EDIT_PERSON = exports.ADD_USER = exports.NO_PEOPLE_FOUND = exports.LOAD_PEOPLE = undefined;
 	
 	var _axios = __webpack_require__(272);
 	
@@ -28792,6 +28792,7 @@
 	var ADD_USER = exports.ADD_USER = 'ADD_USER';
 	var TOGGLE_EDIT_PERSON = exports.TOGGLE_EDIT_PERSON = 'TOGGLE_EDIT_PERSON';
 	var EDIT_PERSON = exports.EDIT_PERSON = 'EDIT_PERSON';
+	var UPDATE_PERSON = exports.UPDATE_PERSON = 'UPDATE_PERSON';
 	
 	/* -----------------    ACTION CREATORS     ------------------ */
 	var setPeople = exports.setPeople = function setPeople(people) {
@@ -28854,7 +28855,7 @@
 	  };
 	};
 	
-	var updatePerson = exports.updatePerson = function updatePerson(id, details) {
+	var updatePersonInDb = exports.updatePersonInDb = function updatePersonInDb(id, details) {
 	  return function (dispatch) {
 	    _axios2.default.put('/api/people/' + id, details).then(function (res) {
 	      return dispatch(fetchPeople());
@@ -31888,8 +31889,7 @@
 	    value: function render() {
 	      var _props = this.props,
 	          modalOpen = _props.modalOpen,
-	          people = _props.people,
-	          editingPerson = _props.editingPerson;
+	          people = _props.people;
 	
 	      return _react2.default.createElement(
 	        'div',
@@ -31957,13 +31957,11 @@
 	
 	var mapStateToProps = function mapStateToProps(_ref) {
 	  var people = _ref.people,
-	      modalOpen = _ref.modalOpen,
-	      editingPerson = _ref.editingPerson;
+	      modalOpen = _ref.modalOpen;
 	
 	  return {
 	    people: people,
-	    modalOpen: modalOpen,
-	    editingPerson: editingPerson
+	    modalOpen: modalOpen
 	  };
 	};
 	
@@ -33675,11 +33673,12 @@
 	
 	    _this.state = {
 	      name: _this.props.editingPerson.name,
-	      favoriteCity: _this.props.editingPerson.favoriteCity
+	      favoriteCity: _this.props.editingPerson.favoriteCity,
+	      blankEntryError: false
 	    };
 	    _this.closeModal = _this.closeModal.bind(_this);
-	    _this.updateName = _this.updateName.bind(_this);
-	    _this.updateFavoriteCity = _this.updateFavoriteCity.bind(_this);
+	    _this.setName = _this.setName.bind(_this);
+	    _this.setFavoriteCity = _this.setFavoriteCity.bind(_this);
 	    _this.updatePerson = _this.updatePerson.bind(_this);
 	    return _this;
 	  }
@@ -33690,22 +33689,35 @@
 	      this.props.closeModal(false);
 	    }
 	  }, {
-	    key: 'updateFavoriteCity',
-	    value: function updateFavoriteCity(evt) {
+	    key: 'setFavoriteCity',
+	    value: function setFavoriteCity(evt) {
 	      evt.preventDefault();
 	      this.setState({ favoriteCity: evt.target.value });
 	    }
 	  }, {
-	    key: 'updateName',
-	    value: function updateName(evt) {
+	    key: 'setName',
+	    value: function setName(evt) {
 	      evt.preventDefault();
 	      this.setState({ name: evt.target.value });
 	    }
 	  }, {
 	    key: 'updatePerson',
 	    value: function updatePerson() {
-	
-	      this.setState({ name: evt.target.value });
+	      var self = this;
+	      if (this.state.name === '' || this.state.favoriteCity === '') {
+	        this.setState({ blankEntryError: true });
+	        setTimeout(function () {
+	          self.setState({ blankEntryError: false });
+	        }, 3000);
+	      } else {
+	        var id = this.props.editingPerson.id;
+	        var details = {
+	          name: this.state.name,
+	          favoriteCity: this.state.favoriteCity
+	        };
+	        this.props.updatePerson(id, details);
+	        this.closeModal();
+	      }
 	    }
 	  }, {
 	    key: 'render',
@@ -33725,7 +33737,7 @@
 	              _react2.default.createElement(
 	                'div',
 	                { className: 'input-field col s6' },
-	                _react2.default.createElement('input', { id: 'first_name', type: 'text', className: 'validate', value: this.state.name }),
+	                _react2.default.createElement('input', { id: 'first_name', onChange: this.setName, type: 'text', className: 'validate', value: this.state.name }),
 	                _react2.default.createElement(
 	                  'label',
 	                  { htmlFor: 'first_name', className: this.state.name ? 'active' : '' },
@@ -33735,7 +33747,7 @@
 	              _react2.default.createElement(
 	                'div',
 	                { className: 'input-field col s6' },
-	                _react2.default.createElement('input', { id: 'last_name', type: 'text', className: 'validate', value: this.state.favoriteCity }),
+	                _react2.default.createElement('input', { id: 'last_name', onChange: this.setFavoriteCity, type: 'text', className: 'validate', value: this.state.favoriteCity }),
 	                _react2.default.createElement(
 	                  'label',
 	                  { htmlFor: 'last_name', className: this.state.favoriteCity ? 'active' : '' },
@@ -33745,9 +33757,14 @@
 	            )
 	          )
 	        ),
+	        this.state.blankEntryError ? _react2.default.createElement(
+	          'div',
+	          { className: 'error-text' },
+	          'Oops! An update cannot be blank'
+	        ) : '',
 	        _react2.default.createElement(
 	          'div',
-	          { className: 'waves-effect waves-light btn', onClick: this.closeModal },
+	          { className: 'waves-effect waves-light btn', onClick: this.updatePerson },
 	          'Save'
 	        ),
 	        _react2.default.createElement(
@@ -33778,6 +33795,9 @@
 	  return {
 	    closeModal: function closeModal(bool) {
 	      dispatch((0, _table.toggleEditPerson)(bool));
+	    },
+	    updatePerson: function updatePerson(id, details) {
+	      dispatch((0, _table.updatePersonInDb)(id, details));
 	    }
 	  };
 	};
@@ -34233,7 +34253,7 @@
 	
 	
 	// module
-	exports.push([module.id, "body {\n  background-color: #f8f8f8; }\n\n.tab-wrapper {\n  width: 100%;\n  background-color: white;\n  padding: 10px 20px; }\n  .tab-wrapper .skinny {\n    width: 10%; }\n\n.btn {\n  width: 100%;\n  z-index: 1;\n  background-color: #1ed760;\n  margin-top: 10px; }\n  .btn:hover {\n    color: white;\n    background-color: #2ebd59; }\n\n@media (min-width: 640px) {\n  .tab-wrapper {\n    width: 80%;\n    margin: 0 auto; } }\n", ""]);
+	exports.push([module.id, "body {\n  background-color: #f8f8f8; }\n\n.tab-wrapper {\n  width: 100%;\n  background-color: white;\n  padding: 10px 20px; }\n  .tab-wrapper .skinny {\n    width: 15%; }\n\n.btn {\n  width: 100%;\n  z-index: 1;\n  background-color: #1ed760;\n  margin-top: 10px; }\n  .btn:hover {\n    color: white;\n    background-color: #2ebd59; }\n\n@media (min-width: 640px) {\n  .tab-wrapper {\n    width: 80%;\n    margin: 0 auto; } }\n", ""]);
 	
 	// exports
 

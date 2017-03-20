@@ -18,7 +18,7 @@ class Tabs extends React.Component {
   }
 
   render() {
-    const { modalOpen, people, editingPerson } = this.props;
+    const { modalOpen, people } = this.props;
     return (
       <div>
         <div className="row">
@@ -44,11 +44,10 @@ class Tabs extends React.Component {
   }
 }
 
-const mapStateToProps = ( { people, modalOpen, editingPerson } ) => {
+const mapStateToProps = ( { people, modalOpen } ) => {
   return {
     people,
     modalOpen,
-    editingPerson
   };
 };
 
