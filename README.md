@@ -15,6 +15,8 @@ This code challenge is a small crud app where you can:
 
 codeChallenge by Stephanie Manwaring is built using the NERDS stack (Node.js, Express, React, Database-Sequelize). It uses HTML5, CSS3, and Sass.
 
+It uses materialize css for styling. [materialize css](http://materializecss.com/)
+
 It is a responsive deskop application. 
 
 ### Prerequisites
