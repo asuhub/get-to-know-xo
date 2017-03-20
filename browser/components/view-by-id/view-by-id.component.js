@@ -2,6 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { findUserById, toggleUserNotFoundError  } from '../view-by-id/view-by-id.reducer';
 import Table from '../table/table.component';
+import { toggleEditPerson } from '../table/table.reducer';
 
 class ViewById extends React.Component {
   constructor(props){
@@ -11,6 +12,7 @@ class ViewById extends React.Component {
     };
     this.setId = this.setId.bind(this);
     this.findUser = this.findUser.bind(this);
+    this.closeModal = this.closeModal.bind(this);
   }
 
   componentDidUpdate(){
@@ -30,6 +32,10 @@ class ViewById extends React.Component {
   findUser() {
     const userId = this.state.id;
     this.props.fetchUser(userId);
+  }
+
+  closeModal() {
+    this.props.closeModal(false);
   }
 
   render() {
@@ -52,7 +58,7 @@ class ViewById extends React.Component {
           <div className="waves-effect waves-light btn" onClick={this.findUser}>Find by Id</div>
           { userNotFound ? <div>That Id was not found. Please try another id.</div> : ''}
         </div>
-        { foundUser.id ? <Table people={[foundUser]} modalOpen={modalOpen} editingPerson={editingPerson} /> : ''}
+        { foundUser.id ? <Table people={[foundUser]} modalOpen={modalOpen} editingPerson={editingPerson} closeModal={this.closeModal}/> : ''}
       </div>
     );
   }
@@ -75,6 +81,9 @@ const mapDispatchToProps = dispatch => {
     },
     toggleUserNotFound: boolean => {
       dispatch( toggleUserNotFoundError(boolean) );
+    },
+    closeModal: boolean => {
+      dispatch( toggleEditPerson(boolean));
     }
   };
 

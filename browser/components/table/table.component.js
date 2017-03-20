@@ -2,9 +2,10 @@ import React from 'react';
 import Actions from '../actions/actions.component';
 import Modal from 'react-modal';
 import ModalStyles from './table.modal';
+import EditForm from '../edit-form/edit-form.component';
 import './table.scss';
 
-const Table = ( {people, modalOpen, editingPerson }) => {
+const Table = ( {people, modalOpen, editingPerson, closeModal }) => {
   console.log(modalOpen);
     const noPeople = people.length < 1;
     return (
@@ -41,9 +42,7 @@ const Table = ( {people, modalOpen, editingPerson }) => {
             contentLabel="Modal"
           >
             <h4>Edit Person</h4>
-            <div>{editingPerson}</div>
-            <button>Close</button>
-            <button>Save</button>
+            <EditForm />
           </Modal>
       </div>
     );
@@ -52,23 +51,4 @@ const Table = ( {people, modalOpen, editingPerson }) => {
 
 export default Table;
 
-// /* ---------  CONTAINER   ------- */
-// const mapStateToProps = ( {people, modalOpen, editingPerson } ) => {
-//   return {
-//     people,
-//     modalOpen,
-//     editingPerson
-//   };
-// };
-
-// const mapDispatchToProps = dispatch => {
-//   return {
-//   };
-
-// };
-
-// export default connect(
-//   mapStateToProps,
-//   mapDispatchToProps
-// )(Table);
 

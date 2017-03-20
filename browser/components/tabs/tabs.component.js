@@ -3,15 +3,22 @@ import { connect } from 'react-redux';
 import Table from '../table/table.component';
 import AddNew from '../add-new/add-new.component';
 import ViewById from '../view-by-id/view-by-id.component';
+import { toggleEditPerson } from '../table/table.reducer';
 import './shared.scss';
 import './tabs.scss';
 
 class Tabs extends React.Component {
   constructor(props){
     super(props);
+    this.closeModal = this.closeModal.bind(this);
   }
+
+  closeModal() {
+    this.props.closeModal(false);
+  }
+
   render() {
-    const { modalOpen, people, editingPerson} = this.props;
+    const { modalOpen, people, editingPerson } = this.props;
     return (
       <div>
         <div className="row">
@@ -23,7 +30,7 @@ class Tabs extends React.Component {
             </ul>
           </div>
           <div id="view-all" className="col s12">
-            <Table people={people} modalOpen={modalOpen} editingPerson={editingPerson} />
+            <Table people={people} modalOpen={modalOpen} editingPerson={editingPerson} closeModal={this.closeModal} />
           </div>
           <div id="by-id" className="col s12">
             <ViewById />
@@ -47,6 +54,9 @@ const mapStateToProps = ( { people, modalOpen, editingPerson } ) => {
 
 const mapDispatchToProps = dispatch => {
   return {
+    closeModal: bool => {
+      dispatch( toggleEditPerson(bool) );
+    }
   };
 };
 

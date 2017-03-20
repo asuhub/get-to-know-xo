@@ -43,6 +43,7 @@ export const personToEdit = (personId) => {
   };
 };
 
+
 /* ------------       ASYNC ACTIONS     ------------------ */
 export const fetchPeople = () => {
   return dispatch => {
@@ -58,7 +59,7 @@ export const fetchPeople = () => {
   };
 };
 
-export const deleteUserFromDb = (id) => {
+export const deleteUserFromDb = id => {
   return dispatch => {
     axios.delete(`/api/people/${id}`)
       .then(res => dispatch( fetchPeople() ) )
@@ -66,6 +67,13 @@ export const deleteUserFromDb = (id) => {
   };
 };
 
+export const updatePerson = (id, details) => {
+  return dispatch => {
+    axios.put(`/api/people/${id}`, details)
+      .then(res => dispatch( fetchPeople() ) )
+      .catch(err => console.log(err));
+  };
+};
 
 /* ------------       REDUCER    ------------------ */
 export const people = (state = [], action) => {
