@@ -33950,6 +33950,9 @@
 	        };
 	        this.props.postNewPerson(details);
 	        this.setState({ successMessage: true });
+	        setTimeout(function () {
+	          self.setState({ successMessage: false });
+	        }, 3000);
 	      }
 	    }
 	  }, {

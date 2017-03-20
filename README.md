@@ -2,8 +2,11 @@
 
 [Visit the live site hosted on Heroku](https://spotify-stephaniemanwaring.herokuapp.com/)
 
-First and foremost - thank you for considering me for this once in a lifetime position.
+First and foremost - thank you for considering me for this once in a lifetime position!
+
 If you have any questions about the app, please don't hesitate to reach out to me directly at stephanie.manwaring@gmail.com
+
+### About the app
 
 This is a small CRUD app where you can:
 * view people in the codeChallenge database (each person has an id, name, and favorite city)
@@ -11,11 +14,26 @@ This is a small CRUD app where you can:
 * add people to the codeChallenge database
 * query people in the codeChallenge database by ID
 
-### About the app
-
-codeChallenge by Stephanie Manwaring is a responsive web app built using the NERRDS stack (Node.js, Express, React, Redux, Database-Sequelize). It uses HTML5, CSS3, and Sass.
+codeChallenge is a responsive web app built using the NERRDS stack (Node.js, Express, React, Redux, Database-Sequelize). It uses HTML5, CSS3, and Sass.
 
 It uses [materialize css](http://materializecss.com/) for styling. 
+
+
+### Code Challenge Client Directions 
+To mimick the code challenge guidlines in order please follow these instructions in order: 
+*To make a GET request to /people: click on the "view all" tab
+
+*To make a POST request to /people: click on the "add new" tab and enter in a name, and a favorite city for that person. To follow the example given in the guidelines, the name should be Sean and the favorite city should be New York.
+
+*To make a GET request to retrieve the object created in the previous request click on "view all" tab to see what the generated ID for the user is. Then, click on 'view by id' and enter in that id.
+
+*To make a PUT request to /people and modify the attribute city to be “Brooklyn”: from either the 'view all' tab or 'view-by-id' tab, click on the pencil icon to the right of the user you want to upate. A modal will pop up where you can edit the favorite city of that user (and name, if you so choose).
+
+*To make a GET request to /people/1: Depending on the current database of the deployed app, a user with an ID of 1 may not exist. However, query the database for a user with a specific idea and hit the /people/:userId route simply go to the "view by id" tab and search for an id of an existing person.
+
+*To make a DELETE request to /people/1: Depending on the current database of the deployed app, a user with an ID of 1 may not exist. However, to delete a specific user by id and hit the DELETE /people/:userId route, simply go to the "view all" tab and click on the trash icon next to a user you want to delete.
+
+*To make a GET request to /people: click on the "view-all" tab.
 
 
 ### Prerequisites
