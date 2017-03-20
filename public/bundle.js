@@ -28784,6 +28784,8 @@
 	
 	var _axios2 = _interopRequireDefault(_axios);
 	
+	var _viewById = __webpack_require__(297);
+	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
 	/* -----------------    ACTIONS     ------------------ */
@@ -28858,7 +28860,8 @@
 	var updatePersonInDb = exports.updatePersonInDb = function updatePersonInDb(id, details) {
 	  return function (dispatch) {
 	    _axios2.default.put('/api/people/' + id, details).then(function (res) {
-	      return dispatch(fetchPeople());
+	      dispatch(fetchPeople());
+	      dispatch((0, _viewById.findUserById)(res.data.id));
 	    }).catch(function (err) {
 	      return console.log(err);
 	    });
