@@ -9,7 +9,8 @@ class AddNew extends React.Component {
     this.state = {
       name: '',
       favoriteCity: '',
-      blankEntryError: false
+      blankEntryError: false,
+      successMessage: false
     };
     this.addNewPerson = this.addNewPerson.bind(this);
     this.setName = this.setName.bind(this);
@@ -39,6 +40,7 @@ class AddNew extends React.Component {
         favoriteCity: this.state.favoriteCity
       };
       this.props.postNewPerson(details);
+      this.setState({successMessage: true});
     }
   }
 
@@ -60,6 +62,7 @@ class AddNew extends React.Component {
           </form>
           </div>
           { this.state.blankEntryError ? <div className="error-text">Oops! Fields cannot be empty.</div> : ''}
+          { this.state.successMessage ? <div className="success-text">Person successfully added!</div> : ''}
           <div className="waves-effect waves-light btn" onClick={this.addNewPerson}>Add Person</div>
         </div>
     );

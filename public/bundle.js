@@ -33890,7 +33890,8 @@
 	    _this.state = {
 	      name: '',
 	      favoriteCity: '',
-	      blankEntryError: false
+	      blankEntryError: false,
+	      successMessage: false
 	    };
 	    _this.addNewPerson = _this.addNewPerson.bind(_this);
 	    _this.setName = _this.setName.bind(_this);
@@ -33925,6 +33926,7 @@
 	          favoriteCity: this.state.favoriteCity
 	        };
 	        this.props.postNewPerson(details);
+	        this.setState({ successMessage: true });
 	      }
 	    }
 	  }, {
@@ -33969,6 +33971,11 @@
 	          'div',
 	          { className: 'error-text' },
 	          'Oops! Fields cannot be empty.'
+	        ) : '',
+	        this.state.successMessage ? _react2.default.createElement(
+	          'div',
+	          { className: 'success-text' },
+	          'Person successfully added!'
 	        ) : '',
 	        _react2.default.createElement(
 	          'div',
@@ -34272,7 +34279,7 @@
 	
 	
 	// module
-	exports.push([module.id, "body {\n  background-color: #f8f8f8; }\n\n.tab-wrapper {\n  width: 100%;\n  background-color: white;\n  padding: 10px 20px; }\n  .tab-wrapper .skinny {\n    width: 15%; }\n\n.btn {\n  width: 100%;\n  z-index: 1;\n  background-color: #1ed760;\n  margin-top: 10px; }\n  .btn:hover {\n    color: white;\n    background-color: #2ebd59; }\n\n.error-text {\n  width: 100%;\n  margin: 10px 0px;\n  color: red; }\n\n@media (min-width: 640px) {\n  .tab-wrapper {\n    width: 80%;\n    margin: 0 auto; } }\n", ""]);
+	exports.push([module.id, "body {\n  background-color: #f8f8f8; }\n\n.tab-wrapper {\n  width: 100%;\n  background-color: white;\n  padding: 10px 20px; }\n  .tab-wrapper .skinny {\n    width: 15%; }\n\n.btn {\n  width: 100%;\n  z-index: 1;\n  background-color: #1ed760;\n  margin-top: 10px; }\n  .btn:hover {\n    color: white;\n    background-color: #2ebd59; }\n\n.error-text {\n  width: 100%;\n  margin: 10px 0px;\n  color: red; }\n\n.success-text {\n  width: 100%;\n  margin: 10px 0px;\n  color: #2ebd59; }\n\n@media (min-width: 640px) {\n  .tab-wrapper {\n    width: 80%;\n    margin: 0 auto; } }\n", ""]);
 	
 	// exports
 
