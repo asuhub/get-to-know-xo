@@ -14,7 +14,7 @@ This is a small CRUD app where you can:
 * add people to the codeChallenge database
 * query people in the codeChallenge database by ID
 
-codeChallenge is a responsive web app built using the NERRDS stack (Node.js, Express, React, Redux, Database-Sequelize). It uses HTML5, CSS3, and Sass.
+codeChallenge is a responsive web app built using the NERDS stack (Node.js, Express, React/Redux, Database-Sequelize). It uses HTML5, CSS3, and Sass.
 
 It uses [materialize css](http://materializecss.com/) for styling. 
 
@@ -26,9 +26,9 @@ To mimick the code challenge guidlines in order please follow these instructions
 
 1. To make a POST request to /people: click on the __add new__ tab and enter in a name, and a favorite city for that person. To follow the example given in the guidelines, the name should be Sean and the favorite city should be New York.
 
-1. To make a GET request to retrieve the object created in the previous request click on __view all__ tab to see what the generated ID for the user is. Then, click on __view by id__ and enter in that id in the field available.
+1. To make a GET request to retrieve the object created in the previous request: click on __view all__ tab to see what the generated ID for the user is. Then, click on __view by id__ and enter in that id in the field available.
 
-1. To make a PUT request to /people and modify the attribute city to be “Brooklyn”: from either the __view all__ tab or 'view-by-id' tab, click on the pencil icon to the right of the user you want to upate. A modal will pop up where you can edit the favorite city of that user (and name, if you so choose).
+1. To make a PUT request to /people and modify the attribute city to be “Brooklyn”: from either the __view all__ tab or __view-by-id__ tab, click on the pencil icon to the right of the user you want to upate. A modal will pop up where you can edit the favorite city of that user (and name, if you so choose).
 
 1. To make a GET request to /people/1: Depending on the current database of the deployed app, a user with an ID of 1 may not exist. However, query the database for a user with a specific idea and hit the /people/:userId route simply go to the __view by id__ tab and search for an id of an existing person.
 

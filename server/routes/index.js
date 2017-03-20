@@ -26,16 +26,6 @@ router.post('/people', (req, res, next) => {
   .catch(next);
 });
 
-// // GET the object created in most previous create
-// router.get('/people/latest', (req, res, next) => {
-//   People.findOne({
-//     where: {
-//     }
-//   })
-//   .then( createdPerson => res.status(201).send(createdPerson))
-//   .catch(next);
-// });
-
 // GET a specific user
 router.get('/people/:userId', (req, res, next) => {
   const foundUser = req.user;

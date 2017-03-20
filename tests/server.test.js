@@ -11,7 +11,7 @@ const agent = supertest.agent(app);
 
 describe('People', () => {
   before('wait for the db', (done) => {
-    db.sync()
+    db.sync( {force: true} )
       .then(() => {
         console.log(chalk.yellow('Sync success'));
         done();
@@ -44,35 +44,28 @@ describe('People', () => {
       });
 
       it('reports a validation error for invalid person entries', () => {
-        return Person.create(invalidPerson)
+        return People.create(invalidPerson)
           .then(error => {
             expect(error).to.be.instanceOf(Error);
             expect(error.message).to.contain('invalid input');
           })
           .catch(err => console.log(chalk.green('You got a validation error')));
       });
-
     });
   });
 
   describe('Routes: ', () => {
 
-    before('create a fake board', () => {
-      return People.create({
-        name: 'Stephanie',
-        favoriteCity: 'Brooklyn',
-        id: 200
-      })
-      .then(ok => console.log(chalk.yellow('fake person created')))
-      .catch(err => console.error(err));
-    });
+      before('wait for the db', (done) => {
+        db.sync( {force: true} )
+          .then(() => {
+            console.log(chalk.yellow('Sync success'));
+            done();
+          })
+          .catch(done);
+      });
 
-    after('delete that fake person', () => {
-      return People.findById(200)
-        .then(person => person.destroy())
-        .then(ok => console.log(chalk.green('person deleted')))
-        .catch(err => console.error(err));
-    });
+    after('clear db', () => db.didSync);
 
     const validPersonB = {
       id: 400,
@@ -81,7 +74,7 @@ describe('People', () => {
     };
 
       it('POST /api/people >> creates a person and returns that created person', (done) => {
-        agent.post('/api/')
+        agent.post('/api/people')
           .set('Content-type', 'application/json')
           .send(validPersonB)
           .expect(201)
@@ -93,7 +86,7 @@ describe('People', () => {
           });
       });
 
-      it('GET /api/people >> returns all the people in the database', (done) => {
+      xit('GET /api/people >> returns all the people in the database', (done) => {
         agent.get('/api/people')
           .expect(200)
           .end((err, res) => {
@@ -105,7 +98,7 @@ describe('People', () => {
       });
 
       it('GET /api/people/:userID >> sends a 204 if it a non-valid id is passed in', (done) => {
-        agent.get('/api/people/hello')
+        agent.get('/api/people/8675309')
           .expect(204)
           .end((err, res) => {
             if (err) return done(err);
@@ -113,27 +106,27 @@ describe('People', () => {
           });
       });
 
-        it('GET /api/people/:userId >> returns a valid person', (done) => {
-          agent.get('/api/people/200')
-          .expect(200)
-          .end((err, res) => {
-            if (err) return done(err);
-            expect(res.body.name).to.be.equal('Stephanie');
-            done();
-          });
-      });
+      it('GET /api/people/:userId >> returns a valid person', (done) => {
+        agent.get('/api/people/400')
+        .expect(200)
+        .end((err, res) => {
+          if (err) return done(err);
+          expect(res.body.name).to.be.equal('Tony');
+          done();
+        });
+    });
 
-        it('PUT /api/:userId >> sends a 204 if the person does not exist', (done) => {
-          agent.get('/api/8675309')
-          .expect(204)
-          .end((err, res) => {
-            if (err) return done(err);
-            done();
-          });
-      });
+      it('PUT /api/people/:userId >> sends a 204 if the person does not exist', (done) => {
+        agent.put('/api/people/8675309')
+        .expect(204)
+        .end((err, res) => {
+          if (err) return done(err);
+          done();
+        });
+    });
 
-      xit('PUT /api/:userId >> updates the user', (done) => {
-        agent.get('/api/200')
+      xit('PUT /api/people/:userId >> updates the user', (done) => {
+        agent.put('/api/people/200')
         .expect(201)
         .end((err, res) => {
           if (err) return done(err);
@@ -142,7 +135,7 @@ describe('People', () => {
         });
       });
 
-      it('DELETE /api/people/:userId >> sends a 204 if hte person does not exist', (done) => {
+      it('DELETE /api/people/:userId >> sends a 204 if the person does not exist', (done) => {
         agent.delete('/api/people/8675309')
         .expect(204)
         .end((err, res) => {
@@ -154,6 +147,7 @@ describe('People', () => {
       it('DELETE /api/people/:userId >> deletes a user', (done) => {
         agent.delete('/api/people/200')
         .expect(204);
+        done();
       });
   });
 });
