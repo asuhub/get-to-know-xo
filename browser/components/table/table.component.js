@@ -14,13 +14,13 @@ class Table extends React.Component {
     const { people, modalOpen } = this.props;
     const noPeople = people.length < 1;
     return (
-      <div className="tab-wrapper">
+      <div className="tab-wrapper z-depth-3">
         <table>
             <colgroup>
-              <col/>
-              <col/>
-              <col/>
-              <col className="skinny"/>
+              <col />
+              <col />
+              <col />
+              <col className="skinny" />
             </colgroup>
           <thead>
             <tr>

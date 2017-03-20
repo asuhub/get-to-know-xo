@@ -35,7 +35,7 @@ class AddNew extends React.Component {
 
   render() {
     return (
-      <div className="tab-wrapper">
+      <div className="tab-wrapper z-depth-3">
         <div className="row">
           <form className="col s12">
             <div className="row">

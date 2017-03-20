@@ -14,8 +14,10 @@ body {
 .btn {
   width: 100%;
   z-index: 1;
+  background-color: #1ed760;
   &:hover {
     color: white;
+    background-color:#2ebd59; 
   }
 }
 
