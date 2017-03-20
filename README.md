@@ -2,7 +2,7 @@
 
 [Visit the live site hosted on Heroku](https://spotify-stephaniemanwaring.herokuapp.com/)
 
-First and foremost - thank you for considering me for this once-in-a lifetime position!
+First and foremost - thank you for considering me for this once-in-a-lifetime position!
 
 If you have any questions about the app, please don't hesitate to reach out to me directly at stephanie.manwaring@gmail.com
 
@@ -20,7 +20,7 @@ It uses [materialize css](http://materializecss.com/) for styling.
 
 
 ### Code Challenge Client Directions 
-To mimick the code challenge guidlines in order please follow these instructions in order: 
+To mimick the code challenge guidelines in order please follow these instructions (in order): 
 
 1. To make a GET request to /people: click on the __view all__ tab.
 
