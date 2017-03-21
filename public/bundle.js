@@ -31882,6 +31882,10 @@
 	
 	var _viewById2 = _interopRequireDefault(_viewById);
 	
+	var _clientGuide = __webpack_require__(339);
+	
+	var _clientGuide2 = _interopRequireDefault(_clientGuide);
+	
 	var _table3 = __webpack_require__(271);
 	
 	__webpack_require__(335);
@@ -31934,7 +31938,7 @@
 	              { className: 'tabs margin-bottom' },
 	              _react2.default.createElement(
 	                'li',
-	                { className: 'tab bold col s4' },
+	                { className: 'tab bold col s3' },
 	                _react2.default.createElement(
 	                  'a',
 	                  { className: 'active', href: '#view-all' },
@@ -31943,7 +31947,7 @@
 	              ),
 	              _react2.default.createElement(
 	                'li',
-	                { className: 'tab bold col s4' },
+	                { className: 'tab bold col s3' },
 	                _react2.default.createElement(
 	                  'a',
 	                  { href: '#by-id' },
@@ -31952,11 +31956,20 @@
 	              ),
 	              _react2.default.createElement(
 	                'li',
-	                { className: 'tab bold col s4' },
+	                { className: 'tab bold col s3' },
 	                _react2.default.createElement(
 	                  'a',
 	                  { href: '#add-new' },
 	                  'Add New'
+	                )
+	              ),
+	              _react2.default.createElement(
+	                'li',
+	                { className: 'tab bold col s3' },
+	                _react2.default.createElement(
+	                  'a',
+	                  { href: '#client-instructions' },
+	                  'Client Directions '
 	                )
 	              )
 	            )
@@ -31975,6 +31988,11 @@
 	            'div',
 	            { id: 'add-new', className: 'col s12' },
 	            _react2.default.createElement(_addNew2.default, null)
+	          ),
+	          _react2.default.createElement(
+	            'div',
+	            { id: 'client-instructions', className: 'col s12' },
+	            _react2.default.createElement(_clientGuide2.default, null)
 	          )
 	        )
 	      );
@@ -34347,6 +34365,108 @@
 	
 	// module
 	exports.push([module.id, ".tabs a:focus, .tabs a:hover {\n  text-decoration: none; }\n\n.tabs {\n  background-color: transparent; }\n\n.margin-bottom {\n  margin-bottom: 20px; }\n\n.tabs .tab a {\n  color: #1ed760; }\n\n.tabs .tab a:hover, .tabs .tab a.active {\n  background-color: transparent;\n  color: #2ebd59; }\n\n.tabs .tab.disabled a, .tabs .tab.disabled a:hover {\n  color: rgba(102, 147, 153, 0.7); }\n\n.tabs .indicator {\n  background-color: #2ebd59; }\n\n.bold {\n  font-weight: 500; }\n", ""]);
+	
+	// exports
+
+
+/***/ },
+/* 339 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
+	var _react = __webpack_require__(1);
+	
+	var _react2 = _interopRequireDefault(_react);
+	
+	var _clientInstructions = __webpack_require__(340);
+	
+	var _clientInstructions2 = _interopRequireDefault(_clientInstructions);
+	
+	__webpack_require__(341);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	var ClientGuide = function ClientGuide() {
+	  return _react2.default.createElement(
+	    'div',
+	    { className: 'tab-wrapper z-depth-3' },
+	    _react2.default.createElement(
+	      'h2',
+	      { className: 'center-text' },
+	      'Code Challenge Client Directions'
+	    ),
+	    _react2.default.createElement(
+	      'div',
+	      { className: 'text-bold center-text' },
+	      'To mimic the code challenge guidelines in order please follow these steps:'
+	    ),
+	    _react2.default.createElement('hr', null),
+	    _clientInstructions2.default.map(function (step) {
+	      return _react2.default.createElement(
+	        'div',
+	        { className: 'step' },
+	        step
+	      );
+	    })
+	  );
+	};
+	
+	exports.default = ClientGuide;
+
+/***/ },
+/* 340 */
+/***/ function(module, exports) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	var clientInstructions = ['1. To make a GET request to /people: click on the __view all__ tab', '2. To make a POST request to /people: click on the __add new__ tab and enter in a name, and a favorite city for that person. To follow the example given in the guidelines, the name should be Sean and the favorite city should be New York.', '3. To make a GET request to retrieve the object created in the previous request: click on __view all__ tab to see what the generated ID for the user is. Then, click on __view by id__ and enter in that id in the field available.', '4. To make a PUT request to /people and modify the attribute city to be “Brooklyn”: from either the __view all__ tab or __view-by-id__ tab, click on the pencil icon to the right of the user you want to update. A modal will pop up where you can edit the favorite city of that user (and name, if you so choose).', '5. To make a GET request to /people/1: Depending on the current database of the deployed app, a user with an ID of 1 may not exist. However, query the database for a user with a specific idea and hit the /people/:userId route simply go to the __view by id__ tab and search for an id of an existing person.', '6. To make a DELETE request to /people/1: Depending on the current database of the deployed app, a user with an ID of 1 may not exist. However, to delete a specific user by id and hit the DELETE /people/:userId route, simply go to the __view all__ tab and click on the trash icon next to a user you want to delete.', '7. To make a GET request to /people: click on the __view-all__ tab.'];
+	
+	exports.default = clientInstructions;
+
+/***/ },
+/* 341 */
+/***/ function(module, exports, __webpack_require__) {
+
+	// style-loader: Adds some css to the DOM by adding a <style> tag
+	
+	// load the styles
+	var content = __webpack_require__(342);
+	if(typeof content === 'string') content = [[module.id, content, '']];
+	// add the styles to the DOM
+	var update = __webpack_require__(310)(content, {});
+	if(content.locals) module.exports = content.locals;
+	// Hot Module Replacement
+	if(false) {
+		// When the styles change, update the <style> tags
+		if(!content.locals) {
+			module.hot.accept("!!../../../node_modules/css-loader/index.js!../../../node_modules/sass-loader/lib/loader.js!./client-guide.scss", function() {
+				var newContent = require("!!../../../node_modules/css-loader/index.js!../../../node_modules/sass-loader/lib/loader.js!./client-guide.scss");
+				if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+				update(newContent);
+			});
+		}
+		// When the module is disposed, remove the <style> tags
+		module.hot.dispose(function() { update(); });
+	}
+
+/***/ },
+/* 342 */
+/***/ function(module, exports, __webpack_require__) {
+
+	exports = module.exports = __webpack_require__(309)();
+	// imports
+	
+	
+	// module
+	exports.push([module.id, ".step {\n  margin: 10px 0px; }\n\n.center-text {\n  text-align: center; }\n\n.text-bold {\n  font-weight: bold; }\n", ""]);
 	
 	// exports
 

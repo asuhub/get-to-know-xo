@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import Table from '../table/table.component';
 import AddNew from '../add-new/add-new.component';
 import ViewById from '../view-by-id/view-by-id.component';
+import ClientGuide from '../client-guide/client-guide.component';
 import { toggleEditPerson } from '../table/table.reducer';
 import './shared.scss';
 import './tabs.scss';
@@ -24,9 +25,10 @@ class Tabs extends React.Component {
         <div className="row">
           <div className="col s12">
             <ul className="tabs margin-bottom">
-              <li className="tab bold col s4"><a className="active" href="#view-all">View All</a></li>
-              <li className="tab bold col s4"><a  href="#by-id">View By Id</a></li>
-              <li className="tab bold col s4"><a href="#add-new">Add New</a></li>
+              <li className="tab bold col s3"><a className="active" href="#view-all">View All</a></li>
+              <li className="tab bold col s3"><a  href="#by-id">View By Id</a></li>
+              <li className="tab bold col s3"><a href="#add-new">Add New</a></li>
+              <li className="tab bold col s3"><a href="#client-instructions">Client Directions </a></li>
             </ul>
           </div>
           <div id="view-all" className="col s12">
@@ -37,6 +39,9 @@ class Tabs extends React.Component {
           </div>
           <div id="add-new" className="col s12">
             <AddNew />
+          </div>
+          <div id="client-instructions" className="col s12">
+            <ClientGuide />
           </div>
         </div>
       </div>
