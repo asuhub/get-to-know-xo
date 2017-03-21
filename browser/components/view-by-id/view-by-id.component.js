@@ -29,7 +29,8 @@ class ViewById extends React.Component {
     this.setState({id: evt.target.value});
   }
 
-  findUser() {
+  findUser(evt) {
+    evt.preventDefault();
     const userId = this.state.id;
     this.props.fetchUser(userId);
   }
@@ -53,13 +54,13 @@ class ViewById extends React.Component {
                 </div>
               </div>
             </div>
+            <button type="submit" className="waves-effect waves-light btn" onClick={this.findUser}>Find by Id</button>
           </form>
-          </div>
-          <div className="waves-effect waves-light btn" onClick={this.findUser}>Find by Id</div>
-          { userNotFound ? <div className="error-text">That ID was not found. Please try another ID.</div> : ''}
         </div>
-        { foundUser.id ? <Table people={[foundUser]} modalOpen={modalOpen} closeModal={this.closeModal} /> : ''}
-      </div>
+      { userNotFound ? <div className="error-text">That ID was not found. Please try another ID.</div> : ''}
+     </div>
+    { foundUser.id ? <Table people={[foundUser]} modalOpen={modalOpen} closeModal={this.closeModal} /> : ''}
+    </div>
     );
   }
 }

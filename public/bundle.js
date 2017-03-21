@@ -34303,7 +34303,8 @@
 	    }
 	  }, {
 	    key: 'findUser',
-	    value: function findUser() {
+	    value: function findUser(evt) {
+	      evt.preventDefault();
 	      var userId = this.state.id;
 	      this.props.fetchUser(userId);
 	    }
@@ -34349,13 +34350,13 @@
 	                    )
 	                  )
 	                )
+	              ),
+	              _react2.default.createElement(
+	                'button',
+	                { type: 'submit', className: 'waves-effect waves-light btn', onClick: this.findUser },
+	                'Find by Id'
 	              )
 	            )
-	          ),
-	          _react2.default.createElement(
-	            'div',
-	            { className: 'waves-effect waves-light btn', onClick: this.findUser },
-	            'Find by Id'
 	          ),
 	          userNotFound ? _react2.default.createElement(
 	            'div',
