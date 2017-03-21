@@ -39,7 +39,7 @@ To mimic the code challenge guidelines in order please follow these instructions
 
 ### About my API
 
-To view the API routes, go to server/routes/index..js
+To view the API routes, go to server/routes/index.js
 
 All API endpoints are under https://spotify-stephaniemanwaring.herokuapp.com/api/. Below are current endpoints. You can also try it out by yourself using [Postman](https://www.getpostman.com/).
 
