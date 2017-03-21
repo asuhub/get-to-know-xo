@@ -51,7 +51,8 @@ class AddNew extends React.Component {
     this.props.fetchPerson(personId);
   }
 
-  addNewPerson() {
+  addNewPerson(evt) {
+    evt.preventDefault();
     const self = this;
     if (this.state.name === '' || this.state.favoriteCity === '') {
       this.setState({blankEntryError: true});
@@ -84,11 +85,11 @@ class AddNew extends React.Component {
                 <label htmlFor="last_name">Favorite City</label>
               </div>
             </div>
+            { this.state.blankEntryError ? <div className="error-text">Oops! Fields cannot be empty.</div> : ''}
+            { this.state.successMessage ? <div onClick={this.findUser} className="success-text pointer">{`Person successfully added and has an ID of ${justAddedPerson}. Click here to view record.`}</div> : ''}
+            <button type="submit" className="waves-effect waves-light btn" onClick={this.addNewPerson}>Add Person</button>
           </form>
           </div>
-          { this.state.blankEntryError ? <div className="error-text">Oops! Fields cannot be empty.</div> : ''}
-          { this.state.successMessage ? <div onClick={this.findUser} className="success-text pointer">{`Person successfully added and has an ID of ${justAddedPerson}. Click here to view record.`}</div> : ''}
-          <div className="waves-effect waves-light btn" onClick={this.addNewPerson}>Add Person</div>
         </div>
         { foundUserAdded.id ? <Table people={[foundUserAdded]} modalOpen={modalOpen} closeModal={this.closeModal} /> : ''}
       </div>

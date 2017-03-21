@@ -34077,7 +34077,8 @@
 	    }
 	  }, {
 	    key: 'addNewPerson',
-	    value: function addNewPerson() {
+	    value: function addNewPerson(evt) {
+	      evt.preventDefault();
 	      var self = this;
 	      if (this.state.name === '' || this.state.favoriteCity === '') {
 	        this.setState({ blankEntryError: true });
@@ -34135,23 +34136,23 @@
 	                    'Favorite City'
 	                  )
 	                )
+	              ),
+	              this.state.blankEntryError ? _react2.default.createElement(
+	                'div',
+	                { className: 'error-text' },
+	                'Oops! Fields cannot be empty.'
+	              ) : '',
+	              this.state.successMessage ? _react2.default.createElement(
+	                'div',
+	                { onClick: this.findUser, className: 'success-text pointer' },
+	                'Person successfully added and has an ID of ' + justAddedPerson + '. Click here to view record.'
+	              ) : '',
+	              _react2.default.createElement(
+	                'button',
+	                { type: 'submit', className: 'waves-effect waves-light btn', onClick: this.addNewPerson },
+	                'Add Person'
 	              )
 	            )
-	          ),
-	          this.state.blankEntryError ? _react2.default.createElement(
-	            'div',
-	            { className: 'error-text' },
-	            'Oops! Fields cannot be empty.'
-	          ) : '',
-	          this.state.successMessage ? _react2.default.createElement(
-	            'div',
-	            { onClick: this.findUser, className: 'success-text pointer' },
-	            'Person successfully added and has an ID of ' + justAddedPerson + '. Click here to view record.'
-	          ) : '',
-	          _react2.default.createElement(
-	            'div',
-	            { className: 'waves-effect waves-light btn', onClick: this.addNewPerson },
-	            'Add Person'
 	          )
 	        ),
 	        foundUserAdded.id ? _react2.default.createElement(_table3.default, { people: [foundUserAdded], modalOpen: modalOpen, closeModal: this.closeModal }) : ''
