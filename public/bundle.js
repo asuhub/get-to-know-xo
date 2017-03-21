@@ -31999,10 +31999,16 @@
 	    var _this = _possibleConstructorReturn(this, (Tabs.__proto__ || Object.getPrototypeOf(Tabs)).call(this, props));
 	
 	    _this.closeModal = _this.closeModal.bind(_this);
+	    _this.getPeople = _this.getPeople.bind(_this);
 	    return _this;
 	  }
 	
 	  _createClass(Tabs, [{
+	    key: 'getPeople',
+	    value: function getPeople() {
+	      this.props.getPeople();
+	    }
+	  }, {
 	    key: 'closeModal',
 	    value: function closeModal() {
 	      this.props.closeModal(false);
@@ -32031,7 +32037,7 @@
 	                { className: 'tab bold col s3' },
 	                _react2.default.createElement(
 	                  'a',
-	                  { className: 'active', href: '#view-all' },
+	                  { onClick: this.getPeople, className: 'active', href: '#view-all' },
 	                  'View All'
 	                )
 	              ),
@@ -32106,6 +32112,9 @@
 	  return {
 	    closeModal: function closeModal(bool) {
 	      dispatch((0, _table3.toggleEditPerson)(bool));
+	    },
+	    getPeople: function getPeople() {
+	      dispatch((0, _table3.fetchPeople)());
 	    }
 	  };
 	};

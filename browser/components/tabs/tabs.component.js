@@ -4,7 +4,7 @@ import Table from '../table/table.component';
 import AddNew from '../add-new/add-new.component';
 import ViewById from '../view-by-id/view-by-id.component';
 import ClientGuide from '../client-guide/client-guide.component';
-import { toggleEditPerson } from '../table/table.reducer';
+import { toggleEditPerson, fetchPeople } from '../table/table.reducer';
 import './shared.scss';
 import './tabs.scss';
 
@@ -12,6 +12,11 @@ class Tabs extends React.Component {
   constructor(props){
     super(props);
     this.closeModal = this.closeModal.bind(this);
+    this.getPeople = this.getPeople.bind(this);
+  }
+
+  getPeople() {
+    this.props.getPeople();
   }
 
   closeModal() {
@@ -25,7 +30,7 @@ class Tabs extends React.Component {
         <div className="row">
           <div className="col s12">
             <ul className="tabs margin-bottom">
-              <li className="tab bold col s3"><a className="active" href="#view-all">View All</a></li>
+              <li className="tab bold col s3"><a  onClick={this.getPeople} className="active" href="#view-all">View All</a></li>
               <li className="tab bold col s3"><a  href="#by-id">View By Id</a></li>
               <li className="tab bold col s3"><a href="#add-new">Add New</a></li>
               <li className="tab bold col s3"><a href="#client-instructions">Client Directions </a></li>
@@ -60,6 +65,9 @@ const mapDispatchToProps = dispatch => {
   return {
     closeModal: bool => {
       dispatch( toggleEditPerson(bool) );
+    },
+    getPeople: () => {
+      dispatch( fetchPeople() );
     }
   };
 };
