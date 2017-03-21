@@ -30423,7 +30423,7 @@
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
 	});
-	exports.foundUser = exports.userNotFound = exports.findUserById = exports.addFoundUser = exports.toggleUserNotFoundError = exports.ADD_FOUND_USER = exports.TOGGLE_USER_NOT_FOUND = undefined;
+	exports.foundUser = exports.userNotFound = exports.findUserById = exports.foundUserView = exports.toggleUserNotFoundError = exports.ADD_FOUND_USER = exports.TOGGLE_USER_NOT_FOUND = undefined;
 	
 	var _axios = __webpack_require__(272);
 	
@@ -30443,7 +30443,7 @@
 	  };
 	};
 	
-	var addFoundUser = exports.addFoundUser = function addFoundUser(user) {
+	var foundUserView = exports.foundUserView = function foundUserView(user) {
 	  return {
 	    type: ADD_FOUND_USER,
 	    user: user
@@ -30457,7 +30457,7 @@
 	      if (res.status === 204) {
 	        dispatch(toggleUserNotFoundError(true));
 	      } else {
-	        dispatch(addFoundUser(res.data));
+	        dispatch(foundUserView(res.data));
 	      }
 	    }).catch(function (err) {
 	      return console.log(err);
@@ -32271,6 +32271,10 @@
 	
 	var _table = __webpack_require__(271);
 	
+	var _viewById = __webpack_require__(297);
+	
+	var _addNew = __webpack_require__(298);
+	
 	__webpack_require__(315);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
@@ -32299,6 +32303,7 @@
 	    key: 'deletePerson',
 	    value: function deletePerson() {
 	      this.props.deletePerson(this.props.person.id);
+	      this.props.clearFoundPersons();
 	    }
 	  }, {
 	    key: 'openModal',
@@ -32356,6 +32361,10 @@
 	    },
 	    deletePerson: function deletePerson(personId) {
 	      dispatch((0, _table.deleteUserFromDb)(personId));
+	    },
+	    clearFoundPersons: function clearFoundPersons() {
+	      dispatch((0, _viewById.foundUserView)({}));
+	      dispatch((0, _addNew.addedFoundUser)({}));
 	    }
 	  };
 	};

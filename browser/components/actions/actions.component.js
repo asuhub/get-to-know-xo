@@ -1,6 +1,8 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { toggleEditPerson, personToEdit, deleteUserFromDb } from '../table/table.reducer';
+import { foundUserView } from '../view-by-id/view-by-id.reducer';
+import { addedFoundUser } from '../add-new/add-new.reducer';
 import './actions.scss';
 
 class Actions extends React.Component {
@@ -13,6 +15,7 @@ class Actions extends React.Component {
 
   deletePerson() {
     this.props.deletePerson(this.props.person.id);
+    this.props.clearFoundPersons();
   }
 
   openModal(bool) {
@@ -50,6 +53,10 @@ const mapDispatchToProps = dispatch => {
     },
     deletePerson: (personId) => {
       dispatch( deleteUserFromDb(personId) );
+    },
+    clearFoundPersons: () => {
+      dispatch( foundUserView({}) );
+      dispatch( addedFoundUser({}) );
     }
   };
 };

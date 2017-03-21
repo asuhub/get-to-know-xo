@@ -12,7 +12,7 @@ export const toggleUserNotFoundError = boolean => {
   };
 };
 
-export const addFoundUser = user => {
+export const foundUserView = user => {
   return {
     type: ADD_FOUND_USER,
     user
@@ -27,7 +27,7 @@ export const findUserById = userId => {
         if (res.status === 204) {
           dispatch( toggleUserNotFoundError(true) );
         } else {
-          dispatch( addFoundUser(res.data) );
+          dispatch( foundUserView(res.data) );
         }
       })
       .catch(err => console.log(err));
