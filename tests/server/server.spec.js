@@ -1,11 +1,11 @@
-const db = require('../server/db');
-const People = require('../server/db/models').People;
+const db = require('../../server/db');
+const People = require('../../server/db/models').People;
 // Unit testing libraries
 const chai = require('chai');
 const expect = chai.expect;
 const chalk = require('chalk');
 // Route testing for routes
-const app = require('../server/app');
+const app = require('../../server/app');
 const supertest = require('supertest');
 const agent = supertest.agent(app);
 

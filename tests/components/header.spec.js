@@ -1,5 +1,5 @@
-import { expect } from 'chai';
+// import { expect } from 'chai';
 
-describe( '<Header />', () => {
-  expect(true).to.be.true;
-});
+// describe( '<Header />', () => {
+//   expect(true).to.be.true;
+// });
