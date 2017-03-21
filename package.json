@@ -6,7 +6,7 @@
   "scripts": {
     "start": "node server/app.js",
     "dev": "webpack -w & nodemon server/app.js",
-    "test": "mocha ./tests/**/*.js",
+    "test": "mocha --require ignore-styles ./tests/**/*.js --compilers js:babel-register",
     "build": "webpack",
     "build-watch": "webpack -w --progress --colors",
     "test-watch": "mocha --compilers js:babel-register --watch tests/server.test.js"
@@ -57,8 +57,10 @@
     "babel-register": "^6.24.0",
     "chai": "^3.5.0",
     "enzyme": "^2.7.1",
+    "ignore-styles": "^5.0.1",
     "mocha": "^3.2.0",
     "nodemon": "^1.11.0",
+    "react-addons-test-utils": "^15.4.2",
     "supertest": "^3.0.0",
     "webpack": "^1.14.0"
   }

@@ -125,3 +125,6 @@ export default connect(
   mapStateToProps,
   mapDispatchToProps
 )(AddNew);
+
+export { AddNew as PureAddNew };
+

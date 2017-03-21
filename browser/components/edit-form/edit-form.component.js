@@ -73,9 +73,8 @@ class EditForm extends React.Component {
   }
 }
 
-const mapStateToProps = ( { people, modalOpen, editingPerson } ) => {
+const mapStateToProps = ( {  modalOpen, editingPerson } ) => {
   return {
-    people,
     modalOpen,
     editingPerson
   };
@@ -96,4 +95,6 @@ export default connect(
   mapStateToProps,
   mapDispatchToProps
 )(EditForm);
+
+export { EditForm as PureEditForm};
 
