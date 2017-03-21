@@ -1,6 +1,8 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { postNewPerson} from './add-new.reducer.js';
+import { postNewPerson, findPersonById } from './add-new.reducer.js';
+import { toggleEditPerson } from '../table/table.reducer';
+import Table from '../table/table.component';
 import './add-new.scss';
 
 class AddNew extends React.Component {
@@ -15,6 +17,14 @@ class AddNew extends React.Component {
     this.addNewPerson = this.addNewPerson.bind(this);
     this.setName = this.setName.bind(this);
     this.setFavoriteCity = this.setFavoriteCity.bind(this);
+    this.findUser = this.findUser.bind(this);
+    this.closeModal = this.closeModal.bind(this);
+  }
+
+  componentDidUpdate() {
+    if (this.props.justAddedPerson !== null && this.state.successMessage !== true) {
+      this.setState({successMessage: true});
+    }
   }
 
   setName(evt) {
@@ -25,6 +35,15 @@ class AddNew extends React.Component {
   setFavoriteCity(evt) {
     evt.preventDefault();
     this.setState({favoriteCity: evt.target.value});
+  }
+
+  closeModal() {
+    this.props.closeModal(false);
+  }
+
+  findUser() {
+    const personId = this.props.justAddedPerson;
+    this.props.fetchPerson(personId);
   }
 
   addNewPerson() {
@@ -40,15 +59,13 @@ class AddNew extends React.Component {
         favoriteCity: this.state.favoriteCity
       };
       this.props.postNewPerson(details);
-      this.setState({successMessage: true});
-      setTimeout( () =>  {
-        self.setState({successMessage: false});
-      }, 3000);
     }
   }
 
   render() {
+    const { justAddedPerson, foundUserAdded, modalOpen } = this.props;
     return (
+    <div>
       <div className="tab-wrapper z-depth-3">
         <div className="row">
           <form className="col s12">
@@ -65,16 +82,21 @@ class AddNew extends React.Component {
           </form>
           </div>
           { this.state.blankEntryError ? <div className="error-text">Oops! Fields cannot be empty.</div> : ''}
-          { this.state.successMessage ? <div className="success-text">Person successfully added!</div> : ''}
+          { this.state.successMessage ? <div onClick={this.findUser} className="success-text pointer">{`Person successfully added and has an ID of ${justAddedPerson}. Click here to view record.`}</div> : ''}
           <div className="waves-effect waves-light btn" onClick={this.addNewPerson}>Add Person</div>
         </div>
+        { foundUserAdded.id ? <Table people={[foundUserAdded]} modalOpen={modalOpen} closeModal={this.closeModal} /> : ''}
+      </div>
     );
   }
 }
 
 /* ---------  CONTAINER   ------- */
-const mapStateToProps = ( ) => {
+const mapStateToProps = ( { justAddedPerson, foundUserAdded, modalOpen} ) => {
   return {
+    justAddedPerson,
+    foundUserAdded,
+    modalOpen
   };
 };
 
@@ -82,6 +104,12 @@ const mapDispatchToProps = dispatch => {
   return {
     postNewPerson: details => {
       dispatch( postNewPerson(details) );
+    },
+    fetchPerson: userId => {
+      dispatch( findPersonById(userId) );
+    },
+    closeModal: boolean => {
+      dispatch( toggleEditPerson(boolean));
     }
   };
 

@@ -7,8 +7,8 @@ const ClientGuide = () => (
     <h2 className="center-text">Code Challenge Client Directions</h2>
     <div className="text-bold center-text">To mimic the code challenge guidelines in order please follow these steps:</div>
     <hr/>
-    {clientInstructions.map( step => (
-      <div className="step">{step}</div>
+    {clientInstructions.map( (step, i) => (
+      <div key={`step-${i}`} className="step">{step}</div>
     ))}
     </div>
   );
