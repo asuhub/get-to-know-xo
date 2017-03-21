@@ -10,8 +10,6 @@ import store from './store';
 import Root from './components/Root';
 import Tabs from './components/tabs/tabs.component';
 
-console.log('Hai Spotify! I would love to work for you :)');
-
 ReactDOM.render(
   <Provider store={store}>
 		<Router history={browserHistory}>
