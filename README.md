@@ -41,10 +41,12 @@ To mimic the code challenge guidelines in order please follow these instructions
 
 To view the API routes, go to server/routes/index..js
 
-All API endpoints are under https://spotify-stephaniemanwaring.herokuapp.com/api/people. Below are current endpoints. You can also try it out by yourself using [![Postman](https://run.pstmn.io/button.svg)](https://app.getpostman.com/run-collection/b679dd0210a9500f7fef)
+All API endpoints are under https://spotify-stephaniemanwaring.herokuapp.com/api/. Below are current endpoints. You can also try it out by yourself using [Postman](https://www.getpostman.com/).
+
+[![Run in Postman](https://run.pstmn.io/button.svg)](https://app.getpostman.com/run-collection/b679dd0210a9500f7fef)
 
 | Verb        | Path           | Description  |
-| ------------- |:-------------:| -----:|
+| ------------- |:-------------:| :-----|
 | GET      | /people | Get all the people currently listed in the DB |
 | POST     | /people |   Add a new person the the database. Requires a body that includes name and favoriteCity as a string |
 | PUT      | /people/{id}   |  Updates a person in the dabase based on what is passed in in the request body |
