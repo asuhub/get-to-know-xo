@@ -34441,9 +34441,18 @@
 	      'Code Challenge Client Directions'
 	    ),
 	    _react2.default.createElement(
+	      'a',
+	      { href: 'https://github.com/smanwaring/codeChallengeFellowship' },
+	      _react2.default.createElement(
+	        'div',
+	        { className: 'center-text' },
+	        'Click here to learn more about my API'
+	      )
+	    ),
+	    _react2.default.createElement(
 	      'div',
 	      { className: 'text-bold center-text' },
-	      'To mimic the code challenge guidelines in order please follow these steps:'
+	      'To mimic the code challenge guidelines in order please follow these steps'
 	    ),
 	    _react2.default.createElement('hr', null),
 	    _clientInstructions2.default.map(function (step, i) {
