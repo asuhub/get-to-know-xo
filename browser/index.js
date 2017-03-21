@@ -10,19 +10,11 @@ import store from './store';
 import Root from './components/Root';
 import Tabs from './components/tabs/tabs.component';
 
-/*------ ACTIONS ------ */
-import { fetchPeople } from './components/table/table.reducer';
-
-//load all the users from the database
-const onEnterGetPeople = nextState => {
-	store.dispatch( fetchPeople() );
-};
-
 ReactDOM.render(
   <Provider store={store}>
 		<Router history={browserHistory}>
 			<Route component={Root}>
-				<Route path="/" component={Tabs} onEnter={onEnterGetPeople} />
+				<Route path="/" component={Tabs} />
 				<IndexRoute component={Tabs} />
 			</Route>
 	</Router>

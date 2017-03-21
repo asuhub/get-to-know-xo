@@ -70,21 +70,9 @@
 	
 	var _tabs2 = _interopRequireDefault(_tabs);
 	
-	var _table = __webpack_require__(271);
-	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
-	//load all the users from the database
-	var onEnterGetPeople = function onEnterGetPeople(nextState) {
-		_store2.default.dispatch((0, _table.fetchPeople)());
-	};
-	
-	/*------ ACTIONS ------ */
-	
-	
 	/*------ COMPONENTS/CONTAINERS ------ */
-	
-	
 	_reactDom2.default.render(_react2.default.createElement(
 		_reactRedux.Provider,
 		{ store: _store2.default },
@@ -94,7 +82,7 @@
 			_react2.default.createElement(
 				_reactRouter.Route,
 				{ component: _Root2.default },
-				_react2.default.createElement(_reactRouter.Route, { path: '/', component: _tabs2.default, onEnter: onEnterGetPeople }),
+				_react2.default.createElement(_reactRouter.Route, { path: '/', component: _tabs2.default }),
 				_react2.default.createElement(_reactRouter.IndexRoute, { component: _tabs2.default })
 			)
 		)
@@ -32037,7 +32025,16 @@
 	                { className: 'tab bold col s3' },
 	                _react2.default.createElement(
 	                  'a',
-	                  { onClick: this.getPeople, className: 'active', href: '#view-all' },
+	                  { href: '#client-instructions', className: 'active' },
+	                  'Client Directions '
+	                )
+	              ),
+	              _react2.default.createElement(
+	                'li',
+	                { className: 'tab bold col s3' },
+	                _react2.default.createElement(
+	                  'a',
+	                  { onClick: this.getPeople, href: '#view-all' },
 	                  'View All'
 	                )
 	              ),
@@ -32057,15 +32054,6 @@
 	                  'a',
 	                  { href: '#add-new' },
 	                  'Add New'
-	                )
-	              ),
-	              _react2.default.createElement(
-	                'li',
-	                { className: 'tab bold col s3' },
-	                _react2.default.createElement(
-	                  'a',
-	                  { href: '#client-instructions' },
-	                  'Client Directions '
 	                )
 	              )
 	            )

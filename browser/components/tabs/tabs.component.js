@@ -30,10 +30,10 @@ class Tabs extends React.Component {
         <div className="row">
           <div className="col s12">
             <ul className="tabs margin-bottom">
-              <li className="tab bold col s3"><a  onClick={this.getPeople} className="active" href="#view-all">View All</a></li>
+              <li className="tab bold col s3"><a href="#client-instructions" className="active" >Client Directions </a></li>
+              <li className="tab bold col s3"><a  onClick={this.getPeople} href="#view-all">View All</a></li>
               <li className="tab bold col s3"><a  href="#by-id">View By Id</a></li>
               <li className="tab bold col s3"><a href="#add-new">Add New</a></li>
-              <li className="tab bold col s3"><a href="#client-instructions">Client Directions </a></li>
             </ul>
           </div>
           <div id="view-all" className="col s12">
