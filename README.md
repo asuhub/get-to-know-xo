@@ -26,7 +26,7 @@ To mimic the code challenge guidelines in order please follow these instructions
 
 1. To make a POST request to /people: click on the __add new__ tab and enter in a name, and a favorite city for that person. To follow the example given in the guidelines, the name should be Sean and the favorite city should be New York.
 
-1. To make a GET request to retrieve the object created in the previous request: click on __view all__ tab to see what the generated ID for the user is. Then, click on __view by id__ and enter in that id in the field available.
+1. To make a GET request to retrieve the object created in the previous request: click on green prompt that appears that says "Person successfully added and has an ID of X. Click here to view record."
 
 1. To make a PUT request to /people and modify the attribute city to be “Brooklyn”: from either the __view all__ tab or __view-by-id__ tab, click on the pencil icon to the right of the user you want to update. A modal will pop up where you can edit the favorite city of that user (and name, if you so choose).
 
