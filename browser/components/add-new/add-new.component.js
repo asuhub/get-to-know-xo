@@ -19,12 +19,17 @@ class AddNew extends React.Component {
     this.setFavoriteCity = this.setFavoriteCity.bind(this);
     this.findUser = this.findUser.bind(this);
     this.closeModal = this.closeModal.bind(this);
+    this.setSuccessMessage = this.setSuccessMessage.bind(this);
   }
 
   componentDidUpdate() {
     if (this.props.justAddedPerson !== null && this.state.successMessage !== true) {
-      this.setState({successMessage: true});
+      this.setSuccessMessage(true);
     }
+  }
+
+  setSuccessMessage(bool) {
+    this.setState({successMessage: bool});
   }
 
   setName(evt) {

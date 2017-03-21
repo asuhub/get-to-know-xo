@@ -62,11 +62,11 @@
 	
 	var _store2 = _interopRequireDefault(_store);
 	
-	var _Root = __webpack_require__(305);
+	var _Root = __webpack_require__(306);
 	
 	var _Root2 = _interopRequireDefault(_Root);
 	
-	var _tabs = __webpack_require__(311);
+	var _tabs = __webpack_require__(312);
 	
 	var _tabs2 = _interopRequireDefault(_tabs);
 	
@@ -28729,11 +28729,11 @@
 	
 	var _reducer2 = _interopRequireDefault(_reducer);
 	
-	var _reduxThunk = __webpack_require__(298);
+	var _reduxThunk = __webpack_require__(299);
 	
 	var _reduxThunk2 = _interopRequireDefault(_reduxThunk);
 	
-	var _reduxLogger = __webpack_require__(299);
+	var _reduxLogger = __webpack_require__(300);
 	
 	var _reduxLogger2 = _interopRequireDefault(_reduxLogger);
 	
@@ -28759,7 +28759,7 @@
 	
 	var _viewById = __webpack_require__(297);
 	
-	var _addNew = __webpack_require__(331);
+	var _addNew = __webpack_require__(298);
 	
 	var rootReducer = (0, _redux.combineReducers)({
 		people: _table.people,
@@ -30492,6 +30492,92 @@
 
 /***/ },
 /* 298 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	exports.foundUserAdded = exports.justAddedPerson = exports.findPersonById = exports.postNewPerson = exports.addedFoundUser = exports.setJustAddedPerson = exports.ADDED_FOUND_USER = exports.JUST_ADDED_USER = undefined;
+	
+	var _axios = __webpack_require__(272);
+	
+	var _axios2 = _interopRequireDefault(_axios);
+	
+	var _table = __webpack_require__(271);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	/* -----------------    ACTIONS     ------------------ */
+	var JUST_ADDED_USER = exports.JUST_ADDED_USER = 'JUST_ADDED_USER';
+	var ADDED_FOUND_USER = exports.ADDED_FOUND_USER = 'ADDED_FOUND_USER';
+	
+	/* -----------------    ACTION CREATORS     ------------------ */
+	var setJustAddedPerson = exports.setJustAddedPerson = function setJustAddedPerson(personId) {
+	  return {
+	    type: JUST_ADDED_USER,
+	    personId: personId
+	  };
+	};
+	
+	var addedFoundUser = exports.addedFoundUser = function addedFoundUser(user) {
+	  return {
+	    type: ADDED_FOUND_USER,
+	    user: user
+	  };
+	};
+	
+	/* ------------       ASYNC ACTIONS     ------------------ */
+	var postNewPerson = exports.postNewPerson = function postNewPerson(details) {
+	  return function (dispatch) {
+	    _axios2.default.post('/api/people', details).then(function (res) {
+	      dispatch((0, _table.addUser)(res.data));
+	      dispatch(setJustAddedPerson(res.data.id));
+	    }).catch(function (err) {
+	      return console.log(err);
+	    });
+	  };
+	};
+	
+	var findPersonById = exports.findPersonById = function findPersonById(personId) {
+	  return function (dispatch) {
+	    _axios2.default.get('/api/people/' + personId).then(function (res) {
+	      return dispatch(addedFoundUser(res.data));
+	    }).catch(function (err) {
+	      return console.log(err);
+	    });
+	  };
+	};
+	
+	/* ------------      REDUCER     ------------------ */
+	
+	var justAddedPerson = exports.justAddedPerson = function justAddedPerson() {
+	  var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
+	  var action = arguments[1];
+	
+	  switch (action.type) {
+	    case JUST_ADDED_USER:
+	      return action.personId;
+	    default:
+	      return state;
+	  }
+	};
+	
+	var foundUserAdded = exports.foundUserAdded = function foundUserAdded() {
+	  var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+	  var action = arguments[1];
+	
+	  switch (action.type) {
+	    case ADDED_FOUND_USER:
+	      return action.user;
+	    default:
+	      return state;
+	  }
+	};
+
+/***/ },
+/* 299 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -30519,7 +30605,7 @@
 	exports['default'] = thunk;
 
 /***/ },
-/* 299 */
+/* 300 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -30530,11 +30616,11 @@
 	
 	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 	
-	var _core = __webpack_require__(300);
+	var _core = __webpack_require__(301);
 	
-	var _helpers = __webpack_require__(301);
+	var _helpers = __webpack_require__(302);
 	
-	var _defaults = __webpack_require__(304);
+	var _defaults = __webpack_require__(305);
 	
 	var _defaults2 = _interopRequireDefault(_defaults);
 	
@@ -30651,7 +30737,7 @@
 	module.exports = exports['default'];
 
 /***/ },
-/* 300 */
+/* 301 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -30664,9 +30750,9 @@
 	
 	exports.printBuffer = printBuffer;
 	
-	var _helpers = __webpack_require__(301);
+	var _helpers = __webpack_require__(302);
 	
-	var _diff = __webpack_require__(302);
+	var _diff = __webpack_require__(303);
 	
 	var _diff2 = _interopRequireDefault(_diff);
 	
@@ -30793,7 +30879,7 @@
 	}
 
 /***/ },
-/* 301 */
+/* 302 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -30817,7 +30903,7 @@
 	var timer = exports.timer = typeof performance !== "undefined" && performance !== null && typeof performance.now === "function" ? performance : Date;
 
 /***/ },
-/* 302 */
+/* 303 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -30827,7 +30913,7 @@
 	});
 	exports.default = diffLogger;
 	
-	var _deepDiff = __webpack_require__(303);
+	var _deepDiff = __webpack_require__(304);
 	
 	var _deepDiff2 = _interopRequireDefault(_deepDiff);
 	
@@ -30916,7 +31002,7 @@
 	module.exports = exports['default'];
 
 /***/ },
-/* 303 */
+/* 304 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/* WEBPACK VAR INJECTION */(function(global) {/*!
@@ -31345,7 +31431,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, (function() { return this; }())))
 
 /***/ },
-/* 304 */
+/* 305 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -31396,7 +31482,7 @@
 	module.exports = exports["default"];
 
 /***/ },
-/* 305 */
+/* 306 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -31411,7 +31497,7 @@
 	
 	var _react2 = _interopRequireDefault(_react);
 	
-	var _header = __webpack_require__(306);
+	var _header = __webpack_require__(307);
 	
 	var _header2 = _interopRequireDefault(_header);
 	
@@ -31450,7 +31536,7 @@
 	exports.default = Root;
 
 /***/ },
-/* 306 */
+/* 307 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -31463,7 +31549,7 @@
 	
 	var _react2 = _interopRequireDefault(_react);
 	
-	__webpack_require__(307);
+	__webpack_require__(308);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
@@ -31509,16 +31595,16 @@
 	exports.default = Header;
 
 /***/ },
-/* 307 */
+/* 308 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// style-loader: Adds some css to the DOM by adding a <style> tag
 	
 	// load the styles
-	var content = __webpack_require__(308);
+	var content = __webpack_require__(309);
 	if(typeof content === 'string') content = [[module.id, content, '']];
 	// add the styles to the DOM
-	var update = __webpack_require__(310)(content, {});
+	var update = __webpack_require__(311)(content, {});
 	if(content.locals) module.exports = content.locals;
 	// Hot Module Replacement
 	if(false) {
@@ -31535,10 +31621,10 @@
 	}
 
 /***/ },
-/* 308 */
+/* 309 */
 /***/ function(module, exports, __webpack_require__) {
 
-	exports = module.exports = __webpack_require__(309)();
+	exports = module.exports = __webpack_require__(310)();
 	// imports
 	
 	
@@ -31549,7 +31635,7 @@
 
 
 /***/ },
-/* 309 */
+/* 310 */
 /***/ function(module, exports) {
 
 	/*
@@ -31605,7 +31691,7 @@
 
 
 /***/ },
-/* 310 */
+/* 311 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/*
@@ -31857,7 +31943,7 @@
 
 
 /***/ },
-/* 311 */
+/* 312 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -31874,11 +31960,11 @@
 	
 	var _reactRedux = __webpack_require__(178);
 	
-	var _table = __webpack_require__(312);
+	var _table = __webpack_require__(313);
 	
 	var _table2 = _interopRequireDefault(_table);
 	
-	var _addNew = __webpack_require__(330);
+	var _addNew = __webpack_require__(331);
 	
 	var _addNew2 = _interopRequireDefault(_addNew);
 	
@@ -32027,7 +32113,7 @@
 	exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(Tabs);
 
 /***/ },
-/* 312 */
+/* 313 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -32040,23 +32126,23 @@
 	
 	var _react2 = _interopRequireDefault(_react);
 	
-	var _actions = __webpack_require__(313);
+	var _actions = __webpack_require__(314);
 	
 	var _actions2 = _interopRequireDefault(_actions);
 	
-	var _reactModal = __webpack_require__(316);
+	var _reactModal = __webpack_require__(317);
 	
 	var _reactModal2 = _interopRequireDefault(_reactModal);
 	
-	var _table = __webpack_require__(326);
+	var _table = __webpack_require__(327);
 	
 	var _table2 = _interopRequireDefault(_table);
 	
-	var _editForm = __webpack_require__(327);
+	var _editForm = __webpack_require__(328);
 	
 	var _editForm2 = _interopRequireDefault(_editForm);
 	
-	__webpack_require__(328);
+	__webpack_require__(329);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
@@ -32166,7 +32252,7 @@
 	exports.default = Table;
 
 /***/ },
-/* 313 */
+/* 314 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -32185,7 +32271,7 @@
 	
 	var _table = __webpack_require__(271);
 	
-	__webpack_require__(314);
+	__webpack_require__(315);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
@@ -32277,16 +32363,16 @@
 	exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(Actions);
 
 /***/ },
-/* 314 */
+/* 315 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// style-loader: Adds some css to the DOM by adding a <style> tag
 	
 	// load the styles
-	var content = __webpack_require__(315);
+	var content = __webpack_require__(316);
 	if(typeof content === 'string') content = [[module.id, content, '']];
 	// add the styles to the DOM
-	var update = __webpack_require__(310)(content, {});
+	var update = __webpack_require__(311)(content, {});
 	if(content.locals) module.exports = content.locals;
 	// Hot Module Replacement
 	if(false) {
@@ -32303,10 +32389,10 @@
 	}
 
 /***/ },
-/* 315 */
+/* 316 */
 /***/ function(module, exports, __webpack_require__) {
 
-	exports = module.exports = __webpack_require__(309)();
+	exports = module.exports = __webpack_require__(310)();
 	// imports
 	
 	
@@ -32317,25 +32403,25 @@
 
 
 /***/ },
-/* 316 */
+/* 317 */
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(317);
+	module.exports = __webpack_require__(318);
 	
 
 
 /***/ },
-/* 317 */
+/* 318 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {var React = __webpack_require__(1);
 	var ReactDOM = __webpack_require__(32);
-	var ExecutionEnvironment = __webpack_require__(318);
-	var ModalPortal = React.createFactory(__webpack_require__(319));
-	var ariaAppHider = __webpack_require__(324);
-	var elementClass = __webpack_require__(325);
+	var ExecutionEnvironment = __webpack_require__(319);
+	var ModalPortal = React.createFactory(__webpack_require__(320));
+	var ariaAppHider = __webpack_require__(325);
+	var elementClass = __webpack_require__(326);
 	var renderSubtreeIntoContainer = __webpack_require__(32).unstable_renderSubtreeIntoContainer;
-	var Assign = __webpack_require__(323);
+	var Assign = __webpack_require__(324);
 	
 	var SafeHTMLElement = ExecutionEnvironment.canUseDOM ? window.HTMLElement : {};
 	var AppElement = ExecutionEnvironment.canUseDOM ? document.body : {appendChild: function() {}};
@@ -32487,7 +32573,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(3)))
 
 /***/ },
-/* 318 */
+/* 319 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_RESULT__;/*!
@@ -32532,14 +32618,14 @@
 
 
 /***/ },
-/* 319 */
+/* 320 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
 	var div = React.DOM.div;
-	var focusManager = __webpack_require__(320);
-	var scopeTab = __webpack_require__(322);
-	var Assign = __webpack_require__(323);
+	var focusManager = __webpack_require__(321);
+	var scopeTab = __webpack_require__(323);
+	var Assign = __webpack_require__(324);
 	
 	// so that our CSS is statically analyzable
 	var CLASS_NAMES = {
@@ -32743,10 +32829,10 @@
 
 
 /***/ },
-/* 320 */
+/* 321 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var findTabbable = __webpack_require__(321);
+	var findTabbable = __webpack_require__(322);
 	var focusLaterElements = [];
 	var modalElement = null;
 	var needToFocus = false;
@@ -32817,7 +32903,7 @@
 
 
 /***/ },
-/* 321 */
+/* 322 */
 /***/ function(module, exports) {
 
 	/*!
@@ -32873,10 +32959,10 @@
 
 
 /***/ },
-/* 322 */
+/* 323 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var findTabbable = __webpack_require__(321);
+	var findTabbable = __webpack_require__(322);
 	
 	module.exports = function(node, event) {
 	  var tabbable = findTabbable(node);
@@ -32898,7 +32984,7 @@
 
 
 /***/ },
-/* 323 */
+/* 324 */
 /***/ function(module, exports) {
 
 	/**
@@ -33541,7 +33627,7 @@
 
 
 /***/ },
-/* 324 */
+/* 325 */
 /***/ function(module, exports) {
 
 	var _element = typeof document !== 'undefined' ? document.body : null;
@@ -33589,7 +33675,7 @@
 
 
 /***/ },
-/* 325 */
+/* 326 */
 /***/ function(module, exports) {
 
 	module.exports = function(opts) {
@@ -33654,7 +33740,7 @@
 
 
 /***/ },
-/* 326 */
+/* 327 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -33687,7 +33773,7 @@
 	};
 
 /***/ },
-/* 327 */
+/* 328 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -33856,16 +33942,16 @@
 	exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(EditForm);
 
 /***/ },
-/* 328 */
+/* 329 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// style-loader: Adds some css to the DOM by adding a <style> tag
 	
 	// load the styles
-	var content = __webpack_require__(329);
+	var content = __webpack_require__(330);
 	if(typeof content === 'string') content = [[module.id, content, '']];
 	// add the styles to the DOM
-	var update = __webpack_require__(310)(content, {});
+	var update = __webpack_require__(311)(content, {});
 	if(content.locals) module.exports = content.locals;
 	// Hot Module Replacement
 	if(false) {
@@ -33882,10 +33968,10 @@
 	}
 
 /***/ },
-/* 329 */
+/* 330 */
 /***/ function(module, exports, __webpack_require__) {
 
-	exports = module.exports = __webpack_require__(309)();
+	exports = module.exports = __webpack_require__(310)();
 	// imports
 	
 	
@@ -33896,7 +33982,7 @@
 
 
 /***/ },
-/* 330 */
+/* 331 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -33913,11 +33999,11 @@
 	
 	var _reactRedux = __webpack_require__(178);
 	
-	var _addNewReducer = __webpack_require__(331);
+	var _addNewReducer = __webpack_require__(298);
 	
 	var _table = __webpack_require__(271);
 	
-	var _table2 = __webpack_require__(312);
+	var _table2 = __webpack_require__(313);
 	
 	var _table3 = _interopRequireDefault(_table2);
 	
@@ -33950,6 +34036,7 @@
 	    _this.setFavoriteCity = _this.setFavoriteCity.bind(_this);
 	    _this.findUser = _this.findUser.bind(_this);
 	    _this.closeModal = _this.closeModal.bind(_this);
+	    _this.setSuccessMessage = _this.setSuccessMessage.bind(_this);
 	    return _this;
 	  }
 	
@@ -33957,8 +34044,13 @@
 	    key: 'componentDidUpdate',
 	    value: function componentDidUpdate() {
 	      if (this.props.justAddedPerson !== null && this.state.successMessage !== true) {
-	        this.setState({ successMessage: true });
+	        this.setSuccessMessage(true);
 	      }
+	    }
+	  }, {
+	    key: 'setSuccessMessage',
+	    value: function setSuccessMessage(bool) {
+	      this.setState({ successMessage: bool });
 	    }
 	  }, {
 	    key: 'setName',
@@ -34102,92 +34194,6 @@
 	exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(AddNew);
 
 /***/ },
-/* 331 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-	
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-	exports.foundUserAdded = exports.justAddedPerson = exports.findPersonById = exports.postNewPerson = exports.addedFoundUser = exports.setJustAddedPerson = exports.ADDED_FOUND_USER = exports.JUST_ADDED_USER = undefined;
-	
-	var _axios = __webpack_require__(272);
-	
-	var _axios2 = _interopRequireDefault(_axios);
-	
-	var _table = __webpack_require__(271);
-	
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-	
-	/* -----------------    ACTIONS     ------------------ */
-	var JUST_ADDED_USER = exports.JUST_ADDED_USER = 'JUST_ADDED_USER';
-	var ADDED_FOUND_USER = exports.ADDED_FOUND_USER = 'ADDED_FOUND_USER';
-	
-	/* -----------------    ACTION CREATORS     ------------------ */
-	var setJustAddedPerson = exports.setJustAddedPerson = function setJustAddedPerson(personId) {
-	  return {
-	    type: JUST_ADDED_USER,
-	    personId: personId
-	  };
-	};
-	
-	var addedFoundUser = exports.addedFoundUser = function addedFoundUser(user) {
-	  return {
-	    type: ADDED_FOUND_USER,
-	    user: user
-	  };
-	};
-	
-	/* ------------       ASYNC ACTIONS     ------------------ */
-	var postNewPerson = exports.postNewPerson = function postNewPerson(details) {
-	  return function (dispatch) {
-	    _axios2.default.post('/api/people', details).then(function (res) {
-	      dispatch((0, _table.addUser)(res.data));
-	      dispatch(setJustAddedPerson(res.data.id));
-	    }).catch(function (err) {
-	      return console.log(err);
-	    });
-	  };
-	};
-	
-	var findPersonById = exports.findPersonById = function findPersonById(personId) {
-	  return function (dispatch) {
-	    _axios2.default.get('/api/people/' + personId).then(function (res) {
-	      return dispatch(addedFoundUser(res.data));
-	    }).catch(function (err) {
-	      return console.log(err);
-	    });
-	  };
-	};
-	
-	/* ------------      REDUCER     ------------------ */
-	
-	var justAddedPerson = exports.justAddedPerson = function justAddedPerson() {
-	  var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
-	  var action = arguments[1];
-	
-	  switch (action.type) {
-	    case JUST_ADDED_USER:
-	      return action.personId;
-	    default:
-	      return state;
-	  }
-	};
-	
-	var foundUserAdded = exports.foundUserAdded = function foundUserAdded() {
-	  var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
-	  var action = arguments[1];
-	
-	  switch (action.type) {
-	    case ADDED_FOUND_USER:
-	      return action.user;
-	    default:
-	      return state;
-	  }
-	};
-
-/***/ },
 /* 332 */
 /***/ function(module, exports, __webpack_require__) {
 
@@ -34197,7 +34203,7 @@
 	var content = __webpack_require__(333);
 	if(typeof content === 'string') content = [[module.id, content, '']];
 	// add the styles to the DOM
-	var update = __webpack_require__(310)(content, {});
+	var update = __webpack_require__(311)(content, {});
 	if(content.locals) module.exports = content.locals;
 	// Hot Module Replacement
 	if(false) {
@@ -34217,7 +34223,7 @@
 /* 333 */
 /***/ function(module, exports, __webpack_require__) {
 
-	exports = module.exports = __webpack_require__(309)();
+	exports = module.exports = __webpack_require__(310)();
 	// imports
 	
 	
@@ -34247,7 +34253,7 @@
 	
 	var _viewById = __webpack_require__(297);
 	
-	var _table = __webpack_require__(312);
+	var _table = __webpack_require__(313);
 	
 	var _table2 = _interopRequireDefault(_table);
 	
@@ -34467,7 +34473,7 @@
 	var content = __webpack_require__(338);
 	if(typeof content === 'string') content = [[module.id, content, '']];
 	// add the styles to the DOM
-	var update = __webpack_require__(310)(content, {});
+	var update = __webpack_require__(311)(content, {});
 	if(content.locals) module.exports = content.locals;
 	// Hot Module Replacement
 	if(false) {
@@ -34487,7 +34493,7 @@
 /* 338 */
 /***/ function(module, exports, __webpack_require__) {
 
-	exports = module.exports = __webpack_require__(309)();
+	exports = module.exports = __webpack_require__(310)();
 	// imports
 	
 	
@@ -34507,7 +34513,7 @@
 	var content = __webpack_require__(340);
 	if(typeof content === 'string') content = [[module.id, content, '']];
 	// add the styles to the DOM
-	var update = __webpack_require__(310)(content, {});
+	var update = __webpack_require__(311)(content, {});
 	if(content.locals) module.exports = content.locals;
 	// Hot Module Replacement
 	if(false) {
@@ -34527,7 +34533,7 @@
 /* 340 */
 /***/ function(module, exports, __webpack_require__) {
 
-	exports = module.exports = __webpack_require__(309)();
+	exports = module.exports = __webpack_require__(310)();
 	// imports
 	
 	
@@ -34547,7 +34553,7 @@
 	var content = __webpack_require__(342);
 	if(typeof content === 'string') content = [[module.id, content, '']];
 	// add the styles to the DOM
-	var update = __webpack_require__(310)(content, {});
+	var update = __webpack_require__(311)(content, {});
 	if(content.locals) module.exports = content.locals;
 	// Hot Module Replacement
 	if(false) {
@@ -34567,7 +34573,7 @@
 /* 342 */
 /***/ function(module, exports, __webpack_require__) {
 
-	exports = module.exports = __webpack_require__(309)();
+	exports = module.exports = __webpack_require__(310)();
 	// imports
 	
 	
