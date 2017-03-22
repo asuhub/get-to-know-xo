@@ -30,9 +30,9 @@ To mimic the code challenge guidelines in order please follow these instructions
 
 1. To make a PUT request to /people and modify the attribute city to be “Brooklyn”: if you are still on the page from step 3 (viewing the recently added user from the __add new__ page) simply click on the pencil of the user listed on your screen, and change either the name or city. OR you can navigate to either the __view all__ tab (will make another request to GET /people) and click on the pencil next to that user, or __view by id__ tab, search for the ID of hte person (will make a request to GET /people/:personId) and then click on the pencil icon to the right of the user that appears. A modal will pop up where you can edit the favorite city of that user (and name, if you so choose).
 
-1. To make a GET request to /people/1: Depending on the current database of the deployed app, a user with an ID of 1 may not exist. However, query the database for a user with a specific idea and hit the /people/:userId route simply go to the __view by id__ tab and search for an id of an existing person.
+1. To make a GET request to /people/1: Depending on the current database of the deployed app, a user with an ID of 1 may not exist. However, query the database for a user with a specific idea and hit the /people/:personId route simply go to the __view by id__ tab and search for an id of an existing person.
 
-1. To make a DELETE request to /people/1: Depending on the current database of the deployed app, a user with an ID of 1 may not exist. However, to delete a specific user by id and hit the DELETE /people/:userId route, simply go to the __view all__ tab and click on the trash icon next to a user you want to delete.
+1. To make a DELETE request to /people/1: Depending on the current database of the deployed app, a user with an ID of 1 may not exist. However, to delete a specific user by id and hit the DELETE /people/:personId route, simply go to the __view all__ tab and click on the trash icon next to a user you want to delete.
 
 1. To make a GET request to /people: click on the __view-all__ tab.
 
