@@ -28795,6 +28795,8 @@
 	
 	var _viewById = __webpack_require__(297);
 	
+	var _addNew = __webpack_require__(298);
+	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
 	/* -----------------    ACTIONS     ------------------ */
@@ -28871,6 +28873,7 @@
 	    _axios2.default.put('/api/people/' + id, details).then(function (res) {
 	      dispatch(fetchPeople());
 	      dispatch((0, _viewById.findUserById)(res.data.id));
+	      dispatch((0, _addNew.findPersonById)(res.data.id));
 	    }).catch(function (err) {
 	      return console.log(err);
 	    });

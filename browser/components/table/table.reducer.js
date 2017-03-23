@@ -1,5 +1,7 @@
 import axios from 'axios';
 import { findUserById } from '../view-by-id/view-by-id.reducer';
+import { findPersonById } from '../add-new/add-new.reducer';
+
 
 /* -----------------    ACTIONS     ------------------ */
 export const LOAD_PEOPLE = 'LOAD_PEOPLE';
@@ -75,6 +77,7 @@ export const updatePersonInDb = (id, details) => {
       .then(res => {
         dispatch( fetchPeople() );
         dispatch( findUserById(res.data.id));
+        dispatch( findPersonById(res.data.id));
       })
       .catch(err => console.log(err));
   };
