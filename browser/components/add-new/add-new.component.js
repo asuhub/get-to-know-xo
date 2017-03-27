@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { postNewPerson, findPersonById } from './add-new.reducer.js';
+import { postNewPerson, findPersonById, addedFoundUser } from './add-new.reducer.js';
 import { toggleEditPerson } from '../table/table.reducer';
 import Table from '../table/table.component';
 import './add-new.scss';
@@ -21,6 +21,12 @@ class AddNew extends React.Component {
     this.closeModal = this.closeModal.bind(this);
     this.setSuccessMessage = this.setSuccessMessage.bind(this);
   }
+
+
+  componentDidUpdate() {
+    this.props.clearAddedFoundUser({});
+  }
+
 
   componentDidUpdate() {
     if (this.props.justAddedPerson !== null && this.state.successMessage !== true) {
@@ -115,7 +121,10 @@ const mapDispatchToProps = dispatch => {
       dispatch( findPersonById(userId) );
     },
     closeModal: boolean => {
-      dispatch( toggleEditPerson(boolean));
+      dispatch( toggleEditPerson(boolean) );
+    },
+    clearAddedFoundUser: clearedUser => {
+      dispatch( addedFoundUser(clearedUser) );
     }
   };
 
