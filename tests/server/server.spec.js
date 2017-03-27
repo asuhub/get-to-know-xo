@@ -56,14 +56,14 @@ describe('People', () => {
 
   describe('Routes: ', () => {
 
-      before('wait for the db', (done) => {
-        db.sync( {force: true} )
-          .then(() => {
-            console.log(chalk.yellow('Sync success'));
-            done();
-          })
-          .catch(done);
-      });
+    before('wait for the db', (done) => {
+      db.sync( {force: true} )
+        .then(() => {
+          console.log(chalk.yellow('Sync success'));
+          done();
+        })
+        .catch(done);
+    });
 
     after('clear db', () => db.didSync);
 
@@ -150,7 +150,7 @@ describe('People', () => {
       });
 
       it('DELETE /api/people/:userId >> deletes a user', (done) => {
-        agent.delete('/api/people/200')
+        agent.delete('/api/people/400')
         .expect(204);
         done();
       });

@@ -23,7 +23,7 @@ class AddNew extends React.Component {
   }
 
 
-  componentDidUpdate() {
+  componentDidMount() {
     this.props.clearAddedFoundUser({});
   }
 
