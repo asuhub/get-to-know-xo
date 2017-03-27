@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { findUserById, toggleUserNotFoundError  } from '../view-by-id/view-by-id.reducer';
 import Table from '../table/table.component';
-import { toggleEditPerson } from '../table/table.reducer';
+import { toggleEditPerson, foundUserView } from '../table/table.reducer';
 
 
 class ViewById extends React.Component {
@@ -14,6 +14,10 @@ class ViewById extends React.Component {
     this.setId = this.setId.bind(this);
     this.findUser = this.findUser.bind(this);
     this.closeModal = this.closeModal.bind(this);
+  }
+
+  componentDidMount(){
+    this.props.clearUser({});
   }
 
   componentDidUpdate(){
@@ -85,6 +89,9 @@ const mapDispatchToProps = dispatch => {
     },
     closeModal: boolean => {
       dispatch( toggleEditPerson(boolean));
+    },
+    clearUser: clearedUser => {
+      dispatch( foundUserView(clearedUser));
     }
   };
 
