@@ -1,16 +1,15 @@
-header {
-  width: 100%;
-  h5, h2 {
+.header {
+  composes: knot-blue-bg coral-lighter-90-fg from '@xo-union/tk-css-colors/lib/utilities';
+  display: flex;
+  text-align: center;
+  padding-top: 10px;
+  
+  h2 {
     width: 100%;
-    text-align: center;
   }
 }
 
-.center-text {
-  text-align: center;
-}
-
-.inline {
-  display: inline-block;
-  margin: 10px;
+.login {
+  font-size: 30px;
+  margin: 0 10px;
 }

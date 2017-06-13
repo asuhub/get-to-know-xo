@@ -16,8 +16,8 @@ require('./db/models');
 server.on('request', app);
 
 const PATHS = {
-  indexHTML: path.join(__dirname, '../public/index.html'),
-  public: path.join(__dirname, '../public'),
+  indexHTML: path.join(__dirname, '../public/dist/index.html'),
+  public: path.join(__dirname, '../public/'),
 };
 
 // server constant(s)
@@ -26,15 +26,15 @@ const PORT = process.env.PORT || 1337;
 // init router ('app')
 app
   .use(morgan('dev'))
-  .use(express.static(PATHS.public)) //server up public files
+  .use(express.static(PATHS.public, { index: '/dist/index.html'})) //server up public files
   .use(bodyParser.urlencoded({ extended: true }))
   .use(bodyParser.json())
   .use('/api', routes);
 
 // default routing
-app.get('/*', (req, res) => {
-  res.sendFile(PATHS.indexHTML);
-});
+// app.get('/*', (req, res) => {
+//   res.sendFile(PATHS.indexHTML);
+// });
 
 // No API routes matched? 404.
 app.use((req, res) => {

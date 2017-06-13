@@ -1,8 +1,8 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { findUserById, toggleUserNotFoundError  } from '../view-by-id/view-by-id.reducer';
+import { findUserById, toggleUserNotFoundError, foundUserView  } from '../view-by-id/view-by-id.reducer';
 import Table from '../table/table.component';
-import { toggleEditPerson, foundUserView } from '../table/table.reducer';
+import { toggleEditPerson } from '../table/table.reducer';
 
 
 class ViewById extends React.Component {

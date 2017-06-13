@@ -1,16 +1,14 @@
 import React from 'react';
-import './header.scss';
+import styles from './header.scss';
+import Icon from '@xo-union/tk-component-icons';
+import Search from './searchbar.component';
 
-const Header = ()  => (
-      <header>
-        <h2>Spotify Code Challenge </h2>
-        <h5>Built by Stephanie Manwaring</h5>
-        <div className="center-text">
-          <a className="inline" href="https://github.com/smanwaring/codeChallengeFellowship"><div>github repository</div></a>
-          <a className="inline" href="https://stephanie.manwaring.io/"><div>stephanie.manwaring.io</div></a>
-        </div>
-      </header>
+const Header = () => (
+  <div className={styles['header']}>
+    <h2>Get To Know XO</h2>
+    <Search />
+    <Icon className={styles['login']} name="nav-signup-mobile" />
+  </div>
 );
 
 export default Header;
-

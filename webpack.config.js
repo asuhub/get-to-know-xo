@@ -1,36 +1,78 @@
-'use strict';
-
-let webpack = require('webpack');
+/* webpack.config.js */
+const path = require('path');
+const HTMLPlugin = require('html-webpack-plugin');
+const ExtractTextPlugin = require('extract-text-webpack-plugin');
 
 module.exports = {
-  entry: './browser/index.js',
+  entry: './index.js',
+  context: path.resolve('./browser'),
   output: {
-    path: __dirname,
-    filename: './public/bundle.js'
+    filename:'bundle-[hash].js',
+    path: path.resolve('./public/dist'),
+    publicPath: '/dist'
   },
-  context: __dirname,
-  devtool: 'source-map',
+  plugins: [
+    /**
+    * @required
+    * Configure extract text plugin to create stylesheet file
+    **/
+    new ExtractTextPlugin('my-stylesheet.css'),
+    new HTMLPlugin({
+      template: path.resolve('./browser/index.html'),
+      filname: 'index.html'
+    })
+  ],
   resolve: {
-    extensions: ['', '.js', '.jsx']
+    extensions: [
+      '.js',
+      '.cssm',
+      'jsx'
+    ]
   },
   module: {
-    loaders: [
+    rules: [
+      /**
+       * @required
+       **/
       {
-        test: /jsx?$/,
-        exclude: /(node_modules|bower_components)/,
-        loader: 'babel',
-        query: {
-          presets: ['react', 'es2015']
-        }
+        /* @property issuer Must be specified when using the ExtractTextPlugin  */
+        issuer: /\.jsx?$/,
+        test: /\.s?cssm?$/,
+        /**
+         * Tell ExtractTextPlugin to extract css contents from Union css modules
+         */
+        use: ExtractTextPlugin.extract({
+          /* ExtractTextPlugin always needs a `use` option :/ */
+          use: []
+        })
       },
+      /**
+       * @optional
+       *
+       * Configure this if you prefer to write JSX when using React.
+       */
       {
-		    test: /\.css$/, 
-		    loader: 'style-loader!css-loader'
-		  },
+        test: /\.jsx?$/,
+        /* Configure babel in .babelrc file  */
+        use: 'babel-loader'
+      },
+      /**
+       * @optional
+       *
+       * Use this rule if you want to create css-modules.
+       */
       {
-		    test: /\.scss$/, 
-		    loaders: ['style-loader', 'css-loader', 'sass-loader' ]
-		  }
+        test: /\.s?css$/,
+        use: [
+          {
+            loader: 'a-css-loader',
+            options: {
+              mode: 'local'
+            }
+          },
+          'sass-loader'
+        ]
+      }
     ]
   }
 };

@@ -1,13 +1,13 @@
 {
-  "name": "spotify-code-challenge",
+  "name": "get-to-know-xo",
   "version": "1.0.0",
-  "description": "a simple CRUD app",
+  "description": "a get-to-know-you app",
   "main": "server/app.js",
   "scripts": {
     "start": "node server/app.js",
     "dev": "webpack -w & nodemon server/app.js",
     "test": "mocha --require ignore-styles ./tests/**/*.js --compilers js:babel-register",
-    "build": "webpack",
+    "build": "webpack --config webpack.config.js",
     "build-watch": "webpack -w --progress --colors",
     "test-watch": "mocha --compilers js:babel-register --watch tests/server.test.js"
   },
@@ -25,12 +25,15 @@
   },
   "homepage": "https://github.com/smanwaring/codeChallengeFellowship",
   "dependencies": {
+    "@xo-union/tk-component-icons": "^0.3.7",
+    "@xo-union/tk-css-colors": "^0.3.4",
+    "@xo-union/tk-css-essentials": "^0.1.7",
     "axios": "^0.15.3",
     "body-parser": "^1.15.2",
     "chalk": "^1.1.3",
     "css-loader": "^0.26.1",
     "express": "^4.14.0",
-    "materialize-css": "^0.98.0",
+    "html-webpack-plugin": "^2.28.0",
     "morgan": "^1.7.0",
     "node-sass": "^4.5.0",
     "pg": "^6.1.2",
@@ -46,9 +49,11 @@
     "redux-thunk": "^2.1.0",
     "sass-loader": "^6.0.3",
     "sequelize": "^3.28.0",
-    "style-loader": "^0.13.1"
+    "style-loader": "^0.13.1",
+    "webpack": "^2.5.1"
   },
   "devDependencies": {
+    "a-css-loader": "^1.0.0-beta.11",
     "babel": "^6.23.0",
     "babel-core": "^6.23.1",
     "babel-loader": "^6.3.2",
@@ -57,6 +62,7 @@
     "babel-register": "^6.24.0",
     "chai": "^3.5.0",
     "enzyme": "^2.7.1",
+    "extract-text-webpack-plugin": "^2.1.0",
     "ignore-styles": "^5.0.1",
     "mocha": "^3.2.0",
     "nodemon": "^1.11.0",

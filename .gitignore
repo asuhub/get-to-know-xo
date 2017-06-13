@@ -1,3 +1,4 @@
 node_modules
 pubic/bundle.js
 public/bundle.js.map
+public/dist
